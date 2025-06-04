@@ -7,6 +7,8 @@ import BoundingBoxTool from '../selection-tools/bounding-box-tool';
 import NudgeTool from '../selection-tools/nudge-tool';
 import { selectablePaths } from '../selectable-shapes';
 
+import opentype from 'opentype.js'; // temp
+
 /**
  * Tool for drawing sussys.
  */
@@ -49,6 +51,8 @@ class SussyTool extends paper.Tool {
         this.active = false;
 
         this.shape = "smile";
+
+        this.path = null; // temp
     }
     getHitOptions() {
         return {
@@ -88,6 +92,18 @@ class SussyTool extends paper.Tool {
             this.isBoundingBoxMode = false;
             clearSelection(this.clearSelectedItems);
         }
+
+        // temp
+        if (!this.path) {
+            // Replace the string with some font URL, i used a default font but idk if i should include it in the repo
+            // note that  googlefonts uses woff2 which isnt supported in opentype
+            // opentype.load("", (err, font) => {
+            //     if (err) return console.error(err);
+            //     console.log(font);
+            //     const path = font.getPath("Testtest", 0, 0, 16);
+            //     this.path = path.toPathData();
+            // });
+        }
     }
     handleMouseDrag(event) {
         if (event.event.button > 0 || !this.active) return; // only first mouse button
@@ -108,7 +124,7 @@ class SussyTool extends paper.Tool {
         }
 
         const path = selectablePaths[this.shape];
-        this.sussy = new paper.CompoundPath(path);
+        this.sussy = new paper.CompoundPath(this.path || path); // temp this.path check
         this.sussy.bounds = sussy;
         if (event.modifiers.alt) {
             this.sussy.position = event.downPoint;
