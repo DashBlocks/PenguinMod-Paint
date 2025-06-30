@@ -175,6 +175,11 @@ const ModeToolsComponent = props => {
             defaultMessage: 'Center',
             description: 'Label for the button that moves the selected objects to the center of the canvas',
             id: 'paint.modeTools.movementCenter'
+        },
+        more: {
+            defaultMessage: 'More',
+            description: 'Label for dropdown to access more action buttons',
+            id: 'paint.paintEditor.more'
         }
     });
 
@@ -523,7 +528,7 @@ const ModeToolsComponent = props => {
                                 }
                                 tipSize={.01}
                             >
-                                More
+                                {props.intl.formatMessage(messages.more)}
                             </Dropdown>
                         </InputGroup>
                     </MediaQuery>
@@ -644,7 +649,7 @@ const ModeToolsComponent = props => {
                                         }
                                         tipSize={.01}
                                     >
-                                        More
+                                        {props.intl.formatMessage(messages.more)}
                                     </Dropdown>
                                 </InputGroup>
                             </MediaQuery>
@@ -667,7 +672,7 @@ const ModeToolsComponent = props => {
                                 }
                                 tipSize={.01}
                             >
-                                More
+                                {props.intl.formatMessage(messages.more)}
                             </Dropdown>
                         </InputGroup>
                     </MediaQuery>
