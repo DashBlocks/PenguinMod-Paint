@@ -93,6 +93,26 @@ const ModeToolsComponent = props => (
                 <Button
                     className={classNames(styles.modMenuItem)}
                     onClick={props.onChoose}
+                    onMouseOver={props.onHoverScratch}
+                >
+                    <DisplayFont
+                        font={Fonts.SCRATCH}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverBranches}
+                >
+                    <DisplayFont
+                        font={Fonts.BRANCHES}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
                     onMouseOver={props.onHoverPlayful}
                 >
                     <DisplayFont
@@ -143,16 +163,6 @@ const ModeToolsComponent = props => (
                 <Button
                     className={classNames(styles.modMenuItem)}
                     onClick={props.onChoose}
-                    onMouseOver={props.onHoverScratch}
-                >
-                    <DisplayFont
-                        font={Fonts.SCRATCH}
-                        getFontName={props.getFontName}
-                    />
-                </Button>
-                <Button
-                    className={classNames(styles.modMenuItem)}
-                    onClick={props.onChoose}
                     onMouseOver={props.onHoverArchivo}
                 >
                     <DisplayFont
@@ -167,6 +177,66 @@ const ModeToolsComponent = props => (
                 >
                     <DisplayFont
                         font={Fonts.ARCHIVOBLACK}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverGogono}
+                >
+                    <DisplayFont
+                        font={Fonts.GOGONO}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverJustBubble}
+                >
+                    <DisplayFont
+                        font={Fonts.JUSTBUBBLE}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverLilitaOne}
+                >
+                    <DisplayFont
+                        font={Fonts.LILITAONE}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverMinecrafter}
+                >
+                    <DisplayFont
+                        font={Fonts.MINECRAFTER}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverObelixPro}
+                >
+                    <DisplayFont
+                        font={Fonts.OBELIXPRO}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverJetBrainsMono}
+                >
+                    <DisplayFont
+                        font={Fonts.JETBRAINSMONO}
                         getFontName={props.getFontName}
                     />
                 </Button>
@@ -269,14 +339,21 @@ ModeToolsComponent.propTypes = {
     onHoverKorean: PropTypes.func,
     onHoverMarker: PropTypes.func,
     onHoverPixel: PropTypes.func,
+    onHoverScratch: PropTypes.func,
+    onHoverBranches: PropTypes.func,
     onHoverPlayful: PropTypes.func,
     onHoverBubbly: PropTypes.func,
     onHoverBitsAndBytes: PropTypes.func,
     onHoverTechnological: PropTypes.func,
     onHoverArcade: PropTypes.func,
-    onHoverScratch: PropTypes.func,
     onHoverArchivo: PropTypes.func,
     onHoverArchivoBlack: PropTypes.func,
+    onHoverGogono: PropTypes.func,
+    onHoverJustBubble: PropTypes.func,
+    onHoverLilitaOne: PropTypes.func,
+    onHoverMinecrafter: PropTypes.func,
+    onHoverObelixPro: PropTypes.func,
+    onHoverJetBrainsMono: PropTypes.func,
     onHoverSansSerif: PropTypes.func,
     onHoverSerif: PropTypes.func,
     onOpenDropdown: PropTypes.func
