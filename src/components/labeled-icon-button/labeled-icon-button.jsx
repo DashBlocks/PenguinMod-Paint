@@ -41,7 +41,7 @@ LabeledIconButton.propTypes = {
     hideLabel: PropTypes.bool,
     highlighted: PropTypes.bool,
     imgAlt: PropTypes.string,
-    imgSrc: PropTypes.string.isRequired,
+    imgSrc: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     onClick: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired
 };
