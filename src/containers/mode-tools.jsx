@@ -159,6 +159,37 @@ class ModeTools extends React.Component {
             this.props.onUpdateImage();
         }
     }
+    getDashArray () {
+        const selectedItems = getSelectedLeafItems();
+        if (selectedItems.length === 0) {
+            return '';
+        }
+        const firstStyle = selectedItems[0].getStyle().getDashArray().join(' ');
+        for (const item of selectedItems) {
+            if (item.getStyle().getDashArray().join(' ') !== firstStyle) {
+                return '';
+            }
+        }
+        return firstStyle;
+    }
+    handleDashArray (value) {
+        if (!/^((\d+|\d+\.\d+) )*(\d+|\d+\.\d+)$/.test(value)) {
+            return;
+        }
+        let changed;
+        const selectedItems = getSelectedLeafItems();
+        for (const item of selectedItems) {
+            const styles = item.getStyle();
+            if (styles.getDashArray().join(' ') !== value) {
+                styles.setDashArray(value.split(' ').map((number) => parseFloat(number)));
+                changed = true;
+            }
+        }
+        if (changed) {
+            this.props.setSelectedItems(this.props.format);
+            this.props.onUpdateImage();
+        }
+    }
     hasSelectedRoundEnds () {
         const selectedItems = getSelectedLeafItems();
         for (const item of selectedItems) {
@@ -446,6 +477,8 @@ class ModeTools extends React.Component {
                 onPointPoints={this.handlePointPoints}
                 onUpdateImage={this.props.onUpdateImage}
 
+                dashArray={this.getDashArray()}
+                onDashArray={this.handleDashArray}
                 hasSelectedRoundEnds={this.hasSelectedRoundEnds()}
                 hasSelectedSquareEnds={this.hasSelectedSquareEnds()}
                 onRoundEnds={this.handleRoundEnds}
