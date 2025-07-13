@@ -508,6 +508,24 @@ const ModeToolsComponent = props => {
                             onClick={props.onSquareEnds}
                         />
                     </InputGroup>
+                    <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
+                        <div>
+                            <img
+                                alt={'Dash array'}
+                                title={'Dash array'}
+                                className={styles.modeToolsIcon}
+                                draggable={false}
+                                src={triangleIcon}
+                            />
+                        </div>
+                        <LiveInput
+                            range
+                            small
+                            type="string"
+                            value={props.dashArray}
+                            onSubmit={props.onDashArray}
+                        />
+                    </InputGroup>
                     <MediaQuery minWidth={layout.fullSizeEditorMinWidthExtraToolsCollapsed}>
                         {lineJoinReshape}
                         {deleteSelectedNodes}
@@ -811,6 +829,8 @@ ModeToolsComponent.propTypes = {
     onPointPoints: PropTypes.func.isRequired,
     onUpdateImage: PropTypes.func.isRequired,
 
+    dashArray: PropTypes.string,
+    onDashArray: PropTypes.func.isRequired,
     onMergeShape: PropTypes.func.isRequired,
     onMaskShape: PropTypes.func.isRequired,
     onSubtractShape: PropTypes.func.isRequired,
