@@ -72,6 +72,7 @@ import bitOvalIcon from '../bit-oval-mode/oval.svg';
 import bitRectIcon from '../bit-rect-mode/rectangle.svg';
 import bitOvalOutlinedIcon from '../bit-oval-mode/oval-outlined.svg';
 import bitRectOutlinedIcon from '../bit-rect-mode/rectangle-outlined.svg';
+import dashArrayIcon from './icons/dash-array.svg';
 
 const LiveInput = LiveInputHOC(Input);
 const ModeToolsComponent = props => {
@@ -477,6 +478,23 @@ const ModeToolsComponent = props => {
             return (
                 <div className={classNames(props.className, styles.modeTools)}>
                     <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
+                        <div>
+                            <img
+                                alt={'Dash array'}
+                                title={'Dash array'}
+                                className={styles.modeToolsIcon}
+                                draggable={false}
+                                src={dashArrayIcon}
+                            />
+                        </div>
+                        <LiveInput
+                            small
+                            type="string"
+                            value={props.dashArray}
+                            onSubmit={props.onDashArray}
+                        />
+                    </InputGroup>
+                    <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
                         <LabeledIconButton
                             disabled={!props.hasSelectedUncurvedPoints}
                             hideLabel={hideLabel(props.intl.locale)}
@@ -506,24 +524,6 @@ const ModeToolsComponent = props => {
                             imgSrc={squareLine}
                             title={'Squared'}
                             onClick={props.onSquareEnds}
-                        />
-                    </InputGroup>
-                    <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
-                        <div>
-                            <img
-                                alt={'Dash array'}
-                                title={'Dash array'}
-                                className={styles.modeToolsIcon}
-                                draggable={false}
-                                src={triangleIcon}
-                            />
-                        </div>
-                        <LiveInput
-                            range
-                            small
-                            type="string"
-                            value={props.dashArray}
-                            onSubmit={props.onDashArray}
                         />
                     </InputGroup>
                     <MediaQuery minWidth={layout.fullSizeEditorMinWidthExtraToolsCollapsed}>
