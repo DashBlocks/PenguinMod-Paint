@@ -181,7 +181,7 @@ class ModeTools extends React.Component {
         for (const item of selectedItems) {
             const styles = item.getStyle();
             if (styles.getDashArray().join(' ') !== value) {
-                styles.setDashArray(value.split(' ').map((number) => parseFloat(number)));
+                styles.setDashArray(value.toString().split(' ').map((number) => parseFloat(number)));
                 changed = true;
             }
         }
