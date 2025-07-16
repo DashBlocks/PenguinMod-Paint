@@ -477,7 +477,7 @@ const ModeToolsComponent = props => {
             );
             return (
                 <div className={classNames(props.className, styles.modeTools)}>
-                    {false && <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
+                    <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
                         <div>
                             <img
                                 alt={'Dash array'}
@@ -493,7 +493,7 @@ const ModeToolsComponent = props => {
                             value={props.dashArray}
                             onSubmit={props.onDashArray}
                         />
-                    </InputGroup>}
+                    </InputGroup>
                     <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
                         <LabeledIconButton
                             disabled={!props.hasSelectedUncurvedPoints}
