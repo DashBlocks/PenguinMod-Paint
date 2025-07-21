@@ -33,9 +33,6 @@
     border-radius: $form-radius;
     background: $input-background;
 }
-.label-name {
-    font-weight: bold;
-}
 .readout {
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     font-size: 0.65rem;
