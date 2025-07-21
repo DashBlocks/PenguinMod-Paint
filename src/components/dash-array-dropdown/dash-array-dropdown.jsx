@@ -70,7 +70,7 @@ const ModeToolsComponent = props => (
               x2="64"
               y2="2"
               strokeWidth="4"
-              strokeDasharray="0"
+              strokeDasharray={props.dashArray.length === 0 ? "0" : props.dashArray.join(" ")}
             />
         </svg>
     </Dropdown>
