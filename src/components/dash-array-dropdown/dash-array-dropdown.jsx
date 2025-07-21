@@ -6,10 +6,11 @@ import {FormattedMessage} from 'react-intl';
 import Dropdown from '../dropdown/dropdown.jsx';
 import InputGroup from '../input-group/input-group.jsx';
 import Input from '../forms/input.jsx';
+import TWRenderRecoloredImage from '../../tw-recolor/render.jsx';
 import styles from './dash-array-dropdown.css';
 
-import addIcon from './add.svg';
-import deleteIcon from './delete.svg';
+import addIcon from '!../../tw-recolor/build!./add.svg';
+import deleteIcon from '!../../tw-recolor/build!./delete.svg';
 
 const ModeToolsComponent = props => (
     <Dropdown
@@ -33,7 +34,7 @@ const ModeToolsComponent = props => (
                                 className={styles.button}
                                 onClick={() => handleDelete(index)}
                             >
-                                <img
+                                <TWRenderRecoloredImage
                                     draggable={false}
                                     src={deleteIcon}
                                 />
@@ -46,7 +47,7 @@ const ModeToolsComponent = props => (
                         className={styles.button}
                         onClick={props.handleAdd}
                     >
-                        <img
+                        <TWRenderRecoloredImage
                             draggable={false}
                             src={addIcon}
                         />
