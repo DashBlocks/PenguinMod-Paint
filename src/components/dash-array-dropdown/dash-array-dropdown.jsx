@@ -5,7 +5,11 @@ import {FormattedMessage} from 'react-intl';
 
 import Dropdown from '../dropdown/dropdown.jsx';
 import InputGroup from '../input-group/input-group.jsx';
+import Input from '../forms/input.jsx';
 import styles from './dash-array-dropdown.css';
+
+import addIcon from './add.svg';
+import deleteIcon from './delete.svg';
 
 const ModeToolsComponent = props => (
     <Dropdown
@@ -13,7 +17,41 @@ const ModeToolsComponent = props => (
         enterExitTransitionDurationMs={60}
         popoverContent={
             <InputGroup>
-                <div className={styles.table}></div>
+                <div className={styles.table}>
+                    {dashArray.map((item, index) => (
+                        <div className={styles.item}>
+                            <Input
+                                className={styles.readout}
+                                range
+                                small
+                                min="0"
+                                type="number"
+                                value={item}
+                                onSubmit={value => handleChange(value, index)}
+                            />
+                            <div
+                                className={styles.button}
+                                onClick={() => handleDelete(index)}
+                            >
+                                <img
+                                    draggable={false}
+                                    src={deleteIcon}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className={styles.row}>
+                    <div
+                        className={styles.button}
+                        onClick={props.handleAdd}
+                    >
+                        <img
+                            draggable={false}
+                            src={addIcon}
+                        />
+                    </div>
+                </div>
             </InputGroup>
         }
         ref={props.componentRef}
@@ -32,15 +70,18 @@ const ModeToolsComponent = props => (
               y2="2"
               strokeWidth="4"
               strokeDasharray="0"
-            >
-            </line>
+            />
         </svg>
     </Dropdown>
 );
 
 ModeToolsComponent.propTypes = {
     componentRef: PropTypes.func.isRequired,
+    dashArray: PropTypes.arrayOf(PropTypes.number),
     onClickOutsideDropdown: PropTypes.func,
-    onOpenDropdown: PropTypes.func
+    onOpenDropdown: PropTypes.func,
+    handleAdd: PropTypes.func.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    handleDelete: PropTypes.func.isRequired
 };
 export default ModeToolsComponent;
