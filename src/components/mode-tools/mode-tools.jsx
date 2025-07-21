@@ -21,6 +21,7 @@ import { setShapesFilled } from '../../reducers/fill-bitmap-shapes';
 import { setTextAlignment } from '../../reducers/text-alignment';
 
 import FontDropdown from '../../containers/font-dropdown.jsx';
+import DashArrayDropdown from '../../containers/dash-array-dropdown.jsx';
 import LiveInputHOC from '../forms/live-input-hoc.jsx';
 import Label from '../forms/label.jsx';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
@@ -477,21 +478,11 @@ const ModeToolsComponent = props => {
             );
             return (
                 <div className={classNames(props.className, styles.modeTools)}>
-                    <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
-                        <div>
-                            <img
-                                alt={'Dash array'}
-                                title={'Dash array'}
-                                className={styles.modeToolsIcon}
-                                draggable={false}
-                                src={dashArrayIcon}
-                            />
-                        </div>
-                        <LiveInput
-                            small
-                            type="string"
-                            value={props.dashArray}
-                            onSubmit={props.onDashArray}
+                    <InputGroup className={styles.modDashedBorder}>
+                        <DashArrayDropdown
+                            onUpdateImage={props.onUpdateImage}
+                            onDashArray={props.onDashArray}
+                            dashArray={props.dashArray}
                         />
                     </InputGroup>
                     <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
