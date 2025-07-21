@@ -162,26 +162,23 @@ class ModeTools extends React.Component {
     getDashArray () {
         const selectedItems = getSelectedLeafItems();
         if (selectedItems.length === 0) {
-            return '';
+            return [];
         }
-        const firstStyle = selectedItems[0].getStyle().getDashArray().join(' ');
+        const firstStyle = selectedItems[0].getStyle().getDashArray();
         for (const item of selectedItems) {
-            if (item.getStyle().getDashArray().join(' ') !== firstStyle) {
-                return '';
+            if (item.getStyle().getDashArray().join(' ') !== firstStyle.join(' ')) {
+                return [];
             }
         }
         return firstStyle;
     }
     handleDashArray (value) {
-        if (!/^((\d+|\d+\.\d+) )*(\d+|\d+\.\d+)$/.test(value)) {
-            return;
-        }
         let changed;
         const selectedItems = getSelectedLeafItems();
         for (const item of selectedItems) {
             const styles = item.getStyle();
-            if (styles.getDashArray().join(' ') !== value) {
-                styles.setDashArray(value.toString().split(' ').map((number) => parseFloat(number)));
+            if (styles.getDashArray().join(' ') !== value.join(' ')) {
+                styles.setDashArray(value);
                 changed = true;
             }
         }
