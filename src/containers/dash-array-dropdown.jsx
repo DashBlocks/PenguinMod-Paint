@@ -13,11 +13,14 @@ class DashArrayDropdown extends React.Component {
         bindAll(this, [
             'handleOpenDropdown',
             'handleClickOutsideDropdown',
-            'setDropdown'
+            'setDropdown',
+            'handleAdd',
+            'handleChange',
+            'handleDelete',
         ]);
     }
     handleOpenDropdown () {
-        this.savedFont = this.props.font;
+        this.dashArray = this.props.dashArray;
         this.savedSelection = getSelectedLeafItems();
     }
     handleClickOutsideDropdown (e) {
@@ -26,25 +29,49 @@ class DashArrayDropdown extends React.Component {
     }
     cancelChange () {
         this.dropDown.handleClosePopover();
-        this.savedFont = null;
+        this.dashArray = null;
         this.savedSelection = null;
     }
     setDropdown (element) {
         this.dropDown = element;
     }
+    handleAdd () {
+        if (this.dropDown.isOpen()) {
+            this.dashArray.push(0);
+            this.props.onDashArray(this.dashArray);
+        }
+    }
+    handleChange (value, index) {
+        if (this.dropDown.isOpen()) {
+            this.dashArray[index] = value;
+            this.props.onDashArray(this.dashArray);
+        }
+    }
+    handleDelete (index) {
+        if (this.dropDown.isOpen()) {
+            this.dashArray.splice(index, 1);
+            this.props.onDashArray(this.dashArray);
+        }
+    }
     render () {
         return (
             <DashArrayDropdownComponent
                 componentRef={this.setDropdown}
+                dashArray={this.props.dashArray}
                 onClickOutsideDropdown={this.handleClickOutsideDropdown}
                 onOpenDropdown={this.handleOpenDropdown}
+                handleAdd={this.handleAdd}
+                handleChange={this.handleChange}
+                handleDelete={this.handleDelete}
             />
         );
     }
 }
 
 DashArrayDropdown.propTypes = {
-    onUpdateImage: PropTypes.func.isRequired
+    onUpdateImage: PropTypes.func.isRequired,
+    onDashArray: PropTypes.func.isRequired,
+    dashArray: PropTypes.arrayOf(PropTypes.number)
 };
 
 export default DashArrayDropdown;
