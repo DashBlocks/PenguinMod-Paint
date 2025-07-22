@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import DashArrayDropdownComponent from '../components/dash-array-dropdown/dash-array-dropdown.jsx';
+import Formats from '../lib/format';
 import {getSelectedLeafItems} from '../helper/selection';
 
 class DashArrayDropdown extends React.Component {
