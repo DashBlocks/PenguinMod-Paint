@@ -19,7 +19,7 @@ const ModeToolsComponent = props => (
         popoverContent={
             <InputGroup>
                 <div className={styles.table}>
-                    {dashArray.map((item, index) => (
+                    {props.dashArray.map((item, index) => (
                         <div className={styles.item}>
                             <Input
                                 className={styles.readout}
