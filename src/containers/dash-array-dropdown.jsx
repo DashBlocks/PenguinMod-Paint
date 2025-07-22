@@ -85,7 +85,7 @@ class DashArrayDropdown extends React.Component {
         return (
             <DashArrayDropdownComponent
                 componentRef={this.setDropdown}
-                dashArray={this.props.dashArray}
+                dashArray={this.dashArray}
                 onClickOutsideDropdown={this.handleClickOutsideDropdown}
                 onOpenDropdown={this.handleOpenDropdown}
                 handleAdd={this.handleAdd}
