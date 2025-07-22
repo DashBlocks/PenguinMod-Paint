@@ -19,6 +19,7 @@ class DashArrayDropdown extends React.Component {
             'handleChange',
             'handleDelete',
         ]);
+        this.dashArray = [];
     }
     handleOpenDropdown () {
         this.savedSelection = getSelectedLeafItems();
@@ -30,7 +31,7 @@ class DashArrayDropdown extends React.Component {
     }
     cancelChange () {
         this.dropDown.handleClosePopover();
-        this.dashArray = null;
+        this.dashArray = [];
         this.savedSelection = null;
     }
     setDropdown (element) {
