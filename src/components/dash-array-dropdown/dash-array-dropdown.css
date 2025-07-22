@@ -103,6 +103,7 @@
     -ms-flex-align: center;
     align-items: center;
     margin: 8px;
+    cursor: pointer;
 }
 .button > img {
     width: 1.5rem;
