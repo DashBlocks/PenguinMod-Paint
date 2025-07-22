@@ -23,7 +23,9 @@ class DashArrayDropdown extends React.Component {
     }
     handleOpenDropdown () {
         this.savedSelection = getSelectedLeafItems();
+        console.log("Open dasharray dropdown | Selection:", this.savedSelection);
         this.dashArray = this.getDashArray(this.savedSelection);
+        this.forceUpdate();
     }
     handleClickOutsideDropdown (e) {
         e.stopPropagation();
@@ -33,6 +35,7 @@ class DashArrayDropdown extends React.Component {
         this.dropDown.handleClosePopover();
         this.dashArray = [];
         this.savedSelection = null;
+        this.forceUpdate();
     }
     setDropdown (element) {
         this.dropDown = element;
@@ -50,6 +53,7 @@ class DashArrayDropdown extends React.Component {
         return firstStyle;
     }
     handleDashArray (selectedItems, value) {
+        console.log("Some changes in dasharray | Selection:", selectedItems);
         let changed;
         for (const item of selectedItems) {
             const styles = item.getStyle();
