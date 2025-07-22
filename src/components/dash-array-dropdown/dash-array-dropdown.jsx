@@ -17,7 +17,7 @@ const ModeToolsComponent = props => (
         className={classNames(styles.modUnselect, styles.dashArrayDropdown)}
         enterExitTransitionDurationMs={60}
         popoverContent={
-            <InputGroup>
+            <InputGroup className={styles.dashArrayContextMenu}>
                 <div className={styles.table}>
                     {props.dashArray.map((item, index) => (
                         <div className={styles.item}>
