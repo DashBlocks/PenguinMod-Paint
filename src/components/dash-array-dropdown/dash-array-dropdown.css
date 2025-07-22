@@ -20,12 +20,12 @@
     justify-content: space-between;
     height: 2rem;
 }
+.dash-array-dropdown line {
+    stroke: $text-primary;
+}
 
 .dash-array-context-menu {
     display: block;
-}
-.dash-array-context-menu line {
-    stroke: $text-primary;
 }
 
 .table {
@@ -49,9 +49,7 @@
     background: $input-background;
 }
 .readout {
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 0.65rem;
-    color: $text-primary;
+    font-size: 0.65rem !important;
     width: 28px;
     height: 16px;
     text-align: center;
