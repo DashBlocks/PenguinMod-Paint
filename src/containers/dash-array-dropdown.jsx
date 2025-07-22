@@ -62,6 +62,7 @@ class DashArrayDropdown extends React.Component {
             this.props.setSelectedItems(this.props.format);
             this.props.onUpdateImage();
         }
+        this.forceUpdate();
     }
     handleAdd () {
         if (this.dropDown.isOpen()) {
