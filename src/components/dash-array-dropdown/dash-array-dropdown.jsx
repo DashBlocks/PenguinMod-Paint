@@ -28,11 +28,11 @@ const ModeToolsComponent = props => (
                                 min="0"
                                 type="number"
                                 value={item}
-                                onSubmit={value => handleChange(value, index)}
+                                onSubmit={value => props.handleChange(value, index)}
                             />
                             <div
                                 className={styles.button}
-                                onClick={() => handleDelete(index)}
+                                onClick={() => props.handleDelete(index)}
                             >
                                 <TWRenderRecoloredImage
                                     draggable={false}
