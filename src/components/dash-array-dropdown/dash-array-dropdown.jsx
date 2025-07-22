@@ -25,8 +25,6 @@ const ModeToolsComponent = props => (
                         <div className={styles.item}>
                             <LiveInput
                                 className={styles.readout}
-                                range
-                                small
                                 min="0"
                                 max="1000"
                                 type="number"
