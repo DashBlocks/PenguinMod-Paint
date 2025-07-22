@@ -6,9 +6,25 @@
 }
 
 .dash-array-dropdown {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    height: 2rem;
+}
+
+.dash-array-context-menu {
     display: block;
 }
-.dash-array-dropdown line {
+.dash-array-context-menu line {
     stroke: $text-primary;
 }
 
