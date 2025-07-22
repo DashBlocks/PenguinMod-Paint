@@ -4,6 +4,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Dropdown from '../dropdown/dropdown.jsx';
+import LiveInputHOC from '../forms/live-input-hoc.jsx';
 import InputGroup from '../input-group/input-group.jsx';
 import Input from '../forms/input.jsx';
 import TWRenderRecoloredImage from '../../tw-recolor/render.jsx';
@@ -12,6 +13,7 @@ import styles from './dash-array-dropdown.css';
 import addIcon from '!../../tw-recolor/build!./add.svg';
 import deleteIcon from '!../../tw-recolor/build!./delete.svg';
 
+const LiveInput = LiveInputHOC(Input);
 const ModeToolsComponent = props => (
     <Dropdown
         className={classNames(styles.modUnselect, styles.dashArrayDropdown)}
@@ -21,7 +23,7 @@ const ModeToolsComponent = props => (
                 <div className={styles.table}>
                     {props.dashArray.map((item, index) => (
                         <div className={styles.item}>
-                            <Input
+                            <LiveInput
                                 className={styles.readout}
                                 range
                                 small
