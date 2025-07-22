@@ -481,8 +481,6 @@ const ModeToolsComponent = props => {
                     <InputGroup className={styles.modDashedBorder}>
                         <DashArrayDropdown
                             onUpdateImage={props.onUpdateImage}
-                            onDashArray={props.onDashArray}
-                            dashArray={props.dashArray}
                         />
                     </InputGroup>
                     <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
@@ -820,8 +818,6 @@ ModeToolsComponent.propTypes = {
     onPointPoints: PropTypes.func.isRequired,
     onUpdateImage: PropTypes.func.isRequired,
 
-    dashArray: PropTypes.string,
-    onDashArray: PropTypes.func.isRequired,
     onMergeShape: PropTypes.func.isRequired,
     onMaskShape: PropTypes.func.isRequired,
     onSubtractShape: PropTypes.func.isRequired,
