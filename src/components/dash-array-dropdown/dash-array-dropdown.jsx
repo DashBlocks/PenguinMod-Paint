@@ -28,6 +28,7 @@ const ModeToolsComponent = props => (
                                 range
                                 small
                                 min="0"
+                                max="1000"
                                 type="number"
                                 value={item}
                                 onSubmit={value => props.handleChange(value, index)}
