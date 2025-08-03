@@ -24,7 +24,6 @@ class DashArrayDropdown extends React.Component {
     }
     handleOpenDropdown () {
         this.savedSelection = getSelectedLeafItems();
-        alert(`Open dasharray dropdown | Selection: ${this.savedSelection.length}`);
         this.dashArray = this.getDashArray(this.savedSelection);
         this.forceUpdate();
     }
@@ -54,7 +53,6 @@ class DashArrayDropdown extends React.Component {
         return firstStyle;
     }
     handleDashArray (selectedItems, value) {
-        alert(`Some changes in dasharray | Selection: ${selectedItems.length}`);
         let changed;
         for (const item of selectedItems) {
             const styles = item.getStyle();
