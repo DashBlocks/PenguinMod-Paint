@@ -33,10 +33,8 @@ class DashArrayDropdown extends React.Component {
     }
     handleClickOutsideDropdown (e) {
         e.stopPropagation();
-        this.cancelChange();
-    }
-    cancelChange () {
         this.dropDown.handleClosePopover();
+        this.props.onUpdateImage();
         this.dashArray = [];
         this.savedSelection = null;
     }
