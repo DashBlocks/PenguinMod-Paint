@@ -60,11 +60,12 @@ class ReshapeTool extends paper.Tool {
      * @param {!function} switchToTextTool A callback to call to switch to the text tool
      */
     constructor(setHoveredItem, clearHoveredItem, setSelectedItems, clearSelectedItems, onUpdateImage,
-        switchToTextTool) {
+        setDashArray, switchToTextTool) {
         super();
         this.setHoveredItem = setHoveredItem;
         this.clearHoveredItem = clearHoveredItem;
         this.onUpdateImage = onUpdateImage;
+        this.setDashArray = setDashArray;
         this.prevHoveredItemId = null;
         this.lastEvent = null;
         this.active = false;
