@@ -5,8 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import DashArrayDropdownComponent from '../components/dash-array-dropdown/dash-array-dropdown.jsx';
-import Formats, {isBitmap} from '../lib/format';
-import {setSelectedItems} from '../reducers/selected-items';
+import {addValue, changeValue, deleteValue} from '../reducers/dash-array';
 import {getSelectedLeafItems} from '../helper/selection';
 
 class DashArrayDropdown extends React.Component {
@@ -19,13 +18,18 @@ class DashArrayDropdown extends React.Component {
             'handleAdd',
             'handleChange',
             'handleDelete',
+            'handleChoose'
         ]);
-        this.dashArray = [];
+    }
+    handleChoose () {
+        if (this.dropDown.isOpen()) {
+            this.dropDown.handleClosePopover();
+            this.props.onUpdateImage();
+        }
     }
     handleOpenDropdown () {
         this.savedSelection = getSelectedLeafItems();
-        this.dashArray = this.getDashArray(this.savedSelection);
-        this.forceUpdate();
+        this.dashArray = this.props.dashArray;
     }
     handleClickOutsideDropdown (e) {
         e.stopPropagation();
@@ -35,12 +39,11 @@ class DashArrayDropdown extends React.Component {
         this.dropDown.handleClosePopover();
         this.dashArray = [];
         this.savedSelection = null;
-        this.forceUpdate();
     }
     setDropdown (element) {
         this.dropDown = element;
     }
-    getDashArray (selectedItems) {
+    /*getDashArray (selectedItems) {
         if (selectedItems.length === 0) {
             return [];
         }
@@ -66,30 +69,28 @@ class DashArrayDropdown extends React.Component {
             this.props.onUpdateImage();
         }
         this.forceUpdate();
-    }
+    }*/
     handleAdd () {
         if (this.dropDown.isOpen()) {
-            this.dashArray.push(0);
-            this.handleDashArray(this.savedSelection, this.dashArray);
+            this.props.addValue();
         }
     }
-    handleChange (value, index) {
+    handleChange (index, value) {
         if (this.dropDown.isOpen()) {
-            this.dashArray[index] = value;
-            this.handleDashArray(this.savedSelection, this.dashArray);
+            this.props.changeValue(index, value);
         }
     }
     handleDelete (index) {
         if (this.dropDown.isOpen()) {
-            this.dashArray.splice(index, 1);
-            this.handleDashArray(this.savedSelection, this.dashArray);
+            this.props.deleteValue(index);
         }
     }
     render () {
         return (
             <DashArrayDropdownComponent
                 componentRef={this.setDropdown}
-                dashArray={this.dashArray}
+                dashArray={this.props.dashArray}
+                onChoose={this.handleChoose}
                 onClickOutsideDropdown={this.handleClickOutsideDropdown}
                 onOpenDropdown={this.handleOpenDropdown}
                 handleAdd={this.handleAdd}
@@ -101,17 +102,25 @@ class DashArrayDropdown extends React.Component {
 }
 
 DashArrayDropdown.propTypes = {
-    format: PropTypes.oneOf(Object.keys(Formats)),
-    onUpdateImage: PropTypes.func.isRequired,
-    setSelectedItems: PropTypes.func.isRequired
+    addValue: PropTypes.func.isRequired,
+    changeValue: PropTypes.func.isRequired,
+    deleteValue: PropTypes.func.isRequired,
+    dashArray: PropTypes.arrayOf(PropTypes.number),
+    onUpdateImage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-    format: state.scratchPaint.format
+    dashArray: state.scratchPaint.dashArray
 });
 const mapDispatchToProps = dispatch => ({
-    setSelectedItems: format => {
-        dispatch(setSelectedItems(getSelectedLeafItems(), isBitmap(format)));
+    addValue: () => {
+        dispatch(addValue());
+    },
+    changeValue: (index, value) => {
+        dispatch(changeValue(index, value));
+    },
+    deleteValue: index => {
+        dispatch(deleteValue(index));
     }
 });
 
