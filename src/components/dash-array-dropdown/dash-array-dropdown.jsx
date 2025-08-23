@@ -29,7 +29,7 @@ const ModeToolsComponent = props => (
                                 max="1000"
                                 type="number"
                                 value={item}
-                                onSubmit={value => props.handleChange(value, index)}
+                                onSubmit={value => props.handleChange(index, value)}
                             />
                             <div
                                 className={styles.button}
