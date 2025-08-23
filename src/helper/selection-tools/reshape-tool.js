@@ -221,7 +221,7 @@ class ReshapeTool extends paper.Tool {
         const selected = getSelectedLeafItems();
         for (const item of selected) {
             const styles = item.getStyle();
-            if (styles.getDashArray().join(' ') !== value.join(' ')) {
+            if (styles.getDashArray().join(' ') !== dashArray.join(' ')) {
                 styles.setDashArray(dashArray);
                 changed = true;
             }
