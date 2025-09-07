@@ -8,7 +8,7 @@ import Dropdown from '../dropdown/dropdown.jsx';
 import MediaQuery from 'react-responsive';
 import layout from '../../lib/layout-constants';
 
-import { changeBrushSize, changeSimplifySize } from '../../reducers/brush-mode';
+import { changeBrushSize, changeSimplifySize, setBrushType } from '../../reducers/brush-mode';
 import { changeBrushSize as changeEraserSize, changeSimplifySize as changeEraserSimplifySize } from '../../reducers/eraser-mode';
 import { changeSimplifySize as changePenSimplifySize } from '../../reducers/pen-mode';
 import { changeRoundedRectCornerSize } from '../../reducers/rounded-rect-mode';
@@ -26,6 +26,8 @@ import Label from '../forms/label.jsx';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import Input from '../forms/input.jsx';
 import InputGroup from '../input-group/input-group.jsx';
+import ButtonGroup from '../button-group/button-group.jsx';
+import Button from '../button/button.jsx';
 import LabeledIconButton from '../labeled-icon-button/labeled-icon-button.jsx';
 import Modes from '../../lib/modes';
 import Formats, { isBitmap, isVector } from '../../lib/format';
@@ -95,6 +97,16 @@ const ModeToolsComponent = props => {
             defaultMessage: 'Smoothing',
             description: 'Label for the eraser smoothing input, higher numbers control how much the drawn line will be corrected',
             id: 'paint.modeTools.eraserSimplify'
+        },
+        brushCircle: {
+            defaultMessage: 'Circle Brush',
+            description: 'Label for the circle brush shape',
+            id: 'paint.modeTools.circleSquare'
+        },
+        brushSquare: {
+            defaultMessage: 'Square Brush',
+            description: 'Label for the square brush shape',
+            id: 'paint.modeTools.brushSquare'
         },
         roundedCornerSize: {
             defaultMessage: 'Rounded corner size',
@@ -215,7 +227,7 @@ const ModeToolsComponent = props => {
                         />
                         
                         {hasSimplifyOption && (
-                            <Label text={props.intl.formatMessage(messages.brushSimplify)}>
+                            <Label text={props.intl.formatMessage(messages.brushSimplify)} style={{ marginLeft: 'calc(2 * .25rem)' }}>
                                 <LiveInput
                                     range
                                     small
@@ -226,6 +238,40 @@ const ModeToolsComponent = props => {
                                     onSubmit={changeFunctionSimplify}
                                 />
                             </Label>
+                        )}
+
+                        {/* TODO replace this with a dropdown when we add more brush shapes */}
+                        {hasSimplifyOption && (
+                            <InputGroup>
+                                <ButtonGroup>
+                                    <Button
+                                        className={
+                                            classNames(styles.buttonGroupButton)
+                                        }
+                                        onClick={() => props.onBrushChange("CIRCLE")}
+                                    >
+                                        <img
+                                            alt={props.intl.formatMessage(messages.brushCircle)}
+                                            className={styles.buttonGroupButtonIcon}
+                                            draggable={false}
+                                            src={"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjMDBjM2ZmIiB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHJ4PSIxMDAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIuNSAyLjUpIi8+PC9zdmc+"}
+                                        />
+                                    </Button>
+                                    <Button
+                                        className={
+                                            classNames(styles.buttonGroupButton)
+                                        }
+                                        onClick={() => props.onBrushChange("SQUARE")}
+                                    >
+                                        <img
+                                            alt={props.intl.formatMessage(messages.brushSquare)}
+                                            className={styles.buttonGroupButtonIcon}
+                                            draggable={false}
+                                            src={"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjMDBjM2ZmIiB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHJ4PSIyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyLjUgMi41KSIvPjwvc3ZnPg=="}
+                                        />
+                                    </Button>
+                                </ButtonGroup>
+                            </InputGroup>
                         )}
                     </div>
                 );
@@ -262,7 +308,7 @@ const ModeToolsComponent = props => {
                         />
 
                         {hasSimplifyOption && (
-                            <Label text={props.intl.formatMessage(messages.eraserSimplify)}>
+                            <Label text={props.intl.formatMessage(messages.eraserSimplify)} style={{ marginLeft: 'calc(2 * .25rem)' }}>
                                 <LiveInput
                                     range
                                     small
@@ -274,8 +320,42 @@ const ModeToolsComponent = props => {
                                 />
                             </Label>
                         )}
+
+                        {/* TODO replace this with a dropdown when we add more brush shapes */}
+                        {hasSimplifyOption && (
+                            <InputGroup>
+                                <ButtonGroup>
+                                    <Button
+                                        className={
+                                            classNames(styles.buttonGroupButton)
+                                        }
+                                        onClick={() => props.onBrushChange("CIRCLE")}
+                                    >
+                                        <img
+                                            alt={props.intl.formatMessage(messages.brushCircle)}
+                                            className={styles.buttonGroupButtonIcon}
+                                            draggable={false}
+                                            src={"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjMDBjM2ZmIiB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHJ4PSIxMDAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIuNSAyLjUpIi8+PC9zdmc+"}
+                                        />
+                                    </Button>
+                                    <Button
+                                        className={
+                                            classNames(styles.buttonGroupButton)
+                                        }
+                                        onClick={() => props.onBrushChange("SQUARE")}
+                                    >
+                                        <img
+                                            alt={props.intl.formatMessage(messages.brushSquare)}
+                                            className={styles.buttonGroupButtonIcon}
+                                            draggable={false}
+                                            src={"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjMDBjM2ZmIiB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIHJ4PSIyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyLjUgMi41KSIvPjwvc3ZnPg=="}
+                                        />
+                                    </Button>
+                                </ButtonGroup>
+                            </InputGroup>
+                        )}
                     </div>
-                );
+                )
             }
         case Modes.ROUNDED_RECT:
         /* falls through */
@@ -419,7 +499,7 @@ const ModeToolsComponent = props => {
                 const changeFunctionSimplify = props.onPenSimplifySliderChange;
                 return (
                     <div className={classNames(props.className, styles.modeTools)}>
-                        <Label text={props.intl.formatMessage(messages.eraserSimplify)}>
+                        <Label text={props.intl.formatMessage(messages.eraserSimplify)} style={{ marginLeft: 'calc(2 * .25rem)' }}>
                             <LiveInput
                                 range
                                 small
@@ -532,7 +612,7 @@ const ModeToolsComponent = props => {
         case Modes.BIT_SELECT:
         /* falls through */
         case Modes.SELECT:
-            const reshapingMethods = (
+            const reshapingMethods = props.format.startsWith("BITMAP") ? null : (
                 <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
                     <LabeledIconButton
                         hideLabel={hideLabel(props.intl.locale)}
@@ -773,6 +853,7 @@ ModeToolsComponent.propTypes = {
     clipboardItems: PropTypes.arrayOf(PropTypes.array),
     eraserValue: PropTypes.number,
     eraserSimplifyValue: PropTypes.number,
+    brushType: PropTypes.string,
     penSimplifyValue: PropTypes.number,
     roundedCornerValue: PropTypes.number,
     roundedRectCornerValue: PropTypes.number,
@@ -794,6 +875,7 @@ ModeToolsComponent.propTypes = {
     onCurvePoints: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onEraserSliderChange: PropTypes.func,
+    onBrushChange: PropTypes.func,
     onEraserSimplifySliderChange: PropTypes.func,
     onPenSimplifySliderChange: PropTypes.func,
     onFillShapes: PropTypes.func.isRequired,
@@ -823,6 +905,7 @@ const mapStateToProps = state => ({
     clipboardItems: state.scratchPaint.clipboard.items,
     eraserValue: state.scratchPaint.eraserMode.brushSize,
     eraserSimplifyValue: state.scratchPaint.eraserMode.simplifySize,
+    brushType: state.scratchPaint.brushType,
     penSimplifyValue: state.scratchPaint.penMode.simplifySize,
     roundedRectCornerValue: state.scratchPaint.roundedRectMode.roundedCornerSize,
     roundedCornerValue: state.scratchPaint.rectMode.roundedCornerSize,
@@ -863,6 +946,9 @@ const mapDispatchToProps = dispatch => ({
     },
     onEraserSimplifySliderChange: eraserSize => {
         dispatch(changeEraserSimplifySize(eraserSize));
+    },
+    onBrushChange: type => {
+        dispatch(setBrushType(type));
     },
     onPenSimplifySliderChange: eraserSize => {
         dispatch(changePenSimplifySize(eraserSize));

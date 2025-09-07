@@ -97,27 +97,40 @@ class SussyTool extends paper.Tool {
             return;
         }
 
-        if (this.sussy) {
-            this.sussy.remove();
-        }
+        if (this.sussy) this.sussy.remove();
 
-        const sussy = new paper.Rectangle(event.downPoint, event.point);
-        const squareDimensions = getSquareDimensions(event.downPoint, event.point);
+        const rawBounds = new paper.Rectangle(event.downPoint, event.point);
+        const pathData = selectablePaths[this.shape];
+        this.sussy = new paper.CompoundPath(pathData);
+
+        const shapeBounds = this.sussy.bounds.clone();
+        const shapeRatio = shapeBounds.width / shapeBounds.height;
+        let finalBounds = rawBounds;
+
         if (event.modifiers.shift) {
-            sussy.size = squareDimensions.size.abs();
+            const { width, height } = rawBounds.size;
+            let w0 = width, h0 = height;
+
+            // adjust to keep aspect ratio
+            if (width / height > shapeRatio) w0 = Math.sign(width) * Math.abs(height * shapeRatio);
+            else h0 = Math.sign(height) * Math.abs(width / shapeRatio);
+
+            const opposite = event.downPoint.add(new paper.Point(w0, h0));
+            finalBounds = new paper.Rectangle(
+                new paper.Point(
+                    Math.min(event.downPoint.x, opposite.x),
+                    Math.min(event.downPoint.y, opposite.y)
+                ),
+                new paper.Point(
+                    Math.max(event.downPoint.x, opposite.x),
+                    Math.max(event.downPoint.y, opposite.y)
+                )
+            );
         }
 
-        const path = selectablePaths[this.shape];
-        this.sussy = new paper.CompoundPath(path);
-        this.sussy.bounds = sussy;
-        if (event.modifiers.alt) {
-            this.sussy.position = event.downPoint;
-        } else if (event.modifiers.shift) {
-            this.sussy.position = squareDimensions.position;
-        } else {
-            const dimensions = event.point.subtract(event.downPoint);
-            this.sussy.position = event.downPoint.add(dimensions.multiply(0.5));
-        }
+        this.sussy.bounds = finalBounds;
+        if (event.modifiers.alt) this.sussy.position = event.downPoint;
+        else this.sussy.position = this.sussy.bounds.center;
 
         styleShape(this.sussy, this.colorState);
     }

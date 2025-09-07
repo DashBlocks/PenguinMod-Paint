@@ -41,6 +41,7 @@ class Blobbiness {
         this.strokeColor = null;
         this.brushSize = null;
         this.fillColor = null;
+        this.brushShape = "CIRCLE";
     }
 
     /**
@@ -103,9 +104,11 @@ class Blobbiness {
 
             if (blob.options.brushSize < Blobbiness.THRESHOLD) {
                 blob.brush = Blobbiness.BROAD;
+                blob.broadBrushHelper.isSquareBrush = blob.brushShape === "SQUARE";
                 blob.broadBrushHelper.onBroadMouseDown(event, blob.tool, blob.options);
             } else {
                 blob.brush = Blobbiness.SEGMENT;
+                blob.segmentBrushHelper.isSquareBrush = blob.brushShape === "SQUARE";
                 blob.segmentBrushHelper.onSegmentMouseDown(event, blob.tool, blob.options);
             }
             blob.cursorPreview.bringToFront();
@@ -171,6 +174,7 @@ class Blobbiness {
             this.brushSize === this.options.brushSize &&
             this.fillColor === this.options.fillColor &&
             this.strokeColor === this.options.strokeColor &&
+            this.brushShape === this.options.brushType &&
             this.cursorPreviewLastPoint.equals(point)) {
             return;
         }
@@ -179,7 +183,7 @@ class Blobbiness {
         }
 
         if (!this.cursorPreview) {
-            this.cursorPreview = new paper.Shape.Ellipse({
+            this.cursorPreview = new paper.Shape.Rectangle({
                 point: this.cursorPreviewLastPoint,
                 size: this.options.brushSize / 2
             });
@@ -188,10 +192,14 @@ class Blobbiness {
             setGuideItem(this.cursorPreview);
         }
         this.cursorPreview.position = this.cursorPreviewLastPoint;
-        this.cursorPreview.radius = this.options.brushSize / 2;
-        this.brushSize = this.options.brushSize;
+        this.cursorPreview.size = new paper.Size(this.options.brushSize, this.options.brushSize);
+
+        if (this.options.brushSize) this.brushSize = this.options.brushSize;
         this.fillColor = this.options.fillColor;
         this.strokeColor = this.options.strokeColor;
+        this.brushShape = this.options.brushType;
+        if (this.brushShape === "SQUARE") this.cursorPreview.radius = 0;
+        else this.cursorPreview.radius = this.options.brushSize / 2;
         styleCursorPreview(this.cursorPreview, this.options);
     }
 
