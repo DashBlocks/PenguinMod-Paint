@@ -22,7 +22,7 @@ const ModeToolsComponent = props => (
             <InputGroup className={styles.dashArrayContextMenu}>
                 <div className={styles.table}>
                     {props.dashArray.map((item, index) => (
-                        <div className={styles.item}>
+                        <div className={styles.item} key={index}>
                             <LiveInput
                                 className={styles.readout}
                                 min="0"
@@ -85,5 +85,8 @@ ModeToolsComponent.propTypes = {
     handleAdd: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired,
     handleDelete: PropTypes.func.isRequired
+};
+ModeToolsComponent.defaultProps = {
+    dashArray: []
 };
 export default ModeToolsComponent;

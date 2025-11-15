@@ -115,7 +115,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(addValue());
     },
     changeValue: (index, value) => {
-        dispatch(changeValue(index, value));
+        dispatch(changeValue(index, Number(value)));
     },
     deleteValue: index => {
         dispatch(deleteValue(index));

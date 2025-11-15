@@ -17,8 +17,7 @@ const reducer = function (state, action) {
             return action.dashArray;
         }
         case ADD_VALUE: {
-            state.push(0);
-            return state;
+            return state.concat(0);
         }
         case CHANGE_VALUE: {
             if (isNaN(action.index)) {
@@ -29,16 +28,18 @@ const reducer = function (state, action) {
                 log.warn(`Invalid value setting: ${action.value}`);
                 return state;
             }
-            state[Math.max(0, Math.min(state.length - 1, action.index))] = Math.max(0, action.value);
-            return state;
+            const index = Math.max(0, Math.min(state.length - 1, action.index));
+            const next = state.slice();
+            next[index] = Math.max(0, Number(action.value));
+            return next;
         }
         case DELETE_VALUE: {
             if (isNaN(action.index)) {
                 log.warn(`Invalid index: ${action.index}`);
                 return state;
             }
-            state.splice(Math.max(0, Math.min(state.length - 1, action.index)), 1);
-            return state;
+            const idx = Math.max(0, Math.min(state.length - 1, action.index));
+            return state.slice(0, idx).concat(state.slice(idx + 1));
         }
         default:
             return state;
