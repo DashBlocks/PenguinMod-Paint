@@ -28,7 +28,14 @@ class FontDropdown extends React.Component {
             'handleChangeFontTechnological',
             'handleChangeFontBitsAndBytes',
             'handleChangeFontArcade',
+            'handleChangeFontGogono',
+            'handleChangeFontJustBubble',
+            'handleChangeFontLilitaOne',
+            'handleChangeFontMinecrafter',
+            'handleChangeFontObelixPro',
+            'handleChangeFontJetBrainsMono',
             'handleChangeFontScratch',
+            'handleChangeFontBranches',
             'handleChangeFontArchivo',
             'handleChangeFontArchivoBlack',
             'handleChangeFontChinese',
@@ -56,8 +63,6 @@ class FontDropdown extends React.Component {
                 return '한국어';
             case Fonts.JAPANESE:
                 return '日本語';
-            case Fonts.SCRATCH:
-                return 'Branches';
             default:
                 return font;
             }
@@ -261,9 +266,44 @@ class FontDropdown extends React.Component {
             this.props.changeFont(Fonts.ARCHIVOBLACK);
         }
     }
+    handleChangeFontGogono() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.GOGONO);
+        }
+    }
+    handleChangeFontJustBubble() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.JUSTBUBBLE);
+        }
+    }
+    handleChangeFontLilitaOne() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.LILITAONE);
+        }
+    }
+    handleChangeFontMinecrafter() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.MINECRAFTER);
+        }
+    }
+    handleChangeFontObelixPro() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.OBELIXPRO);
+        }
+    }
+    handleChangeFontJetBrainsMono() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.JETBRAINSMONO);
+        }
+    }
     handleChangeFontScratch() {
         if (this.dropDown.isOpen()) {
             this.props.changeFont(Fonts.SCRATCH);
+        }
+    }
+    handleChangeFontBranches() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.BRANCHES);
         }
     }
     handleChangeFontChinese () {
@@ -385,7 +425,14 @@ class FontDropdown extends React.Component {
                 onHoverArcade={this.handleChangeFontArcade}
                 onHoverArchivo={this.handleChangeFontArchivo}
                 onHoverArchivoBlack={this.handleChangeFontArchivoBlack}
+                onHoverGogono={this.handleChangeFontGogono}
+                onHoverJustBubble={this.handleChangeFontJustBubble}
+                onHoverLilitaOne={this.handleChangeFontLilitaOne}
+                onHoverMinecrafter={this.handleChangeFontMinecrafter}
+                onHoverObelixPro={this.handleChangeFontObelixPro}
+                onHoverJetBrainsMono={this.handleChangeFontJetBrainsMono}
                 onHoverScratch={this.handleChangeFontScratch}
+                onHoverBranches={this.handleChangeFontBranches}
                 onHoverSansSerif={this.handleChangeFontSansSerif}
                 onHoverSerif={this.handleChangeFontSerif}
                 onOpenDropdown={this.handleOpenDropdown}

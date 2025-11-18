@@ -16,6 +16,7 @@ import customFontsReducer from './custom-fonts';
 import fillBitmapShapesReducer from './fill-bitmap-shapes';
 import fillModeReducer from './fill-mode';
 import fontReducer from './font';
+import dashArrayReducer from './dash-array';
 import formatReducer from './format';
 import hoverReducer from './hover';
 import layoutReducer from './layout';
@@ -47,6 +48,7 @@ export default combineReducers({
     fillBitmapShapes: fillBitmapShapesReducer,
     fillMode: fillModeReducer,
     font: fontReducer,
+    dashArray: dashArrayReducer,
     format: formatReducer,
     hoveredItemId: hoverReducer,
     layout: layoutReducer,

@@ -64,6 +64,7 @@ class ReshapeTool extends paper.Tool {
         super();
         this.setHoveredItem = setHoveredItem;
         this.clearHoveredItem = clearHoveredItem;
+        this.setSelectedItems = setSelectedItems;
         this.onUpdateImage = onUpdateImage;
         this.prevHoveredItemId = null;
         this.lastEvent = null;
@@ -214,6 +215,21 @@ class ReshapeTool extends paper.Tool {
             }
         }
         return hitResult;
+    }
+    setDashArray(dashArray) {
+        let changed;
+        const selected = getSelectedLeafItems();
+        for (const item of selected) {
+            const styles = item.getStyle();
+            if (styles.getDashArray().join(' ') !== dashArray.join(' ')) {
+                styles.setDashArray(dashArray);
+                changed = true;
+            }
+        }
+        if (changed) {
+            this.setSelectedItems();
+            this.onUpdateImage();
+        }
     }
     handleMouseDown(event) {
         if (event.event.button > 0) return; // only first mouse button
