@@ -103,7 +103,7 @@ const ModeToolsComponent = props => {
         brushCircle: {
             defaultMessage: 'Circle brush',
             description: 'Label for the circle brush shape',
-            id: 'dash.paint.modeTools.circleSquare'
+            id: 'dash.paint.modeTools.brushCircle'
         },
         brushSquare: {
             defaultMessage: 'Square brush',
