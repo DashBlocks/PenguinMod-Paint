@@ -188,7 +188,7 @@ const ModeToolsComponent = props => {
         movementCenter: {
             defaultMessage: 'Center',
             description: 'Label for the button that moves the selected objects to the center of the canvas',
-            id: 'paint.modeTools.movementCenter'
+            id: 'dash.paint.modeTools.movementCenter'
         },
         joinSpiked: {
             defaultMessage: 'Spiked',
