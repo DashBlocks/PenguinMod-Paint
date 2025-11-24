@@ -800,7 +800,7 @@ const ModeToolsComponent = props => {
                                         }
                                         tipSize={.01}
                                     >
-                                        More
+                                        {props.intl.formatMessage(messages.more)}
                                     </Dropdown>
                                 </InputGroup>
                             </MediaQuery>
@@ -823,7 +823,7 @@ const ModeToolsComponent = props => {
                                 }
                                 tipSize={.01}
                             >
-                                More
+                                {props.intl.formatMessage(messages.more)}
                             </Dropdown>
                         </InputGroup>
                     </MediaQuery>
