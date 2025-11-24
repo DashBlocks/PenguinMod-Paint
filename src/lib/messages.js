@@ -37,9 +37,9 @@ const messages = defineMessages({
         id: 'paint.reshapeMode.reshape'
     },
     roundedRect: {
-        defaultMessage: 'Rounded Rectangle',
+        defaultMessage: 'Rounded rectangle',
         description: 'Label for the rounded rectangle tool',
-        id: 'paint.roundedRectMode.roundedRect'
+        id: 'dash.paint.roundedRectMode.roundedRect'
     },
     select: {
         defaultMessage: 'Select',
@@ -54,22 +54,22 @@ const messages = defineMessages({
     sussy: {
         defaultMessage: 'Shapes',
         description: 'Label for the shape tool',
-        id: 'paint.shapeMode.shape'
+        id: 'dash.paint.shapeMode.shape'
     },
     dragon: {
         defaultMessage: 'Dragon',
         description: 'Label for the totally a normal dragon head drawer dragon drawing tool',
-        id: 'paint.dragonMode.dragon'
+        id: 'dash.paint.dragonMode.dragon'
     },
     triangle: {
         defaultMessage: 'Triangle',
         description: 'Label for the triangle tool',
-        id: 'paint.triangleMode.triangle'
+        id: 'dash.paint.triangleMode.triangle'
     },
     arrow: {
         defaultMessage: 'Arrow',
         description: 'Label for the arrow tool',
-        id: 'paint.arrowMode.arrow'
+        id: 'dash.paint.arrowMode.arrow'
     }
 });
 
