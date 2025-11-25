@@ -9,7 +9,7 @@ const PenModeComponent = props => (
         imgDescriptor={{
             defaultMessage: 'Pen',
             description: 'Label for the pen tool, which draws outlines',
-            id: 'paint.penMode.pen'
+            id: 'dash.paint.penMode.pen'
         }}
         imgSrc={penIcon}
         isSelected={props.isSelected}

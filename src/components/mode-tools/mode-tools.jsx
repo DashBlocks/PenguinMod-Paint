@@ -88,7 +88,7 @@ const ModeToolsComponent = props => {
         brushSimplify: {
             defaultMessage: 'Smoothing',
             description: 'Label for the brush smoothing input, higher numbers control how much the drawn line will be corrected',
-            id: 'paint.modeTools.brushSimplify'
+            id: 'dash.paint.modeTools.brushSimplify'
         },
         eraserSize: {
             defaultMessage: 'Eraser size',
@@ -98,37 +98,37 @@ const ModeToolsComponent = props => {
         eraserSimplify: {
             defaultMessage: 'Smoothing',
             description: 'Label for the eraser smoothing input, higher numbers control how much the drawn line will be corrected',
-            id: 'paint.modeTools.eraserSimplify'
+            id: 'dash.paint.modeTools.eraserSimplify'
         },
         brushCircle: {
-            defaultMessage: 'Circle Brush',
+            defaultMessage: 'Circle brush',
             description: 'Label for the circle brush shape',
-            id: 'paint.modeTools.circleSquare'
+            id: 'dash.paint.modeTools.brushCircle'
         },
         brushSquare: {
-            defaultMessage: 'Square Brush',
+            defaultMessage: 'Square brush',
             description: 'Label for the square brush shape',
-            id: 'paint.modeTools.brushSquare'
+            id: 'dash.paint.modeTools.brushSquare'
         },
         roundedCornerSize: {
             defaultMessage: 'Rounded corner size',
             description: 'Label for the Rounded corner size input',
-            id: 'paint.modeTools.roundedCornerSize'
+            id: 'dash.paint.modeTools.roundedCornerSize'
         },
         currentSideCount: {
             defaultMessage: 'Polygon side count',
             description: 'Label for the Polygon side count input',
-            id: 'paint.modeTools.currentSideCount'
+            id: 'dash.paint.modeTools.currentSideCount'
         },
         spokeRatio: {
             defaultMessage: 'Star spoke ratio',
             description: 'Label for the Star spoke ratio input, controls the size of the spokes on a star',
-            id: 'paint.modeTools.spikeRatio'
+            id: 'dash.paint.modeTools.spikeRatio'
         },
         penSimplify: {
             defaultMessage: 'Smoothing',
             description: 'Label for the pen smoothing input, higher numbers control how much the drawn line will be corrected',
-            id: 'paint.modeTools.penSimplify'
+            id: 'dash.paint.modeTools.penSimplify'
         },
         copy: {
             defaultMessage: 'Copy',
@@ -138,7 +138,7 @@ const ModeToolsComponent = props => {
         cut: {
             defaultMessage: 'Cut',
             description: 'Label for the cut button',
-            id: 'paint.modeTools.cut'
+            id: 'dash.paint.modeTools.cut'
         },
         paste: {
             defaultMessage: 'Paste',
@@ -188,67 +188,72 @@ const ModeToolsComponent = props => {
         movementCenter: {
             defaultMessage: 'Center',
             description: 'Label for the button that moves the selected objects to the center of the canvas',
-            id: 'paint.modeTools.movementCenter'
+            id: 'dash.paint.modeTools.movementCenter'
         },
         joinSpiked: {
             defaultMessage: 'Spiked',
             description: 'Label for the button that sets the line join to miter',
-            id: 'pm.paint.modeTools.joinSpiked'
+            id: 'dash.paint.modeTools.joinSpiked'
         },
         joinRounded: {
             defaultMessage: 'Rounded',
             description: 'Label for the button that sets the line join to round',
-            id: 'pm.paint.modeTools.joinRounded'
+            id: 'dash.paint.modeTools.joinRounded'
         },
         joinBeveled: {
             defaultMessage: 'Beveled',
             description: 'Label for the button that sets the line join to bevel',
-            id: 'pm.paint.modeTools.joinBeveled'
+            id: 'dash.paint.modeTools.joinBeveled'
         },
         endRounded: {
             defaultMessage: 'Rounded',
             description: 'Label for the button that sets the line cap to round',
-            id: 'pm.paint.modeTools.endRounded'
+            id: 'dash.paint.modeTools.endRounded'
         },
         endSquared: {
             defaultMessage: 'Squared',
             description: 'Label for the button that sets the line cap to square',
-            id: 'pm.paint.modeTools.endSquared'
+            id: 'dash.paint.modeTools.endSquared'
         },
         merge: {
             defaultMessage: 'Merge',
             description: 'Label for the button that merges two selected objects together',
-            id: 'pm.paint.modeTools.merge'
+            id: 'dash.paint.modeTools.merge'
         },
         subtract: {
             defaultMessage: 'Subtract',
             description: 'Label for the button that subtracts selected objects from eachother',
-            id: 'pm.paint.modeTools.subtract'
+            id: 'dash.paint.modeTools.subtract'
         },
         mask: {
             defaultMessage: 'Mask',
             description: 'Label for the button that ands two selected objects together',
-            id: 'pm.paint.modeTools.mask'
+            id: 'dash.paint.modeTools.mask'
         },
         filter: {
             defaultMessage: 'Filter',
             description: 'Label for the button that xors two selected objects together',
-            id: 'pm.paint.modeTools.filter'
+            id: 'dash.paint.modeTools.filter'
         },
         leftAlign: {
-            defaultMessage: 'Left Align',
+            defaultMessage: 'Left align',
             description: 'Label for the button that sets text alignment to the left',
-            id: 'pm.paint.modeTools.leftAlign'
+            id: 'dash.paint.modeTools.leftAlign'
         },
         rightAlign: {
-            defaultMessage: 'Right Align',
+            defaultMessage: 'Right align',
             description: 'Label for the button that sets text alignment to the right',
-            id: 'pm.paint.modeTools.rightAlign'
+            id: 'dash.paint.modeTools.rightAlign'
         },
         centerAlign: {
-            defaultMessage: 'Center Align',
+            defaultMessage: 'Center align',
             description: 'Label for the button that sets text alignment to the center',
-            id: 'pm.paint.modeTools.centerAlign'
+            id: 'dash.paint.modeTools.centerAlign'
+        },
+        more: {
+            defaultMessage: 'More',
+            description: 'Label for dropdown to access more action buttons',
+            id: 'paint.paintEditor.more'
         }
     });
 
@@ -576,6 +581,24 @@ const ModeToolsComponent = props => {
                 );
             }
         case Modes.RESHAPE:
+            const lineEndsReshape = (
+                <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
+                    <LabeledIconButton
+                        disabled={props.hasSelectedRoundEnds}
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={roundLine}
+                        title={props.intl.formatMessage(messages.endRounded)}
+                        onClick={props.onRoundEnds}
+                    />
+                    <LabeledIconButton
+                        disabled={props.hasSelectedSquareEnds}
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={squareLine}
+                        title={props.intl.formatMessage(messages.endSquared)}
+                        onClick={props.onSquareEnds}
+                    />
+                </InputGroup>
+            );
             const lineJoinReshape = (
                 <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
                     <LabeledIconButton
@@ -634,23 +657,8 @@ const ModeToolsComponent = props => {
                             onClick={props.onPointPoints}
                         />
                     </InputGroup>
-                    <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
-                        <LabeledIconButton
-                            disabled={props.hasSelectedRoundEnds}
-                            hideLabel={hideLabel(props.intl.locale)}
-                            imgSrc={roundLine}
-                            title={props.intl.formatMessage(messages.endRounded)}
-                            onClick={props.onRoundEnds}
-                        />
-                        <LabeledIconButton
-                            disabled={props.hasSelectedSquareEnds}
-                            hideLabel={hideLabel(props.intl.locale)}
-                            imgSrc={squareLine}
-                            title={props.intl.formatMessage(messages.endSquared)}
-                            onClick={props.onSquareEnds}
-                        />
-                    </InputGroup>
                     <MediaQuery minWidth={layout.fullSizeEditorMinWidthExtraToolsCollapsed}>
+                        {lineEndsReshape}
                         {lineJoinReshape}
                         {deleteSelectedNodes}
                     </MediaQuery>
@@ -664,13 +672,14 @@ const ModeToolsComponent = props => {
                                         className={styles.modContextMenu}
                                         rtl={props.rtl}
                                     >
+                                        {lineEndsReshape}
                                         {lineJoinReshape}
                                         {deleteSelectedNodes}
                                     </InputGroup>
                                 }
                                 tipSize={.01}
                             >
-                                More
+                                {props.intl.formatMessage(messages.more)}
                             </Dropdown>
                         </InputGroup>
                     </MediaQuery>
@@ -791,7 +800,7 @@ const ModeToolsComponent = props => {
                                         }
                                         tipSize={.01}
                                     >
-                                        More
+                                        {props.intl.formatMessage(messages.more)}
                                     </Dropdown>
                                 </InputGroup>
                             </MediaQuery>
@@ -814,7 +823,7 @@ const ModeToolsComponent = props => {
                                 }
                                 tipSize={.01}
                             >
-                                More
+                                {props.intl.formatMessage(messages.more)}
                             </Dropdown>
                         </InputGroup>
                     </MediaQuery>
