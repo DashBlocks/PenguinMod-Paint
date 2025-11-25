@@ -9,6 +9,7 @@ import InputGroup from '../input-group/input-group.jsx';
 import Fonts from '../../lib/fonts';
 import CustomFontButton from './custom-font-button.jsx';
 import styles from './font-dropdown.css';
+import propTypes from 'prop-types';
 
 const DisplayFont = ({font, getFontName}) => (
     <span
@@ -243,6 +244,26 @@ const ModeToolsComponent = props => (
                 <Button
                     className={classNames(styles.modMenuItem)}
                     onClick={props.onChoose}
+                    onMouseOver={props.onHoverRunsTrial}
+                >
+                    <DisplayFont
+                        font={Fonts.RUNSTRIAL}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverRubik}
+                >
+                    <DisplayFont
+                        font={Fonts.RUBIK}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
                     onMouseOver={props.onHoverChinese}
                 >
                     <DisplayFont
@@ -354,6 +375,8 @@ ModeToolsComponent.propTypes = {
     onHoverMinecrafter: PropTypes.func,
     onHoverObelixPro: PropTypes.func,
     onHoverJetBrainsMono: PropTypes.func,
+    onHoverRunsTrial: PropTypes.func,
+    onHoverRubik: PropTypes.func,
     onHoverSansSerif: PropTypes.func,
     onHoverSerif: PropTypes.func,
     onOpenDropdown: PropTypes.func

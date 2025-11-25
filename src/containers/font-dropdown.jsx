@@ -34,6 +34,8 @@ class FontDropdown extends React.Component {
             'handleChangeFontMinecrafter',
             'handleChangeFontObelixPro',
             'handleChangeFontJetBrainsMono',
+            'handleChangeFontRunsTrial',
+            'handleChangeFontRubik',
             'handleChangeFontScratch',
             'handleChangeFontBranches',
             'handleChangeFontArchivo',
@@ -296,6 +298,16 @@ class FontDropdown extends React.Component {
             this.props.changeFont(Fonts.JETBRAINSMONO);
         }
     }
+    handleChangeFontRunsTrial() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.RUNSTRIAL);
+        }
+    }
+    handleChangeFontRubik() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.RUBIK);
+        }
+    }
     handleChangeFontScratch() {
         if (this.dropDown.isOpen()) {
             this.props.changeFont(Fonts.SCRATCH);
@@ -431,6 +443,8 @@ class FontDropdown extends React.Component {
                 onHoverMinecrafter={this.handleChangeFontMinecrafter}
                 onHoverObelixPro={this.handleChangeFontObelixPro}
                 onHoverJetBrainsMono={this.handleChangeFontJetBrainsMono}
+                onHoverRunsTrial={this.handleChangeFontRunsTrial}
+                onHoverRubik={this.handleChangeFontRubik}
                 onHoverScratch={this.handleChangeFontScratch}
                 onHoverBranches={this.handleChangeFontBranches}
                 onHoverSansSerif={this.handleChangeFontSansSerif}

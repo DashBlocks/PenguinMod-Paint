@@ -18,6 +18,8 @@ const Fonts = {
     MINECRAFTER: 'Minecrafter',
     OBELIXPRO: 'Obelix Pro',
     JETBRAINSMONO: 'Jet Brains Mono',
+    RUNSTRIAL: 'Runs Trial',
+    RUBIK: 'Rubik',
     SCRATCH: 'Scratch',
     BRANCHES: 'Branches',
     CHINESE: '"Microsoft YaHei", "微软雅黑", STXihei, "华文细黑"',
