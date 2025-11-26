@@ -9,7 +9,6 @@ import InputGroup from '../input-group/input-group.jsx';
 import Fonts from '../../lib/fonts';
 import CustomFontButton from './custom-font-button.jsx';
 import styles from './font-dropdown.css';
-import propTypes from 'prop-types';
 
 const DisplayFont = ({font, getFontName}) => (
     <span
