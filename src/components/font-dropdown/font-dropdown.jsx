@@ -244,16 +244,6 @@ const ModeToolsComponent = props => (
                 <Button
                     className={classNames(styles.modMenuItem)}
                     onClick={props.onChoose}
-                    onMouseOver={props.onHoverRunsTrial}
-                >
-                    <DisplayFont
-                        font={Fonts.RUNSTRIAL}
-                        getFontName={props.getFontName}
-                    />
-                </Button>
-                <Button
-                    className={classNames(styles.modMenuItem)}
-                    onClick={props.onChoose}
                     onMouseOver={props.onHoverRubik}
                 >
                     <DisplayFont
@@ -375,7 +365,6 @@ ModeToolsComponent.propTypes = {
     onHoverMinecrafter: PropTypes.func,
     onHoverObelixPro: PropTypes.func,
     onHoverJetBrainsMono: PropTypes.func,
-    onHoverRunsTrial: PropTypes.func,
     onHoverRubik: PropTypes.func,
     onHoverSansSerif: PropTypes.func,
     onHoverSerif: PropTypes.func,
