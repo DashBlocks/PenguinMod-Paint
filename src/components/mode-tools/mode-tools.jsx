@@ -735,7 +735,7 @@ const ModeToolsComponent = props => {
             const movementOptions = (
                 <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
                     <LabeledIconButton
-                        hideLabel={props.intl.locale !== 'en'}
+                        hideLabel={hideLabel(props.intl.locale)}
                         imgSrc={centerSelectionIcon}
                         title={props.intl.formatMessage(messages.movementCenter)}
                         onClick={props.onCenterSelection}
