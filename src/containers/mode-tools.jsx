@@ -47,7 +47,8 @@ class ModeTools extends React.Component {
             'handleSquareEnds',
             'handleMiterLineJoin',
             'handleRoundLineJoin',
-            'handleBevelLineJoin'
+            'handleBevelLineJoin',
+            'convertText2Path'
         ]);
 
         // defined when merging shapes
@@ -320,8 +321,12 @@ class ModeTools extends React.Component {
         }
     }
 
-    convertText2Path (textNode) {
-        const fontURL = this.extractFontURL(textNode.font);
+    convertText2Path () {
+        const selectedItems = getSelectedLeafItems();
+        if (selectedItems[0]) return;
+        const selectedItem = selectedItems[0];
+
+        const fontURL = this.extractFontURL(selectedItem.font);
         return new Promise((resolve) => {
             opentype.load(fontURL, (err, font) => {
                 if (err) {
@@ -331,13 +336,13 @@ class ModeTools extends React.Component {
                 }
 
                 const pathData = font.getPath(
-                    textNode.content, 0, 0,
-                    textNode.fontSize || 16
+                    selectedItem.content, 0, 0,
+                    selectedItem.fontSize || 16
                 ).toPathData();
 
                 const compound = new paper.CompoundPath(pathData);
                 compound.fillColor = this.fillColor || "black";
-                compound.matrix = textNode.matrix.clone();
+                compound.matrix = selectedItem.matrix.clone();
                 resolve(compound);
             });
         });
@@ -511,6 +516,7 @@ class ModeTools extends React.Component {
                 onMiterLineJoin={this.handleMiterLineJoin}
                 onRoundLineJoin={this.handleRoundLineJoin}
                 onBevelLineJoin={this.handleBevelLineJoin}
+                convertText2Path={this.convertText2Path}
 
                 onMergeShape={this.handleMergeShape}
                 onMaskShape={this.handleMaskShape}
