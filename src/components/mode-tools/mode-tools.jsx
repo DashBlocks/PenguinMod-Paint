@@ -732,13 +732,19 @@ const ModeToolsComponent = props => {
                     />
                 </InputGroup>
             );
-            const movementOptions = (
+            const otherOptions = (
                 <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
                     <LabeledIconButton
                         hideLabel={hideLabel(props.intl.locale)}
                         imgSrc={centerSelectionIcon}
                         title={props.intl.formatMessage(messages.movementCenter)}
                         onClick={props.onCenterSelection}
+                    />
+                    <LabeledIconButton
+                        hideLabel={hideLabel(props.intl.locale)}
+                        imgSrc={centerSelectionIcon}
+                        title={'Text to Path' /*props.intl.formatMessage(messages.movementCenter)*/}
+                        onClick={props.convertText2Path}
                     />
                 </InputGroup>
             );
@@ -776,8 +782,8 @@ const ModeToolsComponent = props => {
                     <MediaQuery minWidth={layout.fullSizeEditorMinWidthExtraToolsCollapsed}>
                         {/* Flip Options */}
                         {flipOptions}
-                        {/* Movement Options */}
-                        {movementOptions}
+                        {/* Other Options */}
+                        {otherOptions}
                         {/* Reshaping Methods */}
                         {(props.mode === Modes.SELECT) ? (
                             <MediaQuery minWidth={layout.fullSizeEditorMinWidthExtraTools}>
@@ -817,7 +823,7 @@ const ModeToolsComponent = props => {
                                         rtl={props.rtl}
                                     >
                                         {flipOptions}
-                                        {movementOptions}
+                                        {otherOptions}
                                         {reshapingMethods}
                                     </InputGroup>
                                 }
@@ -963,6 +969,7 @@ ModeToolsComponent.propTypes = {
     onPasteFromClipboard: PropTypes.func.isRequired,
     onPointPoints: PropTypes.func.isRequired,
     onUpdateImage: PropTypes.func.isRequired,
+    convertText2Path: PropTypes.func.isRequired,
 
     onMergeShape: PropTypes.func.isRequired,
     onMaskShape: PropTypes.func.isRequired,
