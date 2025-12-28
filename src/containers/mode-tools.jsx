@@ -48,7 +48,7 @@ class ModeTools extends React.Component {
             'handleMiterLineJoin',
             'handleRoundLineJoin',
             'handleBevelLineJoin',
-            'convertText2Path'
+            'handleText2Path'
         ]);
 
         // defined when merging shapes
@@ -321,12 +321,8 @@ class ModeTools extends React.Component {
         }
     }
 
-    convertText2Path () {
-        const selectedItems = getSelectedLeafItems();
-        if (selectedItems[0]) return;
-        const selectedItem = selectedItems[0];
-
-        const fontURL = this.extractFontURL(selectedItem.font);
+    convertText2Path (textNode) {
+        const fontURL = this.extractFontURL(textNode.font);
         return new Promise((resolve) => {
             opentype.load(fontURL, (err, font) => {
                 if (err) {
@@ -336,16 +332,31 @@ class ModeTools extends React.Component {
                 }
 
                 const pathData = font.getPath(
-                    selectedItem.content, 0, 0,
-                    selectedItem.fontSize || 16
+                    textNode.content, 0, 0,
+                    textNode.fontSize || 16
                 ).toPathData();
 
                 const compound = new paper.CompoundPath(pathData);
                 compound.fillColor = this.fillColor || "black";
-                compound.matrix = selectedItem.matrix.clone();
+                compound.matrix = textNode.matrix.clone();
+                
                 resolve(compound);
             });
         });
+    }
+
+    async handleText2Path () {
+        const selectedItems = getSelectedLeafItems();
+        for (let i = 0; i < selectedItems.length; i++) {
+            if (selectedItems[i].className === "PointText") {
+                const path = await this.convertText2Path(selectedItems[i]);
+                selectedItems[i].data.index = selectedItems[i].index;
+                const itemGroup = new paper.Group(path);
+                itemGroup.layer.insertChild(selectedItems[i].data.index, path);
+                selectedItems[i].data.index = null;
+            }
+        }
+        this.props.onUpdateImage();
     }
 
     async handleMergeShape (event, operation = "unite") {
@@ -516,7 +527,7 @@ class ModeTools extends React.Component {
                 onMiterLineJoin={this.handleMiterLineJoin}
                 onRoundLineJoin={this.handleRoundLineJoin}
                 onBevelLineJoin={this.handleBevelLineJoin}
-                convertText2Path={this.convertText2Path}
+                onText2Path={this.handleText2Path}
 
                 onMergeShape={this.handleMergeShape}
                 onMaskShape={this.handleMaskShape}
