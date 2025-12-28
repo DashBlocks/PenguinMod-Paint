@@ -251,6 +251,11 @@ const ModeToolsComponent = props => {
             description: 'Label for the button that sets text alignment to the center',
             id: 'dash.paint.modeTools.centerAlign'
         },
+        text2Path: {
+            defaultMessage: 'Text to Shapes',
+            description: 'Label for the button that converts text to shapes',
+            id: 'dash.paint.modeTools.text2Path'
+        },
         more: {
             defaultMessage: 'More',
             description: 'Label for dropdown to access more action buttons',
@@ -861,14 +866,14 @@ const ModeToolsComponent = props => {
                             onClick={props.onTextAlignRight}
                         />
                     </InputGroup>
-                    <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
+                    {(props.mode === Modes.TEXT) ? (<InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
                         <LabeledIconButton
                             hideLabel={hideLabel(props.intl.locale)}
                             imgSrc={text2PathIcon}
-                            title={'Text to Shapes' /*props.intl.formatMessage(messages.movementCenter)*/}
+                            title={props.intl.formatMessage(messages.text2Path)}
                             onClick={props.onText2Path}
                         />
-                    </InputGroup>
+                    </InputGroup>)}
                 </div>
             );
         case Modes.BIT_RECT:
@@ -972,7 +977,7 @@ ModeToolsComponent.propTypes = {
     onPasteFromClipboard: PropTypes.func.isRequired,
     onPointPoints: PropTypes.func.isRequired,
     onUpdateImage: PropTypes.func.isRequired,
-    convertText2Path: PropTypes.func.isRequired,
+    onText2Path: PropTypes.func.isRequired,
 
     onMergeShape: PropTypes.func.isRequired,
     onMaskShape: PropTypes.func.isRequired,
