@@ -350,10 +350,17 @@ class ModeTools extends React.Component {
         for (let i = 0; i < selectedItems.length; i++) {
             if (selectedItems[i].className === "PointText") {
                 const path = await this.convertText2Path(selectedItems[i]);
+
+                // Record old indices
                 selectedItems[i].data.index = selectedItems[i].index;
+
+                // Group item
                 const itemGroup = new paper.Group(path);
+
+                // Remove path from group and insert at index of text node.
                 itemGroup.layer.insertChild(selectedItems[i].data.index, path);
                 selectedItems[i].data.index = null;
+                itemGroup.remove();
             }
         }
         this.props.onUpdateImage();
