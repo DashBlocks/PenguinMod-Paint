@@ -873,7 +873,7 @@ const ModeToolsComponent = props => {
                             title={props.intl.formatMessage(messages.text2Path)}
                             onClick={props.onText2Path}
                         />
-                    </InputGroup>)}
+                    </InputGroup>) : null}
                 </div>
             );
         case Modes.BIT_RECT:
