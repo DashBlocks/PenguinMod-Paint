@@ -76,6 +76,7 @@ import bitRectIcon from '../bit-rect-mode/rectangle.svg';
 import bitOvalOutlinedIcon from '../bit-oval-mode/oval-outlined.svg';
 import bitRectOutlinedIcon from '../bit-rect-mode/rectangle-outlined.svg';
 import dashArrayIcon from './icons/dash-array.svg';
+import text2PathIcon from '!../../tw-recolor/build!./icons/text-to-shapes.svg';
 
 const LiveInput = LiveInputHOC(Input);
 const ModeToolsComponent = props => {
@@ -740,12 +741,6 @@ const ModeToolsComponent = props => {
                         title={props.intl.formatMessage(messages.movementCenter)}
                         onClick={props.onCenterSelection}
                     />
-                    <LabeledIconButton
-                        hideLabel={hideLabel(props.intl.locale)}
-                        imgSrc={centerSelectionIcon}
-                        title={'Text to Path' /*props.intl.formatMessage(messages.movementCenter)*/}
-                        onClick={props.convertText2Path}
-                    />
                 </InputGroup>
             );
             return (
@@ -864,6 +859,14 @@ const ModeToolsComponent = props => {
                             imgSrc={alignRightIcon}
                             title={props.intl.formatMessage(messages.rightAlign)}
                             onClick={props.onTextAlignRight}
+                        />
+                    </InputGroup>
+                    <InputGroup className={classNames(styles.modDashedBorder, styles.modLabeledIconHeight)}>
+                        <LabeledIconButton
+                            hideLabel={hideLabel(props.intl.locale)}
+                            imgSrc={text2PathIcon}
+                            title={'Text to Shapes' /*props.intl.formatMessage(messages.movementCenter)*/}
+                            onClick={props.onText2Path}
                         />
                     </InputGroup>
                 </div>
