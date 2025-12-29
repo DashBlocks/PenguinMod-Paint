@@ -342,7 +342,7 @@ class ModeTools extends React.Component {
 
                         // Copy styles of text node
                         ["fillColor", "strokeColor", "strokeWidth", "strokeCap", "strokeJoin", "dashArray"]
-                            .forEach((param) => (compound[param] = textNode[param])};
+                            .forEach((param) => (compound[param] = textNode[param]));
                         compound.matrix = textNode.matrix.clone();
 
                         return compound;
