@@ -338,13 +338,21 @@ class ModeTools extends React.Component {
                             line, 0, textNode.leading * i,
                             textNode.fontSize || 16
                         ).toPathData();
-
                         const compound = new paper.CompoundPath(pathData);
-                        compound.fillColor = textNode.fillColor || "black";
+
+                        // Copy styles of text node
+                        ["fillColor", "strokeColor", "strokeWidth", "strokeCap", "strokeJoin", "dashArray"]
+                            .forEach((param) => (compound[param] = textNode[param])};
                         compound.matrix = textNode.matrix.clone();
+
                         return compound;
                     })
-                    .reduce((union, path) => union.unite(path));
+                    .reduce((union, path) => {
+                        const result = union.unite(path);
+                        union.remove();
+                        path.remove();
+                        return result;
+                    });
                 resolve(textPath);
             });
         });
