@@ -331,16 +331,21 @@ class ModeTools extends React.Component {
                     return;
                 }
 
-                const pathData = font.getPath(
-                    textNode.content, 0, 0,
-                    textNode.fontSize || 16
-                ).toPathData();
+                // Split text by lines, because opentype generates path in one line, ignoring \n
+                const textPath = textNode.content.split("\n")
+                    .map((line, i) => {
+                        const pathData = font.getPath(
+                            line, 0, textNode.leading * i,
+                            textNode.fontSize || 16
+                        ).toPathData();
 
-                const compound = new paper.CompoundPath(pathData);
-                compound.fillColor = this.fillColor || "black";
-                compound.matrix = textNode.matrix.clone();
-                
-                resolve(compound);
+                        const compound = new paper.CompoundPath(pathData);
+                        compound.fillColor = textNode.fillColor || "black";
+                        compound.matrix = textNode.matrix.clone();
+                        return compound;
+                    })
+                    .reduce((union, path) => union.unite(path));
+                resolve(textPath);
             });
         });
     }
@@ -351,7 +356,7 @@ class ModeTools extends React.Component {
             if (selectedItems[i].className === "PointText") {
                 const path = await this.convertText2Path(selectedItems[i]);
 
-                // Record old indices
+                // Record indices
                 selectedItems[i].data.index = selectedItems[i].index;
 
                 // Group item
