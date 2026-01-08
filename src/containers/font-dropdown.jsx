@@ -48,6 +48,7 @@ class FontDropdown extends React.Component {
             'handleChoose',
             'handleChooseCustom',
             'handleChooseExisting'
+            'handleChangeFontTurbowarp',
         ]);
         this.customFonts = {};
         this.acceptedCustomFontAgreement = false;
@@ -312,6 +313,12 @@ class FontDropdown extends React.Component {
             this.props.changeFont(Fonts.BRANCHES);
         }
     }
+
+    handleChangeFontTurbowarp() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.TURBOWARP);
+        }
+    
     handleChangeFontChinese () {
         if (this.dropDown.isOpen()) {
             this.props.changeFont(Fonts.CHINESE);
@@ -442,6 +449,7 @@ class FontDropdown extends React.Component {
                 onHoverBranches={this.handleChangeFontBranches}
                 onHoverSansSerif={this.handleChangeFontSansSerif}
                 onHoverSerif={this.handleChangeFontSerif}
+                onHoverTurbowarp={this.handleChangeFontTurbowarp}
                 onOpenDropdown={this.handleOpenDropdown}
                 customExists={this.latestCustomFont !== null}
                 customClass={this.latestCustomFont ? this.latestCustomFont.class : null}
