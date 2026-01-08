@@ -6,6 +6,7 @@ const Fonts = {
     CURLY: 'Curly',
     PIXEL: 'Pixel',
     PLAYFUL: 'Playful',
+    TURBOWARP: 'Turbowarp',
     BUBBLY: 'Bubbly',
     BITSANDBYTES: 'Bits and Bytes',
     TECHNOLOGICAL: 'Technological',
