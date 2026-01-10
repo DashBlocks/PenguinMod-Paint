@@ -239,17 +239,7 @@ const ModeToolsComponent = props => (
                         font={Fonts.JETBRAINSMONO}
                         getFontName={props.getFontName}
                     />
-                </Button>                <Button
-                    className={classNames(styles.modMenuItem)}
-                    onClick={props.onChoose}
-                    onMouseOver={props.onHoverTurbowarp}
-                >
-                    <DisplayFont
-                        font={Fonts.TURBOWARP}
-                        getFontName={props.getFontName}
-                    />
                 </Button>
-
                 <Button
                     className={classNames(styles.modMenuItem)}
                     onClick={props.onChoose}
@@ -257,6 +247,16 @@ const ModeToolsComponent = props => (
                 >
                     <DisplayFont
                         font={Fonts.RUBIK}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverTurboWarp}
+                >
+                    <DisplayFont
+                        font={Fonts.TURBOWARP}
                         getFontName={props.getFontName}
                     />
                 </Button>
@@ -375,6 +375,7 @@ ModeToolsComponent.propTypes = {
     onHoverObelixPro: PropTypes.func,
     onHoverJetBrainsMono: PropTypes.func,
     onHoverRubik: PropTypes.func,
+    onHoverTurboWarp: PropTypes.func,
     onHoverSansSerif: PropTypes.func,
     onHoverSerif: PropTypes.func,
     onOpenDropdown: PropTypes.func
