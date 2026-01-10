@@ -35,7 +35,10 @@ class FontDropdown extends React.Component {
             'handleChangeFontObelixPro',
             'handleChangeFontJetBrainsMono',
             'handleChangeFontRubik',
-            'handleChangeFontTurboWarp',
+            'handleChangeFontScratchSavers',
+            'handleChangeFontLibreBaskerville',
+            'handleChangeFontOpenSans',
+            'handleChangeFontYujiBoku',
             'handleChangeFontScratch',
             'handleChangeFontBranches',
             'handleChangeFontArchivo',
@@ -303,9 +306,24 @@ class FontDropdown extends React.Component {
             this.props.changeFont(Fonts.RUBIK);
         }
     }
-    handleChangeFontTurboWarp() {
+    handleChangeFontScratchSavers() {
         if (this.dropDown.isOpen()) {
-            this.props.changeFont(Fonts.TURBOWARP);
+            this.props.changeFont(Fonts.SCRATCHSAVERS);
+        }
+    }
+    handleChangeFontLibreBaskerville() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.LIBREBASKERVILLE);
+        }
+    }
+    handleChangeFontOpenSans() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.OPENSANS);
+        }
+    }
+    handleChangeFontYujiBoku() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.YUJIBOKU);
         }
     }
     handleChangeFontScratch() {
@@ -444,7 +462,10 @@ class FontDropdown extends React.Component {
                 onHoverObelixPro={this.handleChangeFontObelixPro}
                 onHoverJetBrainsMono={this.handleChangeFontJetBrainsMono}
                 onHoverRubik={this.handleChangeFontRubik}
-                onHoverTurboWarp={this.handleChangeFontTurboWarp}
+                onHoverScartchSavers={this.handleChangeFontScratchSavers}
+                onHoverLibreBaskerville={this.handleChangeFontLibreBaskerville}
+                onHoverOpenSans={this.handleChangeFontOpenSans}
+                onHoverYujiBoku={this.handleChangeFontYujiBoku}
                 onHoverScratch={this.handleChangeFontScratch}
                 onHoverBranches={this.handleChangeFontBranches}
                 onHoverSansSerif={this.handleChangeFontSansSerif}

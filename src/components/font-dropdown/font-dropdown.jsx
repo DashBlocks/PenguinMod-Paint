@@ -253,10 +253,40 @@ const ModeToolsComponent = props => (
                 <Button
                     className={classNames(styles.modMenuItem)}
                     onClick={props.onChoose}
-                    onMouseOver={props.onHoverTurboWarp}
+                    onMouseOver={props.onHoverScratchSavers}
                 >
                     <DisplayFont
-                        font={Fonts.TURBOWARP}
+                        font={Fonts.SCRATCHSAVERS}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverLibreBaskerville}
+                >
+                    <DisplayFont
+                        font={Fonts.LIBREBASKERVILLE}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverOpenSans}
+                >
+                    <DisplayFont
+                        font={Fonts.OPENSANS}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverYujiBoku}
+                >
+                    <DisplayFont
+                        font={Fonts.YUJIBOKU}
                         getFontName={props.getFontName}
                     />
                 </Button>
@@ -375,7 +405,10 @@ ModeToolsComponent.propTypes = {
     onHoverObelixPro: PropTypes.func,
     onHoverJetBrainsMono: PropTypes.func,
     onHoverRubik: PropTypes.func,
-    onHoverTurboWarp: PropTypes.func,
+    onHoverScratchSavers: PropTypes.func,
+    onHoverLibreBaskerville: PropTypes.func,
+    onHoverOpenSans: PropTypes.func,
+    onHoverYujiBoku: PropTypes.func,
     onHoverSansSerif: PropTypes.func,
     onHoverSerif: PropTypes.func,
     onOpenDropdown: PropTypes.func
