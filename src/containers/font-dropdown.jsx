@@ -257,6 +257,11 @@ class FontDropdown extends React.Component {
             this.props.changeFont(Fonts.TECHNOLOGICAL);
         }
     }
+        handleChangeFontShadowsintolight() {
+        if (this.dropDown.isOpen()) {
+            this.props.changeFont(Fonts.SHADOWSINTOLIGHT);
+        }
+    }
     handleChangeFontArcade() {
         if (this.dropDown.isOpen()) {
             this.props.changeFont(Fonts.ARCADE);
