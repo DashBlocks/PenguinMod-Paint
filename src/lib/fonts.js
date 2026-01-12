@@ -19,6 +19,7 @@ const Fonts = {
     OBELIXPRO: 'Obelix Pro',
     JETBRAINSMONO: 'Jet Brains Mono',
     RUBIK: 'Rubik',
+    SHADOWSINTOLIGHT: 'Shadows Into Light',
     SCRATCHSAVERS: 'Scratch Savers',
     LIBREBASKERVILLE: 'Libre Baskerville',
     OPENSANS: 'OpenSans',
