@@ -29,6 +29,7 @@ class FontDropdown extends React.Component {
             'handleChangeFontBitsAndBytes',
             'handleChangeFontArcade',
             'handleChangeFontGogono',
+            'handleChangeFontShadowsintolight',
             'handleChangeFontJustBubble',
             'handleChangeFontLilitaOne',
             'handleChangeFontMinecrafter',
