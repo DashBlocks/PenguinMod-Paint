@@ -242,7 +242,7 @@ const ModeToolsComponent = props => (
                     <Button
                     className={classNames(styles.modMenuItem)}
                     onClick={props.onChoose}
-                    onMouseOver={props.onHoverShadows Into Light}
+                    onMouseOver={props.onHoverShadowsIntoLight}
                 >
                     <DisplayFont
                         font={Fonts.SHADOWSINTOLIGHT}
