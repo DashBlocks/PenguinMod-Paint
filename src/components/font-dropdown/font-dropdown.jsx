@@ -239,15 +239,6 @@ const ModeToolsComponent = props => (
                         font={Fonts.JETBRAINSMONO}
                         getFontName={props.getFontName}
                     />
-                    <Button
-                    className={classNames(styles.modMenuItem)}
-                    onClick={props.onChoose}
-                    onMouseOver={props.onHoverShadowsIntoLight}
-                >
-                    <DisplayFont
-                        font={Fonts.SHADOWSINTOLIGHT}
-                        getFontName={props.getFontName}
-                    />
                 </Button>
                 <Button
                     className={classNames(styles.modMenuItem)}
@@ -296,6 +287,16 @@ const ModeToolsComponent = props => (
                 >
                     <DisplayFont
                         font={Fonts.YUJIBOKU}
+                        getFontName={props.getFontName}
+                    />
+                </Button>
+                <Button
+                    className={classNames(styles.modMenuItem)}
+                    onClick={props.onChoose}
+                    onMouseOver={props.onHoverShadowsIntoLight}
+                >
+                    <DisplayFont
+                        font={Fonts.SHADOWSINTOLIGHT}
                         getFontName={props.getFontName}
                     />
                 </Button>
