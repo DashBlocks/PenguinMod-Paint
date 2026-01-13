@@ -29,7 +29,6 @@ class FontDropdown extends React.Component {
             'handleChangeFontBitsAndBytes',
             'handleChangeFontArcade',
             'handleChangeFontGogono',
-            'handleChangeFontShadowsintolight',
             'handleChangeFontJustBubble',
             'handleChangeFontLilitaOne',
             'handleChangeFontMinecrafter',
@@ -40,6 +39,7 @@ class FontDropdown extends React.Component {
             'handleChangeFontLibreBaskerville',
             'handleChangeFontOpenSans',
             'handleChangeFontYujiBoku',
+            'handleChangeFontShadowsIntoLight',
             'handleChangeFontScratch',
             'handleChangeFontBranches',
             'handleChangeFontArchivo',
@@ -257,7 +257,7 @@ class FontDropdown extends React.Component {
             this.props.changeFont(Fonts.TECHNOLOGICAL);
         }
     }
-        handleChangeFontShadowsintolight() {
+    handleChangeFontShadowsIntoLight() {
         if (this.dropDown.isOpen()) {
             this.props.changeFont(Fonts.SHADOWSINTOLIGHT);
         }
@@ -468,10 +468,11 @@ class FontDropdown extends React.Component {
                 onHoverObelixPro={this.handleChangeFontObelixPro}
                 onHoverJetBrainsMono={this.handleChangeFontJetBrainsMono}
                 onHoverRubik={this.handleChangeFontRubik}
-                onHoverScartchSavers={this.handleChangeFontScratchSavers}
+                onHoverScratchSavers={this.handleChangeFontScratchSavers}
                 onHoverLibreBaskerville={this.handleChangeFontLibreBaskerville}
                 onHoverOpenSans={this.handleChangeFontOpenSans}
                 onHoverYujiBoku={this.handleChangeFontYujiBoku}
+                onHoverShadowsIntoLight={this.handleChangeFontShadowsIntoLight}
                 onHoverScratch={this.handleChangeFontScratch}
                 onHoverBranches={this.handleChangeFontBranches}
                 onHoverSansSerif={this.handleChangeFontSansSerif}

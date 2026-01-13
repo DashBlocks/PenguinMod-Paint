@@ -419,6 +419,7 @@ ModeToolsComponent.propTypes = {
     onHoverLibreBaskerville: PropTypes.func,
     onHoverOpenSans: PropTypes.func,
     onHoverYujiBoku: PropTypes.func,
+    onHoverShadowsIntoLight: PropTypes.func,
     onHoverSansSerif: PropTypes.func,
     onHoverSerif: PropTypes.func,
     onOpenDropdown: PropTypes.func
