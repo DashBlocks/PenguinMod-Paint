@@ -1,5 +1,6 @@
 @import "../../css/colors.css";
 @import "../../css/units.css";
+@import "../../css/filters.css";
 
 .mode-tools {
     display: flex;
@@ -11,9 +12,7 @@
     margin-right: calc(2 * $grid-unit);
     width: 2rem;
     height: 2rem;
-}
-[theme="dark"] .mode-tools-icon {
-    filter: brightness(1.7);
+    filter: $filter-icon-gray;
 }
 
 [dir="ltr"] .mod-dashed-border {
@@ -52,20 +51,12 @@
 .drop-item-shape-tool {
     width: 50px;
     transition: filter 0.3s ease;
-    filter: saturate(1);
-}
-.drop-item-shape-tool:hover {
-    filter: saturate(8);
 }
 .drop-item-shape-tool-label {
     width: 100%;
     font-size: 12px;
-    border-top: 1px solid rgba(0, 0, 0, 0.25);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-}
-[theme="dark"] .drop-item-shape-tool-label {
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    border-top: 1px solid $ui-pane-border;
+    border-bottom: 1px solid $ui-pane-border;
 }
 
 /* TODO replace this when we add a brush selector dropdown */
