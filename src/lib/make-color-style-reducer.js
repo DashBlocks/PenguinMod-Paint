@@ -62,23 +62,16 @@ const makeColorStyleReducer = ({
         // anything in bitmap mode would overwrite the stroke state.
         const newState = {...state};
         if (selectionColorKey in colors) {
+            if (Array.isArray(colors[selectionColorKey])) {
+                newState.stops = colors[selectionColorKey];
+            }
             newState.stops[0] = {
                 color: colors[selectionColorKey],
-                offset: newState.stops[0]?.offset || 0
+                offset: 0
             };
         }
         if (selectionGradientTypeKey in colors) {
             newState.gradientType = colors[selectionGradientTypeKey];
-        }
-
-        // Gradient type may be solid when multiple gradient types are selected.
-        // In this case, changing the first color should not change the second color.
-        if (
-            selectionSecondaryColorKey in colors &&
-            (colors[selectionGradientTypeKey] !== GradientTypes.SOLID ||
-            colors[selectionSecondaryColorKey] === MIXED)
-        ) {
-            newState.secondary = colors[selectionSecondaryColorKey];
         }
         return newState;
     }
@@ -89,7 +82,14 @@ const makeColorStyleReducer = ({
         log.warn(`Gradient type does not exist: ${action.gradientType}`);
         return state;
     case clearGradientAction:
-        return {...state, secondary: null, gradientType: GradientTypes.SOLID};
+        return {
+            ...state,
+            stops: [{
+                color: state.stops[0].color,
+                offset: 0
+            }],
+            gradientType: GradientTypes.SOLID
+        };
     default:
         return state;
     }
