@@ -511,7 +511,7 @@ const styleCursorPreview = function (path, options) {
 const styleShape = function (path, options) {
     for (const colorKey of ['fillColor', 'strokeColor']) {
         if (options[colorKey].gradientType === GradientTypes.SOLID) {
-            path[colorKey] = options[colorKey].stops[0];
+            path[colorKey] = options[colorKey].stops[0].color;
         } else {
             const {stops, gradientType} = options[colorKey];
             path[colorKey] = createGradientObject(
