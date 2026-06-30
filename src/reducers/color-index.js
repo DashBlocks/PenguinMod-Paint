@@ -9,7 +9,7 @@ const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
     case CHANGE_COLOR_INDEX:
-        if (action.index !== 1 && action.index !== 0) {
+        if (action.index < 0) {
             log.warn(`Invalid color index: ${action.index}`);
             return state;
         }
