@@ -1,7 +1,6 @@
 import makeColorStyleReducer from '../lib/make-color-style-reducer';
 
 const CHANGE_STROKE_COLOR = 'scratch-paint/stroke-style/CHANGE_STROKE_COLOR';
-const CHANGE_STROKE_COLOR_2 = 'scratch-paint/stroke-style/CHANGE_STROKE_COLOR_2';
 const CHANGE_STROKE_GRADIENT_TYPE = 'scratch-paint/stroke-style/CHANGE_STROKE_GRADIENT_TYPE';
 const CLEAR_STROKE_GRADIENT = 'scratch-paint/stroke-style/CLEAR_STROKE_GRADIENT';
 const DEFAULT_COLOR = '#000000';
@@ -9,13 +8,11 @@ const DEFAULT_COLOR = '#000000';
 import {CHANGE_STROKE_WIDTH} from './stroke-width';
 
 const reducer = makeColorStyleReducer({
-    changePrimaryColorAction: CHANGE_STROKE_COLOR,
-    changeSecondaryColorAction: CHANGE_STROKE_COLOR_2,
+    changeColorAction: CHANGE_STROKE_COLOR,
     changeGradientTypeAction: CHANGE_STROKE_GRADIENT_TYPE,
     clearGradientAction: CLEAR_STROKE_GRADIENT,
     defaultColor: DEFAULT_COLOR,
-    selectionPrimaryColorKey: 'strokeColor',
-    selectionSecondaryColorKey: 'strokeColor2',
+    selectionColorKey: 'strokeColor',
     selectionGradientTypeKey: 'strokeGradientType'
 });
 
@@ -29,24 +26,18 @@ const strokeReducer = function (state, action) {
         // the stroke width is automatically set to 0 as soon as a "null" color is detected (including a gradient for
         // which both colors are null), that would change the gradient type back to solid if you selected null for both
         // gradient colors.
-        return {...state, primary: null, secondary: null};
+        return {...state, stops: []};
     }
 
     return reducer(state, action);
 };
 
 // Action creators ==================================
-const changeStrokeColor = function (strokeColor) {
+const changeStrokeColor = function (strokeColor, index) {
     return {
         type: CHANGE_STROKE_COLOR,
-        color: strokeColor
-    };
-};
-
-const changeStrokeColor2 = function (strokeColor) {
-    return {
-        type: CHANGE_STROKE_COLOR_2,
-        color: strokeColor
+        color: strokeColor,
+        index
     };
 };
 
@@ -66,7 +57,6 @@ const clearStrokeGradient = function () {
 export {
     strokeReducer as default,
     changeStrokeColor,
-    changeStrokeColor2,
     changeStrokeGradientType,
     clearStrokeGradient,
     DEFAULT_COLOR,
