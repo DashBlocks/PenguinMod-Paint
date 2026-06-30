@@ -392,7 +392,7 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
                 if (item.strokeColor.type === 'gradient') {
                     const {stops, gradientType} = _colorStateFromGradient(item.strokeColor.gradient);
 
-                    let strokeColorString = primary;
+                    let strokeColorString = stops;
                     let strokeGradientType = gradientType;
 
                     // If the item's stroke width is 0, pretend the stroke color is transparent
@@ -444,12 +444,10 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
             if (itemFillGradientType !== selectionFillGradientType) {
                 selectionFillGradientType = GradientTypes.SOLID;
                 selectionFillColorString = MIXED;
-                selectionFillColor2String = MIXED;
             }
             if (itemStrokeGradientType !== selectionStrokeGradientType) {
                 selectionStrokeGradientType = GradientTypes.SOLID;
                 selectionStrokeColorString = MIXED;
-                selectionStrokeColor2String = MIXED;
             }
             if (itemStrokeColorString !== selectionStrokeColorString) {
                 selectionStrokeColorString = MIXED;
