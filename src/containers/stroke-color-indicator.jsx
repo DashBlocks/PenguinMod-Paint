@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {defineMessages} from 'react-intl';
 
 import {changeColorIndex} from '../reducers/color-index';
-import {changeStrokeColor, changeStrokeColor2, changeStrokeGradientType} from '../reducers/stroke-style';
+import {changeStrokeColor, changeStrokeGradientType} from '../reducers/stroke-style';
 import {changeStrokeWidth} from '../reducers/stroke-width';
 import {openStrokeColor, closeStrokeColor} from '../reducers/modals';
 import {getSelectedLeafItems} from '../helper/selection';
@@ -44,11 +44,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(changeColorIndex(index));
     },
     onChangeColor: (strokeColor, index) => {
-        if (index === 0) {
-            dispatch(changeStrokeColor(strokeColor));
-        } else if (index === 1) {
-            dispatch(changeStrokeColor2(strokeColor));
-        }
+        dispatch(changeStrokeColor(strokeColor, index));
     },
     onChangeStrokeWidth: strokeWidth => {
         dispatch(changeStrokeWidth(strokeWidth));
