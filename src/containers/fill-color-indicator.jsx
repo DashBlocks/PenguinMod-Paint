@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {defineMessages} from 'react-intl';
 
 import {changeColorIndex} from '../reducers/color-index';
-import {changeFillColor, changeFillColor2} from '../reducers/fill-style';
+import {changeFillColor} from '../reducers/fill-style';
 import {changeGradientType} from '../reducers/fill-mode-gradient-type';
 import {openFillColor, closeFillColor} from '../reducers/modals';
 import {getSelectedLeafItems} from '../helper/selection';
@@ -42,11 +42,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(changeColorIndex(index));
     },
     onChangeColor: (fillColor, index) => {
-        if (index === 0) {
-            dispatch(changeFillColor(fillColor));
-        } else if (index === 1) {
-            dispatch(changeFillColor2(fillColor));
-        }
+        dispatch(changeFillColor(fillColor, index));
     },
     onOpenColor: () => {
         dispatch(openFillColor());
