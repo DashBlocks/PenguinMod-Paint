@@ -15,40 +15,40 @@ const isValidHexColor = color => {
 };
 
 const makeColorStyleReducer = ({
-    // Action name for changing the primary color
-    changePrimaryColorAction,
-    // Action name for changing the secondary color
-    changeSecondaryColorAction,
+    // Action name for changing the color
+    changeColorAction,
     // Action name for changing the gradient type
     changeGradientTypeAction,
     // Action name for clearing the gradient
     clearGradientAction,
     // Initial color when not set
     defaultColor,
-    // The name of the property read from getColorsFromSelection to get the primary color.
+    // The name of the property read from getColorsFromSelection to get the color.
     // e.g. `fillColor` or `strokeColor`.
-    selectionPrimaryColorKey,
-    // The name of the property read from getColorsFromSelection to get the secondary color.
-    // e.g. `fillColor2` or `strokeColor2`.
-    selectionSecondaryColorKey,
+    selectionColorKey,
     // The name of the property read from getColorsFromSelection to get the gradient type.
     // e.g. `fillGradientType` or `strokeGradientType`.
     selectionGradientTypeKey
 }) => function colorReducer (state, action) {
     if (typeof state === 'undefined') {
         state = {
-            primary: defaultColor,
-            secondary: null,
+            stops: [{
+                color: defaultColor,
+                offset: 0
+            }],
             gradientType: GradientTypes.SOLID
         };
     }
     switch (action.type) {
-    case changePrimaryColorAction:
+    case changeColorAction:
         if (!isValidHexColor(action.color)) return state;
-        return {...state, primary: action.color};
-    case changeSecondaryColorAction:
-        if (!isValidHexColor(action.color)) return state;
-        return {...state, secondary: action.color};
+        return {
+            ...state,
+            stops: state.stops.toSpliced(action.index, 1, {
+                color: action.color,
+                offset: state.stops[index].offset
+            })
+        };
     case CHANGE_SELECTED_ITEMS: {
         // Don't change state if no selection
         if (!action.selectedItems || !action.selectedItems.length) {
@@ -61,8 +61,11 @@ const makeColorStyleReducer = ({
         // preserve stroke swatch state across bitmap mode-- if getColorsFromSelection set them to null, then selecting
         // anything in bitmap mode would overwrite the stroke state.
         const newState = {...state};
-        if (selectionPrimaryColorKey in colors) {
-            newState.primary = colors[selectionPrimaryColorKey];
+        if (selectionColorKey in colors) {
+            newState.stops[0] = {
+                color: colors[selectionColorKey],
+                offset: newState.stops[0]?.offset || 0
+            };
         }
         if (selectionGradientTypeKey in colors) {
             newState.gradientType = colors[selectionGradientTypeKey];
