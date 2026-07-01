@@ -73,7 +73,7 @@ class ColorPicker extends React.Component {
         };
     }
     componentWillReceiveProps (newProps) {
-        const color = this.props.stops[newProps.colorIndex].color;
+        const color = this.props.stops[newProps.colorIndex]?.color;
         const newColor = newProps.stops[newProps.colorIndex].color;
         const colorSetByEyedropper = this.props.isEyeDropping && color !== newColor;
         if (colorSetByEyedropper || this.props.colorIndex !== newProps.colorIndex) {
