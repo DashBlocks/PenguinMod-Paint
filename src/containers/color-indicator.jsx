@@ -54,11 +54,13 @@ const makeColorIndicator = (label, isStroke) => {
         }
         handleChangeGradientType (gradientType) {
             const formatIsBitmap = isBitmap(this.props.format);
+            const generatedSecondaryColor = generateSecondaryColor(this.props.stops[0].color);
             // Apply color and update redux, but do not update svg until picker closes.
             const isDifferent = applyGradientTypeToSelection(
                 gradientType,
                 isStroke || (formatIsBitmap && !this.props.fillBitmapShapes),
-                this.props.textEditTarget);
+                this.props.textEditTarget,
+                generatedSecondaryColor);
             this._hasChanged = this._hasChanged || isDifferent;
             const hasSelectedItems = getSelectedLeafItems().length > 0;
             if (hasSelectedItems) {
@@ -69,7 +71,7 @@ const makeColorIndicator = (label, isStroke) => {
             }
             if (this.props.gradientType === GradientTypes.SOLID && gradientType !== GradientTypes.SOLID) {
                 // Generate color 2 and change to the 2nd swatch when switching from solid to gradient
-                this.props.onAddOtherStop(generateSecondaryColor(this.props.stops[0].color), 0);
+                this.props.onAddOtherStop(generatedSecondaryColor, 0);
                 this.props.onChangeColorIndex(1);
             }
             if (this.props.onChangeGradientType) this.props.onChangeGradientType(gradientType);
