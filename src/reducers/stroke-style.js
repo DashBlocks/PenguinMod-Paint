@@ -1,5 +1,6 @@
 import makeColorStyleReducer from '../lib/make-color-style-reducer';
 
+const ADD_OTHER_STROKE_STOP = 'scratch-paint/stroke-style/ADD_OTHER_STROKE_STOP';
 const CHANGE_STROKE_COLOR = 'scratch-paint/stroke-style/CHANGE_STROKE_COLOR';
 const CHANGE_STROKE_GRADIENT_TYPE = 'scratch-paint/stroke-style/CHANGE_STROKE_GRADIENT_TYPE';
 const CLEAR_STROKE_GRADIENT = 'scratch-paint/stroke-style/CLEAR_STROKE_GRADIENT';
@@ -8,6 +9,7 @@ const DEFAULT_COLOR = '#000000';
 import {CHANGE_STROKE_WIDTH} from './stroke-width';
 
 const reducer = makeColorStyleReducer({
+    addOtherStopAction: ADD_OTHER_STROKE_STOP,
     changeColorAction: CHANGE_STROKE_COLOR,
     changeGradientTypeAction: CHANGE_STROKE_GRADIENT_TYPE,
     clearGradientAction: CLEAR_STROKE_GRADIENT,
@@ -26,13 +28,27 @@ const strokeReducer = function (state, action) {
         // the stroke width is automatically set to 0 as soon as a "null" color is detected (including a gradient for
         // which both colors are null), that would change the gradient type back to solid if you selected null for both
         // gradient colors.
-        return {...state, stops: []};
+        return {
+            ...state,
+            stops: [{
+                color: 'rgba(0,0,0,0)',
+                offset: 0
+            }]
+        };
     }
 
     return reducer(state, action);
 };
 
 // Action creators ==================================
+const addOtherStrokeStop = function (stopColor, index) {
+    return {
+        type: ADD_OTHER_STROKE_STOP,
+        color: stopColor,
+        index
+    };
+};
+
 const changeStrokeColor = function (strokeColor, index) {
     return {
         type: CHANGE_STROKE_COLOR,
@@ -56,6 +72,7 @@ const clearStrokeGradient = function () {
 
 export {
     strokeReducer as default,
+    addOtherStrokeStop,
     changeStrokeColor,
     changeStrokeGradientType,
     clearStrokeGradient,
