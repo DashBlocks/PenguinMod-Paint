@@ -43,7 +43,7 @@ const makeColorStyleReducer = ({
     }
     switch (action.type) {
     case addOtherStopAction: {
-        if (action.index >= 0 && action.index < state.stops.length) {
+        if (action.index < 0 || action.index >= state.stops.length) {
             log.warn(`Stop with index ${action.index} does not exist`);
             return state;
         }
@@ -69,7 +69,7 @@ const makeColorStyleReducer = ({
         };
     }
     case changeColorAction:
-        if (action.index >= 0 && action.index < state.stops.length) {
+        if (action.index < 0 || action.index >= state.stops.length) {
             log.warn(`Stop with index ${action.index} does not exist`);
             return state;
         }
