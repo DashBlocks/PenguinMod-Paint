@@ -17,8 +17,7 @@ const ColorIndicatorComponent = props => (
         <Popover
             body={
                 <ColorPicker
-                    color={props.color}
-                    color2={props.color2}
+                    stops={props.stops}
                     gradientType={props.gradientType}
                     shouldShowGradientTools={props.shouldShowGradientTools}
                     onChangeColor={props.onChangeColor}
@@ -32,8 +31,7 @@ const ColorIndicatorComponent = props => (
         >
             <Label text={props.label}>
                 <ColorButton
-                    color={props.color}
-                    color2={props.color2}
+                    stops={props.stops}
                     gradientType={props.gradientType}
                     onClick={props.onOpenColor}
                     outline={props.outline}
@@ -46,8 +44,6 @@ const ColorIndicatorComponent = props => (
 ColorIndicatorComponent.propTypes = {
     className: PropTypes.string,
     disabled: PropTypes.bool.isRequired,
-    color: PropTypes.string,
-    color2: PropTypes.string,
     colorModalVisible: PropTypes.bool.isRequired,
     gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
     label: PropTypes.string.isRequired,
@@ -57,7 +53,11 @@ ColorIndicatorComponent.propTypes = {
     onOpenColor: PropTypes.func.isRequired,
     onSwap: PropTypes.func.isRequired,
     outline: PropTypes.bool.isRequired,
-    shouldShowGradientTools: PropTypes.bool.isRequired
+    shouldShowGradientTools: PropTypes.bool.isRequired,
+    stops: PropTypes.arrayOf(PropTypes.shape({
+        color: PropTypes.string,
+        offset: PropTypes.number
+    }))
 };
 
 export default ColorIndicatorComponent;
