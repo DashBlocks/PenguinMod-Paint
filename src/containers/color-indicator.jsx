@@ -13,7 +13,7 @@ import {applyColorToSelection,
     applyGradientTypeToSelection,
     applyStrokeWidthToSelection,
     generateSecondaryColor,
-    swapColorsInSelection,
+    swapStopsInSelection,
     MIXED} from '../helper/style-path';
 
 const makeColorIndicator = (label, isStroke) => {
@@ -90,7 +90,7 @@ const makeColorIndicator = (label, isStroke) => {
         handleSwap () {
             if (getSelectedLeafItems().length) {
                 const formatIsBitmap = isBitmap(this.props.format);
-                const isDifferent = swapColorsInSelection(
+                const isDifferent = swapStopsInSelection(
                     isStroke || (formatIsBitmap && !this.props.fillBitmapShapes),
                     this.props.textEditTarget);
                 this.props.setSelectedItems(this.props.format);
