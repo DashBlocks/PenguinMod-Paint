@@ -64,11 +64,12 @@ const makeColorStyleReducer = ({
         if (selectionColorKey in colors) {
             if (Array.isArray(colors[selectionColorKey])) {
                 newState.stops = colors[selectionColorKey];
+            } else {
+                newState.stops[0] = {
+                    color: colors[selectionColorKey],
+                    offset: 0
+                };
             }
-            newState.stops[0] = {
-                color: colors[selectionColorKey],
-                offset: 0
-            };
         }
         if (selectionGradientTypeKey in colors) {
             newState.gradientType = colors[selectionGradientTypeKey];
