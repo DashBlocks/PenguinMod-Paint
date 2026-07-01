@@ -537,5 +537,5 @@ export {
     styleShape,
     stylePath,
     styleCursorPreview,
-    swapColorsInSelection
+    swapStopsInSelection
 };
