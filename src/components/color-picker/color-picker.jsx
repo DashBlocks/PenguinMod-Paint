@@ -14,10 +14,9 @@ import {MIXED} from '../../helper/style-path';
 import eyeDropperIcon from './icons/eye-dropper.svg';
 import noFillIcon from '../color-button/no-fill.svg';
 import mixedFillIcon from '../color-button/mixed-fill.svg';
-import fillHorzGradientIcon from '!../../tw-recolor/build!./icons/fill-horz-gradient-enabled.svg';
+import fillLinearIcon from '!../../tw-recolor/build!./icons/fill-horz-gradient-enabled.svg';
 import fillRadialIcon from '!../../tw-recolor/build!./icons/fill-radial-enabled.svg';
 import fillSolidIcon from '!../../tw-recolor/build!./icons/fill-solid-enabled.svg';
-import fillVertGradientIcon from '!../../tw-recolor/build!./icons/fill-vert-gradient-enabled.svg';
 import swapIcon from '!../../tw-recolor/build!./icons/swap.svg';
 import Modes from '../../lib/modes';
 import alphaBackground from './alpha.png';
@@ -110,19 +109,8 @@ class ColorPickerComponent extends React.Component {
                                         [styles.clickable]: true
                                     })}
                                     draggable={false}
-                                    src={fillHorzGradientIcon}
-                                    onClick={this.props.onChangeGradientTypeHorizontal}
-                                    width={20}
-                                    height={20}
-                                />
-                                <TWRenderRecoloredImage
-                                    className={classNames({
-                                        [styles.inactiveGradient]: this.props.gradientType !== GradientTypes.VERTICAL,
-                                        [styles.clickable]: true
-                                    })}
-                                    draggable={false}
-                                    src={fillVertGradientIcon}
-                                    onClick={this.props.onChangeGradientTypeVertical}
+                                    src={fillLinearIcon}
+                                    onClick={this.props.onChangeGradientTypeLinear}
                                     width={20}
                                     height={20}
                                 />
@@ -156,18 +144,18 @@ class ColorPickerComponent extends React.Component {
                                             [styles.activeSwatch]: this.props.colorIndex === 0
                                         })}
                                         style={{
-                                            backgroundColor: this.props.color === null || this.props.color === MIXED ?
-                                                'white' : this.props.color
+                                            backgroundColor: this.props.stops[0].color === null || this.props.stops[0].color === MIXED ?
+                                                'white' : this.props.stops[0].color
                                         }}
                                         onClick={this.props.onSelectColor}
                                     >
-                                        {this.props.color === null ? (
+                                        {this.props.stops[0].color === null ? (
                                             <img
                                                 className={styles.largeSwatchIcon}
                                                 draggable={false}
                                                 src={noFillIcon}
                                             />
-                                        ) : this.props.color === MIXED ? (
+                                        ) : this.props.stops[0].color === MIXED ? (
                                             <img
                                                 className={styles.largeSwatchIcon}
                                                 draggable={false}
@@ -189,18 +177,18 @@ class ColorPickerComponent extends React.Component {
                                             [styles.activeSwatch]: this.props.colorIndex === 1
                                         })}
                                         style={{
-                                            backgroundColor: this.props.color2 === null || this.props.color2 === MIXED ?
-                                                'white' : this.props.color2
+                                            backgroundColor: this.props.stops[1].color === null || this.props.stops[1].color === MIXED ?
+                                                'white' : this.props.stops[1].color
                                         }}
                                         onClick={this.props.onSelectColor2}
                                     >
-                                        {this.props.color2 === null ? (
+                                        {this.props.stops[1].color === null ? (
                                             <img
                                                 className={styles.largeSwatchIcon}
                                                 draggable={false}
                                                 src={noFillIcon}
                                             />
-                                        ) : this.props.color2 === MIXED ? (
+                                        ) : this.props.stops[1].color === MIXED ? (
                                             <img
                                                 className={styles.largeSwatchIcon}
                                                 draggable={false}
@@ -329,8 +317,8 @@ class ColorPickerComponent extends React.Component {
                                     [styles.clickable]: true,
                                     [styles.swatch]: true,
                                     [styles.activeSwatch]:
-                                        (this.props.colorIndex === 0 && this.props.color === null) ||
-                                        (this.props.colorIndex === 1 && this.props.color2 === null)
+                                        (this.props.colorIndex === 0 && this.props.stops[0].color === null) ||
+                                        (this.props.colorIndex === 1 && this.props.stops[1].color === null)
                                 })}
                                 onClick={this.props.onTransparent}
                             >
@@ -370,8 +358,6 @@ ColorPickerComponent.propTypes = {
     hexColor: PropTypes.string,
     onHexColorChange: PropTypes.func,
     brightness: PropTypes.number.isRequired,
-    color: PropTypes.string,
-    color2: PropTypes.string,
     colorIndex: PropTypes.number.isRequired,
     gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
     hue: PropTypes.number.isRequired,
@@ -380,10 +366,9 @@ ColorPickerComponent.propTypes = {
     mode: PropTypes.oneOf(Object.keys(Modes)),
     onActivateEyeDropper: PropTypes.func.isRequired,
     onBrightnessChange: PropTypes.func.isRequired,
-    onChangeGradientTypeHorizontal: PropTypes.func.isRequired,
+    onChangeGradientTypeLinear: PropTypes.func.isRequired,
     onChangeGradientTypeRadial: PropTypes.func.isRequired,
     onChangeGradientTypeSolid: PropTypes.func.isRequired,
-    onChangeGradientTypeVertical: PropTypes.func.isRequired,
     onHueChange: PropTypes.func.isRequired,
     onSaturationChange: PropTypes.func.isRequired,
     onSelectColor: PropTypes.func.isRequired,
@@ -392,7 +377,11 @@ ColorPickerComponent.propTypes = {
     onTransparent: PropTypes.func.isRequired,
     rtl: PropTypes.bool.isRequired,
     saturation: PropTypes.number.isRequired,
-    shouldShowGradientTools: PropTypes.bool.isRequired
+    shouldShowGradientTools: PropTypes.bool.isRequired,
+    stops: PropTypes.arrayOf(PropTypes.shape({
+        color: PropTypes.string,
+        offset: PropTypes.number
+    }))
 };
 
 export default injectIntl(ColorPickerComponent);
