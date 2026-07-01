@@ -69,9 +69,7 @@ const makeColorIndicator = (label, isStroke) => {
             }
             if (this.props.gradientType === GradientTypes.SOLID && gradientType !== GradientTypes.SOLID) {
                 // Generate color 2 and change to the 2nd swatch when switching from solid to gradient
-                if (!hasSelectedItems) {
-                    this.props.onChangeColor(generateSecondaryColor(this.props.stops[0].color), 1);
-                }
+                this.props.onAddOtherStop(generateSecondaryColor(this.props.stops[0].color), 0);
                 this.props.onChangeColorIndex(1);
             }
             if (this.props.onChangeGradientType) this.props.onChangeGradientType(gradientType);
@@ -125,6 +123,7 @@ const makeColorIndicator = (label, isStroke) => {
         gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
         intl: intlShape,
         isEyeDropping: PropTypes.bool.isRequired,
+        onAddOtherStop: PropTypes.func.isRequired,
         onChangeColorIndex: PropTypes.func.isRequired,
         onChangeColor: PropTypes.func.isRequired,
         onChangeGradientType: PropTypes.func,
