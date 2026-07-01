@@ -51,10 +51,9 @@ class ColorPicker extends React.Component {
         super(props);
         bindAll(this, [
             'getHsv',
-            'handleChangeGradientTypeHorizontal',
+            'handleChangeGradientTypeLinear',
             'handleChangeGradientTypeRadial',
             'handleChangeGradientTypeSolid',
-            'handleChangeGradientTypeVertical',
             'handleHueChange',
             'handleSaturationChange',
             'handleBrightnessChange',
