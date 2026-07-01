@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {defineMessages} from 'react-intl';
 
 import {changeColorIndex} from '../reducers/color-index';
-import {changeStrokeColor, changeStrokeGradientType} from '../reducers/stroke-style';
+import {addOtherStrokeStop, changeStrokeColor, changeStrokeGradientType} from '../reducers/stroke-style';
 import {changeStrokeWidth} from '../reducers/stroke-width';
 import {openStrokeColor, closeStrokeColor} from '../reducers/modals';
 import {getSelectedLeafItems} from '../helper/selection';
@@ -39,6 +39,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+    onAddOtherStop: (stopColor, index) => {
+        dispatch(addOtherStrokeStop(stopColor, index));
+    },
     onChangeColorIndex: index => {
         dispatch(changeColorIndex(index));
     },
