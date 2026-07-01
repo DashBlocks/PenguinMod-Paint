@@ -15,6 +15,8 @@ const isValidHexColor = color => {
 };
 
 const makeColorStyleReducer = ({
+    // Action name for adding the gradient stop
+    addOtherStopAction,
     // Action name for changing the color
     changeColorAction,
     // Action name for changing the gradient type
@@ -40,7 +42,37 @@ const makeColorStyleReducer = ({
         };
     }
     switch (action.type) {
+    case addOtherStopAction: {
+        if (action.index >= 0 && action.index < state.stops.length) {
+            log.warn(`Stop with index ${action.index} does not exist`);
+            return state;
+        }
+        if (!isValidHexColor(action.color)) return state;
+
+        if (state.stops.length < 2) {
+            return {
+                ...state,
+                stops: state.stops.concat({
+                    color: action.color,
+                    offset: 1
+                })
+            };
+        }
+        
+        const insertIdx = action.index < state.stops.length - 1 ? action.index + 1 : action.index;
+        return {
+            ...state,
+            stops: state.stops.toSpliced(insertIdx, 0, {
+                color: action.color,
+                offset: (state.stops[insertIdx - 1].offset + state.stops[insertIdx].offset) / 2
+            })
+        };
+    }
     case changeColorAction:
+        if (action.index >= 0 && action.index < state.stops.length) {
+            log.warn(`Stop with index ${action.index} does not exist`);
+            return state;
+        }
         if (!isValidHexColor(action.color)) return state;
         return {
             ...state,
