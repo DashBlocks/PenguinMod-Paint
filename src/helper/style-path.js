@@ -219,7 +219,7 @@ const swapStopsInSelection = function (applyToStroke, textEditTargetId) {
  * @param {?string} textEditTargetId paper.Item.id of text editing target, if any
  * @return {boolean} Whether the color application actually changed visibly.
  */
-const applyGradientTypeToSelection = function (gradientType, applyToStroke, textEditTargetId) {
+const applyGradientTypeToSelection = function (gradientType, applyToStroke, textEditTargetId, generatedSecondaryColor) {
     const items = _getColorStateListeners(textEditTargetId);
     let changed = false;
     for (let item of items) {
@@ -236,7 +236,7 @@ const applyGradientTypeToSelection = function (gradientType, applyToStroke, text
         if (!hasGradient) {
             itemStops = [new paper.GradientStop(itemColor, 0)];
         } else {
-            itemStops = itemColor.gradient.stops;
+            itemStops = [...itemColor.gradient.stops];
         }
 
         if (gradientType === GradientTypes.SOLID) {
@@ -257,6 +257,14 @@ const applyGradientTypeToSelection = function (gradientType, applyToStroke, text
                 itemColor.gradient.stops &&
                 itemColor.gradient.stops[0].color.alpha === 0);
             const addingStroke = applyToStroke && item.strokeWidth === 0;
+
+            if (itemStops.length < 2) {
+                itemStops[1] = {
+                    color: generatedSecondaryColor,
+                    offset: 1
+                };
+            }
+            
             const hasGradientNow = itemStops.length >= 2;
             if ((noColorOriginally || addingStroke) && hasGradientNow) {
                 if (applyToStroke) {
