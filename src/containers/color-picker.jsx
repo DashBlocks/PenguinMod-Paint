@@ -63,7 +63,7 @@ class ColorPicker extends React.Component {
             'handleActivateEyeDropper'
         ]);
 
-        const color = props.colorIndex === 0 ? props.color : props.color2;
+        const color = props.stops[props.colorIndex].color;
         const hsv = this.getHsv(color);
         this.state = {
             hue: hsv[0],
@@ -73,8 +73,8 @@ class ColorPicker extends React.Component {
         };
     }
     componentWillReceiveProps (newProps) {
-        const color = newProps.colorIndex === 0 ? this.props.color : this.props.color2;
-        const newColor = newProps.colorIndex === 0 ? newProps.color : newProps.color2;
+        const color = this.props.stops[newProps.colorIndex].color;
+        const newColor = newProps.stops[newProps.colorIndex].color;
         const colorSetByEyedropper = this.props.isEyeDropping && color !== newColor;
         if (colorSetByEyedropper || this.props.colorIndex !== newProps.colorIndex) {
             const hsv = this.getHsv(newColor);
