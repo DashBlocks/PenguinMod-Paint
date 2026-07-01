@@ -10,15 +10,13 @@ import styles from './color-button.css';
 import GradientTypes from '../../lib/gradient-types';
 import log from '../../log/log';
 
-const colorToBackground = (color, color2, gradientType) => {
-    if (color === MIXED || (gradientType !== GradientTypes.SOLID && color2 === MIXED)) return 'white';
-    if (color === null) color = 'white';
-    if (color2 === null) color2 = 'white';
+const stopsToBackground = (stops, gradientType) => {
+    if (stops[0].color === MIXED) return 'white';
+    if (stops[0].color === null && gradientType === GradientTypes.SOLID) return 'white';
     switch (gradientType) {
-    case GradientTypes.SOLID: return color;
-    case GradientTypes.HORIZONTAL: return `linear-gradient(to right, ${color}, ${color2})`;
-    case GradientTypes.VERTICAL: return `linear-gradient(${color}, ${color2})`;
-    case GradientTypes.RADIAL: return `radial-gradient(${color}, ${color2})`;
+    case GradientTypes.SOLID: return stops[0].color;
+    case GradientTypes.HORIZONTAL: return `linear-gradient(to right, ${stops.map((stop) => `${stop.color} ${stop.offset}`).join(', ')})`;
+    case GradientTypes.RADIAL: return `radial-gradient(${stops.map((stop) => `${stop.color} ${stop.offset}`).join(', ')})`;
     default: log.error(`Unrecognized gradient type: ${gradientType}`);
     }
 };
@@ -33,33 +31,35 @@ const ColorButtonComponent = props => (
                 [styles.outlineSwatch]: props.outline && !(props.color === MIXED)
             })}
             style={{
-                background: colorToBackground(props.color, props.color2, props.gradientType)
+                background: stopsToBackground(props.stops, props.gradientType)
             }}
         >
-            {props.color === null && (props.gradientType === GradientTypes.SOLID || props.color2 === null) ? (
+            {props.stops[0].color === null && props.gradientType === GradientTypes.SOLID ? (
                 <img
                     className={styles.swatchIcon}
                     draggable={false}
                     src={noFillIcon}
                 />
-            ) : ((props.color === MIXED || (props.gradientType !== GradientTypes.SOLID && props.color2 === MIXED) ? (
+            ) : props.stops[0].color === MIXED ? (
                 <img
                     className={styles.swatchIcon}
                     draggable={false}
                     src={mixedFillIcon}
                 />
-            ) : null))}
+            ) : null}
         </div>
         <div className={styles.colorButtonArrow}>▾</div>
     </div>
 );
 
 ColorButtonComponent.propTypes = {
-    color: PropTypes.string,
-    color2: PropTypes.string,
     gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
     onClick: PropTypes.func.isRequired,
-    outline: PropTypes.bool.isRequired
+    outline: PropTypes.bool.isRequired,
+    stops: PropTypes.arrayOf(PropTypes.shape({
+        color: PropTypes.string,
+        offset: PropTypes.number
+    }))
 };
 
 ColorButtonComponent.defaultProps = {
