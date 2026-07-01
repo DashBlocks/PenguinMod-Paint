@@ -101,19 +101,16 @@ class ColorPicker extends React.Component {
         }
     }
     handleHueChange (hue) {
-        this.ensureNonZeroAlpha();
         this.setState({hue: hue}, () => {
             this.handleColorChange();
         });
     }
     handleSaturationChange (saturation) {
-        this.ensureNonZeroAlpha();
         this.setState({saturation: saturation}, () => {
             this.handleColorChange();
         });
     }
     handleBrightnessChange (brightness) {
-        this.ensureNonZeroAlpha();
         this.setState({brightness: brightness}, () => {
             this.handleColorChange();
         });
@@ -128,11 +125,7 @@ class ColorPicker extends React.Component {
     }
     handleAlphaChange (alpha) {
         this.setState({alpha: alpha / 100}, () => {
-            if (this.state.alpha === 0) {
-                this.handleTransparent();
-            } else {
-                this.handleColorChange();
-            }
+            this.handleColorChange();
         });
     }
     handleHexColorChange (e) {
@@ -156,7 +149,7 @@ class ColorPicker extends React.Component {
         this.props.onChangeColor(color);
     }
     handleTransparent () {
-        this.props.onChangeColor(null);
+        this.props.onChangeColor('rgba(0,0,0,0)');
     }
     handleActivateEyeDropper () {
         this.props.onActivateEyeDropper(
@@ -164,7 +157,7 @@ class ColorPicker extends React.Component {
             this.props.onChangeColor
         );
     }
-    handleChangeGradientTypeHorizontal () {
+    handleChangeGradientTypeLinear () {
         this.props.onChangeGradientType(GradientTypes.HORIZONTAL);
     }
     handleChangeGradientTypeRadial () {
@@ -173,15 +166,11 @@ class ColorPicker extends React.Component {
     handleChangeGradientTypeSolid () {
         this.props.onChangeGradientType(GradientTypes.SOLID);
     }
-    handleChangeGradientTypeVertical () {
-        this.props.onChangeGradientType(GradientTypes.VERTICAL);
-    }
     render () {
         return (
             <ColorPickerComponent
                 brightness={this.state.brightness}
-                color={this.props.color}
-                color2={this.props.color2}
+                stops={this.props.stops}
                 colorIndex={this.props.colorIndex}
                 gradientType={this.props.gradientType}
                 hue={this.state.hue}
@@ -191,15 +180,14 @@ class ColorPicker extends React.Component {
                 saturation={this.state.saturation}
                 alpha={this.state.alpha * 100}
                 onAlphaChange={this.handleAlphaChange}
-                hexColor={colorToHex(this.props.colorIndex === 0 ? this.props.color : this.props.color2)}
+                hexColor={colorToHex(this.props.stops[this.props.colorIndex].color)}
                 onHexColorChange={this.handleHexColorChange}
                 shouldShowGradientTools={this.props.shouldShowGradientTools}
                 onActivateEyeDropper={this.handleActivateEyeDropper}
                 onBrightnessChange={this.handleBrightnessChange}
-                onChangeGradientTypeHorizontal={this.handleChangeGradientTypeHorizontal}
+                onChangeGradientTypeLinear={this.handleChangeGradientTypeLinear}
                 onChangeGradientTypeRadial={this.handleChangeGradientTypeRadial}
                 onChangeGradientTypeSolid={this.handleChangeGradientTypeSolid}
-                onChangeGradientTypeVertical={this.handleChangeGradientTypeVertical}
                 onHueChange={this.handleHueChange}
                 onSaturationChange={this.handleSaturationChange}
                 onSelectColor={this.props.onSelectColor}
@@ -212,8 +200,6 @@ class ColorPicker extends React.Component {
 }
 
 ColorPicker.propTypes = {
-    color: PropTypes.string,
-    color2: PropTypes.string,
     colorIndex: PropTypes.number.isRequired,
     gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
     isEyeDropping: PropTypes.bool.isRequired,
@@ -225,7 +211,11 @@ ColorPicker.propTypes = {
     onSelectColor2: PropTypes.func.isRequired,
     onSwap: PropTypes.func,
     rtl: PropTypes.bool.isRequired,
-    shouldShowGradientTools: PropTypes.bool.isRequired
+    shouldShowGradientTools: PropTypes.bool.isRequired,
+    stops: PropTypes.arrayOf(PropTypes.shape({
+        color: PropTypes.string,
+        offset: PropTypes.number
+    }))
 };
 
 const mapStateToProps = state => ({
