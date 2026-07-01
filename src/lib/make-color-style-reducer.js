@@ -110,6 +110,16 @@ const makeColorStyleReducer = ({
     }
     case changeGradientTypeAction:
         if (action.gradientType in GradientTypes) {
+            if (state.gradientType !== GradientTypes.SOLID && action.gradientType === GradientTypes.SOLID) {
+                return {
+                    ...state,
+                    stops: [{
+                        color: state.stops[0].color,
+                        offset: 0
+                    }],
+                    gradientType: action.gradientType
+                };
+            }
             return {...state, gradientType: action.gradientType};
         }
         log.warn(`Gradient type does not exist: ${action.gradientType}`);
