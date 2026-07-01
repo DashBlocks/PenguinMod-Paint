@@ -46,7 +46,7 @@ const makeColorStyleReducer = ({
             ...state,
             stops: state.stops.toSpliced(action.index, 1, {
                 color: action.color,
-                offset: state.stops[index].offset
+                offset: state.stops[action.index].offset
             })
         };
     case CHANGE_SELECTED_ITEMS: {
