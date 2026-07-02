@@ -39,11 +39,13 @@ const _getColorStateListeners = function (textEditTargetId) {
  * @param {?string} colorToMatch CSS string of other color of gradient, or null for transparent
  * @return {string} CSS string for matching color of transparent
  */
+/*
 const getColorStringForTransparent = function (colorToMatch) {
     const color = new paper.Color(colorToMatch);
     color.alpha = 0;
     return color.toCSS();
 };
+*/
 
 /**
  * Generate a color that contrasts well with the passed-in color.
@@ -76,8 +78,7 @@ const generateSecondaryColor = function (firstColor) {
 
 /**
  * Convert params to a paper.Color gradient object
- * @param {?string} color1 CSS string, or null for transparent
- * @param {?string} color2 CSS string, or null for transparent
+ * @param {paper.GradientStop[]} stops List of gradient stops or one stop-like item represents solid color
  * @param {GradientType} gradientType gradient type
  * @param {paper.Rectangle} bounds Bounds of the object
  * @param {?paper.Point} [radialCenter] Where the center of a radial gradient should be, if the gradient is radial.
@@ -217,6 +218,7 @@ const swapStopsInSelection = function (applyToStroke, textEditTargetId) {
  * @param {GradientType} gradientType gradient type
  * @param {?boolean} applyToStroke True if changing the selection's stroke, false if changing its fill.
  * @param {?string} textEditTargetId paper.Item.id of text editing target, if any
+ * @param {?string} generatedSecondaryColor Generated color CSS string for gradient
  * @return {boolean} Whether the color application actually changed visibly.
  */
 const applyGradientTypeToSelection = function (gradientType, applyToStroke, textEditTargetId, generatedSecondaryColor) {
@@ -362,7 +364,6 @@ const _colorStateFromGradient = gradient => {
  * @param {!Array<paper.Item>} selectedItems Selected paper items
  * @param {?boolean} bitmapMode True if the item is being selected in bitmap mode
  * @return {?object} Object of strokeColor, strokeWidth, fillColor, thickness of the selection.
- *     Gives MIXED when there are mixed values for a color, and null for transparent.
  *     Gives null when there are mixed values for stroke width.
  *     Thickness is line thickness, used in the bitmap editor
  */
