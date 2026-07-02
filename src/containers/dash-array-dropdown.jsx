@@ -7,12 +7,13 @@ import React from 'react';
 import DashArrayDropdownComponent from '../components/dash-array-dropdown/dash-array-dropdown.jsx';
 import {addValue, changeValue, deleteValue} from '../reducers/dash-array';
 import {getSelectedLeafItems} from '../helper/selection';
+import Formats from '../lib/format';
 
 class DashArrayDropdown extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
-            'handleOpenDropdown',
+            'applyDashArrayToSelection',
             'handleClickOutsideDropdown',
             'setDropdown',
             'handleAdd',
@@ -21,40 +22,9 @@ class DashArrayDropdown extends React.Component {
             'handleChoose'
         ]);
     }
-    handleChoose () {
-        if (this.dropDown.isOpen()) {
-            this.dropDown.handleClosePopover();
-            this.props.onUpdateImage();
-        }
-    }
-    handleOpenDropdown () {
-        this.savedSelection = getSelectedLeafItems();
-        this.dashArray = this.props.dashArray;
-    }
-    handleClickOutsideDropdown (e) {
-        e.stopPropagation();
-        this.dropDown.handleClosePopover();
-        this.props.onUpdateImage();
-        this.dashArray = [];
-        this.savedSelection = null;
-    }
-    setDropdown (element) {
-        this.dropDown = element;
-    }
-    /*getDashArray (selectedItems) {
-        if (selectedItems.length === 0) {
-            return [];
-        }
-        const firstStyle = selectedItems[0].getStyle().getDashArray();
-        for (const item of selectedItems) {
-            if (item.getStyle().getDashArray().join(' ') !== firstStyle.join(' ')) {
-                return [];
-            }
-        }
-        return firstStyle;
-    }
-    handleDashArray (selectedItems, value) {
+    applyDashArrayToSelection (selectedItems, value) {
         let changed;
+        
         for (const item of selectedItems) {
             const styles = item.getStyle();
             if (styles.getDashArray().join(' ') !== value.join(' ')) {
@@ -66,21 +36,54 @@ class DashArrayDropdown extends React.Component {
             this.props.setSelectedItems(this.props.format);
             this.props.onUpdateImage();
         }
-        this.forceUpdate();
-    }*/
+    }
+    handleChoose () {
+        if (this.dropDown.isOpen()) {
+            this.dropDown.handleClosePopover();
+            this.props.onUpdateImage();
+        }
+    }
+    handleClickOutsideDropdown (e) {
+        e.stopPropagation();
+        this.dropDown.handleClosePopover();
+        this.props.onUpdateImage();
+    }
+    setDropdown (element) {
+        this.dropDown = element;
+    }
     handleAdd () {
         if (this.dropDown.isOpen()) {
-            this.props.addValue();
+            const selectedItems = getSelectedLeafItems();
+            if (selectedItems.length) {
+                this.applyDashArrayToSelection(selectedItems, this.props.dashArray.concat(0));
+            } else {
+                this.props.addValue();
+            }
         }
     }
     handleChange (index, value) {
         if (this.dropDown.isOpen()) {
-            this.props.changeValue(index, value);
+            const selectedItems = getSelectedLeafItems();
+            if (selectedItems.length) {
+                index = Math.max(0, Math.min(this.props.dashArray.length - 1, index));
+                this.applyDashArrayToSelection(
+                    selectedItems,
+                    this.props.dashArray.toSpliced(index, 1, Math.max(0, Number(value)))
+                );
+            } else {
+                this.props.changeValue(index, value);
+            }
         }
     }
     handleDelete (index) {
         if (this.dropDown.isOpen()) {
-            this.props.deleteValue(index);
+            const selectedItems = getSelectedLeafItems();
+            if (selectedItems.length) {
+                index = Math.max(0, Math.min(this.props.dashArray.length - 1, index));
+                this.applyDashArrayToSelection(selectedItems, this.props.dashArray.toSpliced(index, 1));
+            } else {
+                this.props.deleteValue(index);
+            }
         }
     }
     render () {
@@ -91,9 +94,9 @@ class DashArrayDropdown extends React.Component {
                 onChoose={this.handleChoose}
                 onClickOutsideDropdown={this.handleClickOutsideDropdown}
                 onOpenDropdown={this.handleOpenDropdown}
-                handleAdd={this.handleAdd}
-                handleChange={this.handleChange}
-                handleDelete={this.handleDelete}
+                onAdd={this.handleAdd}
+                onChange={this.handleChange}
+                onDelete={this.handleDelete}
             />
         );
     }
@@ -104,6 +107,7 @@ DashArrayDropdown.propTypes = {
     changeValue: PropTypes.func.isRequired,
     deleteValue: PropTypes.func.isRequired,
     dashArray: PropTypes.arrayOf(PropTypes.number),
+    format: PropTypes.oneOf(Object.keys(Formats)),
     onUpdateImage: PropTypes.func.isRequired
 };
 
