@@ -149,7 +149,7 @@ const applyColorToSelection = function (
     const items = _getColorStateListeners(textEditTargetId);
     let changed = false;
     for (let item of items) {
-        if (item.parent instanceof paper.CompoundPath) {
+        if (isCompoundPathChild(item)) {
             item = item.parent;
         }
 
@@ -170,6 +170,11 @@ const applyColorToSelection = function (
             }
         } else if (!_colorMatch(itemColor.gradient.stops[colorIndex].color, colorString)) {
             // Changing one color of an existing gradient
+            if (colorIndex < 0 || colorIndex >= itemColor.gradient.stops.length) {
+                // Gradient stop does not exist; skip
+                continue;
+            }
+            
             changed = true;
             // There seems to be a bug where setting colors on stops doesn't always update the view, so set gradient.
             itemColor.gradient = {
@@ -205,8 +210,13 @@ const swapStopsInSelection = function (applyToStroke, textEditTargetId) {
             continue;
         } else {
             changed = true;
+            const itemColors = itemColor.gradient.stops.map((stop) => stop.color).toReversed();
+            const itemOffsets = itemColor.gradient.stops.map((stop) => stop.offset);
             // There seems to be a bug where setting colors on stops doesn't always update the view, so set gradient.
-            itemColor.gradient = {stops: itemColor.gradient.stops.toReversed(), radial: itemColor.gradient.radial};
+            itemColor.gradient = {
+                stops: itemColors.map((color, i) => new paper.GradientStop(color, itemOffsets[i])),
+                radial: itemColor.gradient.radial
+            };
         }
     }
     return changed;
@@ -214,6 +224,8 @@ const swapStopsInSelection = function (applyToStroke, textEditTargetId) {
 
 /**
  * Called to add other gradient stop
+ * @param {?string} colorString color, css format, or null if completely transparent
+ * @param {number} stopIndex Index of gradient stop
  * @param {?boolean} applyToStroke True if changing the selection's stroke, false if changing its fill.
  * @param {?string} textEditTargetId paper.Item.id of text editing target, if any
  * @return {boolean} Whether the stop adding application actually changed visibly.
@@ -242,6 +254,78 @@ const addOtherStopInSelection = function (colorString, stopIndex, applyToStroke,
             
             // There seems to be a bug where setting colors on stops doesn't always update the view, so set gradient.
             itemColor.gradient = {stops: itemStops, radial: itemColor.gradient.radial};
+        }
+    }
+    return changed;
+};
+
+/**
+ * Called to move gradient stop
+ * @param {number} offset value between 0 and 1
+ * @param {number} stopIndex Index of gradient stop
+ * @param {?boolean} applyToStroke True if changing the selection's stroke, false if changing its fill.
+ * @param {?string} textEditTargetId paper.Item.id of text editing target, if any
+ * @return {boolean} Whether the stop moving application actually changed visibly.
+ */
+const moveStopInSelection = function (offset, stopIndex, applyToStroke, textEditTargetId) {
+    const items = _getColorStateListeners(textEditTargetId);
+    let changed = false;
+    for (const item of items) {
+        if (isCompoundPathChild(item)) continue;
+
+        const itemColor = applyToStroke ? item.strokeColor : item.fillColor;
+        if (!itemColor || !itemColor.gradient || itemColor.gradient.stops.length < 2) {
+            // Only one color; can not be moved
+            continue;
+        } else {
+            if (stopIndex < 0 || stopIndex >= itemColor.gradient.stops.length) {
+                // Gradient stop does not exist; skip
+                continue;
+            }
+
+            changed = true;
+            // There seems to be a bug where setting colors on stops doesn't always update the view, so set gradient.
+            itemColor.gradient = {
+                stops: itemColor.gradient.stops.toSpliced(stopIndex, 1, new paper.GradientStop(
+                    itemColor.gradient.stops[stopIndex].color,
+                    offset
+                )),
+                radial: itemColor.gradient.radial
+            };
+        }
+    }
+    return changed;
+};
+
+/**
+ * Called to remove gradient stop
+ * @param {number} stopIndex Index of gradient stop
+ * @param {?boolean} applyToStroke True if changing the selection's stroke, false if changing its fill.
+ * @param {?string} textEditTargetId paper.Item.id of text editing target, if any
+ * @return {boolean} Whether the stop removing application actually changed visibly.
+ */
+const removeStopInSelection = function (stopIndex, applyToStroke, textEditTargetId) {
+    const items = _getColorStateListeners(textEditTargetId);
+    let changed = false;
+    for (const item of items) {
+        if (isCompoundPathChild(item)) continue;
+
+        const itemColor = applyToStroke ? item.strokeColor : item.fillColor;
+        if (!itemColor || !itemColor.gradient || itemColor.gradient.stops.length <= 2) {
+            // Only two colors; nothing to remove
+            continue;
+        } else {
+            if (stopIndex < 0 || stopIndex >= itemColor.gradient.stops.length) {
+                // Gradient stop does not exist; skip
+                continue;
+            }
+
+            changed = true;
+            // There seems to be a bug where setting colors on stops doesn't always update the view, so set gradient.
+            itemColor.gradient = {
+                stops: itemColor.gradient.stops.toSpliced(stopIndex, 1),
+                radial: itemColor.gradient.radial
+            };
         }
     }
     return changed;
@@ -351,7 +435,7 @@ const applyStrokeWidthToSelection = function (value, textEditTargetId) {
     let changed = false;
     const items = _getColorStateListeners(textEditTargetId);
     for (let item of items) {
-        if (item.parent instanceof paper.CompoundPath) {
+        if (isCompoundPathChild(item)) {
             item = item.parent;
         }
         if (isGroup(item)) {
@@ -409,7 +493,7 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
     let firstChild = true;
 
     for (let item of selectedItems) {
-        if (item.parent instanceof paper.CompoundPath) {
+        if (isCompoundPathChild(item)) {
             // Compound path children inherit fill and stroke color from their parent.
             item = item.parent;
         }
@@ -576,6 +660,8 @@ export {
     getColorsFromSelection,
     generateSecondaryColor,
     MIXED,
+    moveStopInSelection,
+    removeStopInSelection,
     styleBlob,
     styleShape,
     stylePath,
