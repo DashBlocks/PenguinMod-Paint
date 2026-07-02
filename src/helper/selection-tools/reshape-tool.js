@@ -216,21 +216,6 @@ class ReshapeTool extends paper.Tool {
         }
         return hitResult;
     }
-    setDashArray(dashArray) {
-        let changed;
-        const selected = getSelectedLeafItems();
-        for (const item of selected) {
-            const styles = item.getStyle();
-            if (styles.getDashArray().join(' ') !== dashArray.join(' ')) {
-                styles.setDashArray(dashArray);
-                changed = true;
-            }
-        }
-        if (changed) {
-            this.setSelectedItems();
-            this.onUpdateImage();
-        }
-    }
     handleMouseDown(event) {
         if (event.event.button > 0) return; // only first mouse button
         this.active = true;
