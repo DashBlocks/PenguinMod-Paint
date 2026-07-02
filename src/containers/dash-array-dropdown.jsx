@@ -6,8 +6,9 @@ import React from 'react';
 
 import DashArrayDropdownComponent from '../components/dash-array-dropdown/dash-array-dropdown.jsx';
 import {addValue, changeValue, deleteValue} from '../reducers/dash-array';
+import {setSelectedItems} from '../reducers/selected-items';
 import {getSelectedLeafItems} from '../helper/selection';
-import Formats from '../lib/format';
+import Formats, {isBitmap} from '../lib/format';
 
 class DashArrayDropdown extends React.Component {
     constructor (props) {
