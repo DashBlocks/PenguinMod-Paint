@@ -108,7 +108,8 @@ DashArrayDropdown.propTypes = {
     deleteValue: PropTypes.func.isRequired,
     dashArray: PropTypes.arrayOf(PropTypes.number),
     format: PropTypes.oneOf(Object.keys(Formats)),
-    onUpdateImage: PropTypes.func.isRequired
+    onUpdateImage: PropTypes.func.isRequired,
+    setSelectedItems: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -123,6 +124,9 @@ const mapDispatchToProps = dispatch => ({
     },
     deleteValue: index => {
         dispatch(deleteValue(index));
+    },
+    setSelectedItems: format => {
+        dispatch(setSelectedItems(getSelectedLeafItems(), isBitmap(format)));
     }
 });
 
