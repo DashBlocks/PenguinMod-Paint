@@ -15,8 +15,8 @@ const stopsToBackground = (stops, gradientType) => {
     if (stops[0].color === null && gradientType === GradientTypes.SOLID) return 'white';
     switch (gradientType) {
     case GradientTypes.SOLID: return stops[0].color;
-    case GradientTypes.HORIZONTAL: return `linear-gradient(to right, ${stops.map((stop) => `${stop.color} ${stop.offset}`).join(', ')})`;
-    case GradientTypes.RADIAL: return `radial-gradient(${stops.map((stop) => `${stop.color} ${stop.offset}`).join(', ')})`;
+    case GradientTypes.HORIZONTAL: return `linear-gradient(to right, ${stops.map((stop) => `${stop.color} ${stop.offset * 100}%`).join(',')})`;
+    case GradientTypes.RADIAL: return `radial-gradient(${stops.map((stop) => `${stop.color} ${stop.offset * 100}%`).join(',')})`;
     default: log.error(`Unrecognized gradient type: ${gradientType}`);
     }
 };
