@@ -204,10 +204,44 @@ const swapStopsInSelection = function (applyToStroke, textEditTargetId) {
             // Only one color; nothing to swap
             continue;
         } else {
-            // Changing one color of an existing gradient
             changed = true;
             // There seems to be a bug where setting colors on stops doesn't always update the view, so set gradient.
             itemColor.gradient = {stops: itemColor.gradient.stops.toReversed(), radial: itemColor.gradient.radial};
+        }
+    }
+    return changed;
+};
+
+/**
+ * Called to add other gradient stop
+ * @param {?boolean} applyToStroke True if changing the selection's stroke, false if changing its fill.
+ * @param {?string} textEditTargetId paper.Item.id of text editing target, if any
+ * @return {boolean} Whether the stop adding application actually changed visibly.
+ */
+const addOtherStopInSelection = function (colorString, stopIndex, applyToStroke, textEditTargetId) {
+    const items = _getColorStateListeners(textEditTargetId);
+    let changed = false;
+    for (const item of items) {
+        if (isCompoundPathChild(item)) continue;
+
+        const itemColor = applyToStroke ? item.strokeColor : item.fillColor;
+        if (!itemColor || !itemColor.gradient || itemColor.gradient.stops.length < 2) {
+            // Only one color; skip
+            continue;
+        } else {
+            const itemStops = [...itemColor.gradient.stops];
+            if (stopIndex < 0 || stopIndex >= itemStops.length) {
+                // Gradient stop does not exist; skip
+                continue;
+            }
+
+            changed = true;
+            const insertIdx = stopIndex < itemStops.length - 1 ? stopIndex + 1 : stopIndex;
+            const middleOffset = (itemStops[insertIdx - 1].offset + itemStops[insertIdx].offset) / 2;
+            itemStops.splice(insertIdx, 0, new paper.GradientStop(colorString, middleOffset));
+            
+            // There seems to be a bug where setting colors on stops doesn't always update the view, so set gradient.
+            itemColor.gradient = {stops: itemStops, radial: itemColor.gradient.radial};
         }
     }
     return changed;
@@ -225,7 +259,7 @@ const applyGradientTypeToSelection = function (gradientType, applyToStroke, text
     const items = _getColorStateListeners(textEditTargetId);
     let changed = false;
     for (let item of items) {
-        if (item.parent instanceof paper.CompoundPath) {
+        if (isCompoundPathChild(item)) {
             item = item.parent;
         }
 
@@ -261,10 +295,7 @@ const applyGradientTypeToSelection = function (gradientType, applyToStroke, text
             const addingStroke = applyToStroke && item.strokeWidth === 0;
 
             if (itemStops.length < 2) {
-                itemStops[1] = {
-                    color: generatedSecondaryColor,
-                    offset: 1
-                };
+                itemStops[1] = new paper.GradientStop(generatedSecondaryColor, 1);
             }
             
             const hasGradientNow = itemStops.length >= 2;
@@ -535,6 +566,7 @@ const styleShape = function (path, options) {
 };
 
 export {
+    addOtherStopInSelection,
     applyColorToSelection,
     applyGradientTypeToSelection,
     applyStrokeWidthToSelection,
