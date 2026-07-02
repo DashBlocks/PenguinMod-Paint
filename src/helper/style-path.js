@@ -479,6 +479,7 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
                 }
             }
             if (itemFillColorString !== selectionFillColorString) {
+                selectionFillGradientType = GradientTypes.SOLID;
                 selectionFillColorString = MIXED;
             }
             if (itemFillGradientType !== selectionFillGradientType) {
@@ -490,6 +491,7 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
                 selectionStrokeColorString = MIXED;
             }
             if (itemStrokeColorString !== selectionStrokeColorString) {
+                selectionStrokeGradientType = GradientTypes.SOLID;
                 selectionStrokeColorString = MIXED;
             }
             const itemStrokeWidth = item.strokeWidth;
