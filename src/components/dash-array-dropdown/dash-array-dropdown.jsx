@@ -29,11 +29,11 @@ const ModeToolsComponent = props => (
                                 max="1000"
                                 type="number"
                                 value={item}
-                                onSubmit={value => props.handleChange(index, value)}
+                                onSubmit={value => props.onChange(index, value)}
                             />
                             <div
                                 className={styles.button}
-                                onClick={() => props.handleDelete(index)}
+                                onClick={() => props.onDelete(index)}
                             >
                                 <TWRenderRecoloredImage
                                     draggable={false}
@@ -46,7 +46,7 @@ const ModeToolsComponent = props => (
                 <div className={styles.row}>
                     <div
                         className={styles.button}
-                        onClick={props.handleAdd}
+                        onClick={props.onAdd}
                     >
                         <TWRenderRecoloredImage
                             draggable={false}
@@ -58,7 +58,6 @@ const ModeToolsComponent = props => (
         }
         ref={props.componentRef}
         tipSize={.01}
-        onOpen={props.onOpenDropdown}
         onOuterAction={props.onClickOutsideDropdown}
     >
         <svg
@@ -81,10 +80,9 @@ ModeToolsComponent.propTypes = {
     componentRef: PropTypes.func.isRequired,
     dashArray: PropTypes.arrayOf(PropTypes.number),
     onClickOutsideDropdown: PropTypes.func,
-    onOpenDropdown: PropTypes.func,
-    handleAdd: PropTypes.func.isRequired,
-    handleChange: PropTypes.func.isRequired,
-    handleDelete: PropTypes.func.isRequired
+    onAdd: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired
 };
 ModeToolsComponent.defaultProps = {
     dashArray: []
