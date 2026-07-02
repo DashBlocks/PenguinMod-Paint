@@ -97,10 +97,10 @@ const makeColorStyleReducer = ({
             if (Array.isArray(colors[selectionColorKey])) {
                 newState.stops = colors[selectionColorKey];
             } else {
-                newState.stops[0] = {
+                newState.stops = [{
                     color: colors[selectionColorKey],
                     offset: 0
-                };
+                }];
             }
         }
         if (selectionGradientTypeKey in colors) {
