@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import bindAll from 'lodash.bindall';
 import Modes from '../lib/modes';
 
-import {setDashArray} from '../reducers/dash-array';
 import {changeMode} from '../reducers/modes';
 import {clearHoveredItem, setHoveredItem} from '../reducers/hover';
 import {clearSelectedItems, setSelectedItems} from '../reducers/selected-items';
@@ -31,9 +30,6 @@ class ReshapeMode extends React.Component {
             if (nextProps.hoveredItemId !== this.props.hoveredItemId) {
                 this.tool.setPrevHoveredItemId(nextProps.hoveredItemId);
             }
-            if (nextProps.dashArray !== this.props.dashArray) {
-                this.tool.setDashArray(nextProps.dashArray);
-            }
         }
 
         if (nextProps.isReshapeModeActive && !this.props.isReshapeModeActive) {
@@ -51,10 +47,6 @@ class ReshapeMode extends React.Component {
         }
     }
     activateTool () {
-        if (!this.props.dashArray) {
-            this.props.setDashArray([]);
-        }
-
         this.tool = new ReshapeTool(
             this.props.setHoveredItem,
             this.props.clearHoveredItem,
@@ -64,7 +56,6 @@ class ReshapeMode extends React.Component {
             this.props.switchToTextTool
         );
         this.tool.setPrevHoveredItemId(this.props.hoveredItemId);
-        this.tool.setDashArray(this.props.dashArray);
         this.tool.activate();
     }
     deactivateTool () {
@@ -89,7 +80,6 @@ ReshapeMode.propTypes = {
     clearSelectedItems: PropTypes.func.isRequired,
     handleMouseDown: PropTypes.func.isRequired,
     hoveredItemId: PropTypes.number,
-    dashArray: PropTypes.arrayOf(PropTypes.number),
     isReshapeModeActive: PropTypes.bool.isRequired,
     onUpdateImage: PropTypes.func.isRequired,
     setHoveredItem: PropTypes.func.isRequired,
@@ -98,14 +88,10 @@ ReshapeMode.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    dashArray: state.scratchPaint.dashArray,
     isReshapeModeActive: state.scratchPaint.mode === Modes.RESHAPE,
     hoveredItemId: state.scratchPaint.hoveredItemId
 });
 const mapDispatchToProps = dispatch => ({
-    setDashArray: dashArray => {
-        dispatch(setDashArray(dashArray));
-    },
     setHoveredItem: hoveredItemId => {
         dispatch(setHoveredItem(hoveredItemId));
     },
