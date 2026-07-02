@@ -1,4 +1,5 @@
 import log from '../log/log';
+import {CHANGE_SELECTED_ITEMS} from './selected-items';
 
 const SET_DASH_ARRAY = 'scratch-paint/dash-array/SET_DASH_ARRAY';
 const ADD_VALUE = 'scratch-paint/dash-array/ADD_VALUE';
@@ -19,6 +20,32 @@ const reducer = function (state, action) {
         case ADD_VALUE: {
             return state.concat(0);
         }
+        case CHANGE_SELECTED_ITEMS: {
+            // Don't change state if no selection, or bitmap mode
+            if (action.bitmapMode || !action.selectedItems || !action.selectedItems.length) {
+                return state;
+            }
+
+            let selectionDashArray;
+            let firstChild = true;
+
+            for (let item of action.selectedItems) {
+                let itemDashArray;
+                
+                if (item.getStyle().getDashArray()) {
+                    itemDashArray = item.getStyle().getDashArray();
+                }
+                // Check every style against the first of the items
+                if (firstChild) {
+                    firstChild = false;
+                    selectionDashArray = itemDashArray;
+                }
+                if (itemDashArray.join(' ') !== selectionDashArray.join(' ')) {
+                    selectionDashArray = [];
+                }
+            }
+            return selectionDashArray;
+        }
         case CHANGE_VALUE: {
             if (isNaN(action.index)) {
                 log.warn(`Invalid index: ${action.index}`);
@@ -29,9 +56,7 @@ const reducer = function (state, action) {
                 return state;
             }
             const index = Math.max(0, Math.min(state.length - 1, action.index));
-            const next = state.slice();
-            next[index] = Math.max(0, Number(action.value));
-            return next;
+            return state.toSpliced(index, 1, Math.max(0, Number(action.value)));
         }
         case DELETE_VALUE: {
             if (isNaN(action.index)) {
@@ -39,7 +64,7 @@ const reducer = function (state, action) {
                 return state;
             }
             const idx = Math.max(0, Math.min(state.length - 1, action.index));
-            return state.slice(0, idx).concat(state.slice(idx + 1));
+            return state.toSpliced(idx, 1);
         }
         default:
             return state;
