@@ -25,6 +25,10 @@ const makeColorStyleReducer = ({
     clearGradientAction,
     // Initial color when not set
     defaultColor,
+    // Action name for moving the gradient stop
+    moveStopAction,
+    // Action name for removing the gradient stop
+    removeStopAction,
     // The name of the property read from getColorsFromSelection to get the color.
     // e.g. `fillColor` or `strokeColor`.
     selectionColorKey,
@@ -133,6 +137,37 @@ const makeColorStyleReducer = ({
             }],
             gradientType: GradientTypes.SOLID
         };
+    case moveStopAction: {
+        if (action.index < 0 || action.index >= state.stops.length) {
+            log.warn(`Stop with index ${action.index} does not exist`);
+            return state;
+        }
+        if (state.stops.length < 2) {
+            log.warn(`Solid color can not be moved`);
+            return state;
+        }
+        return {
+            ...state,
+            stops: state.stops.toSpliced(action.index, 1, {
+                color: state.stops[action.index].color,
+                offset: action.offset
+            })
+        };
+    }
+    case removeStopAction: {
+        if (action.index < 0 || action.index >= state.stops.length) {
+            log.warn(`Stop with index ${action.index} does not exist`);
+            return state;
+        }
+        if (state.stops.length <= 2) {
+            log.warn(`Two or less stops; can not remove stop`);
+            return state;
+        }
+        return {
+            ...state,
+            stops: state.stops.toSpliced(action.index, 1)
+        };
+    }
     default:
         return state;
     }
