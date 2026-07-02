@@ -148,7 +148,7 @@ class ColorPicker extends React.Component {
         this.props.onChangeColor(color);
     }
     handleTransparent () {
-        this.props.onChangeColor('rgba(0,0,0,0)');
+        this.props.onChangeColor('#00000000');
     }
     handleActivateEyeDropper () {
         this.props.onActivateEyeDropper(
