@@ -9,7 +9,8 @@ import Formats, {isBitmap} from '../lib/format';
 import GradientTypes from '../lib/gradient-types';
 
 import ColorIndicatorComponent from '../components/color-indicator.jsx';
-import {applyColorToSelection,
+import {addOtherStopInSelection,
+    applyColorToSelection,
     applyGradientTypeToSelection,
     applyStrokeWidthToSelection,
     generateSecondaryColor,
@@ -21,6 +22,7 @@ const makeColorIndicator = (label, isStroke) => {
         constructor (props) {
             super(props);
             bindAll(this, [
+                'handleAddOtherStop',
                 'handleChangeColor',
                 'handleChangeGradientType',
                 'handleCloseColor',
@@ -36,6 +38,20 @@ const makeColorIndicator = (label, isStroke) => {
                 // Submit the new SVG, which also stores a single undo/redo action.
                 if (this._hasChanged) onUpdateImage();
                 this._hasChanged = false;
+            }
+        }
+        handleAddOtherStop (stopColor) {
+            if (getSelectedLeafItems().length) {
+                const formatIsBitmap = isBitmap(this.props.format);
+                const isDifferent = addOtherStopInSelection(
+                    stopColor,
+                    this.props.colorIndex,
+                    isStroke || (formatIsBitmap && !this.props.fillBitmapShapes),
+                    this.props.textEditTarget);
+                this.props.setSelectedItems(this.props.format);
+                this._hasChanged = this._hasChanged || isDifferent;
+            } else {
+                this.props.onAddOtherStop(stopColor, this.props.colorIndex);
             }
         }
         handleChangeColor (newColor) {
@@ -107,6 +123,7 @@ const makeColorIndicator = (label, isStroke) => {
                     {...this.props}
                     label={this.props.intl.formatMessage(label)}
                     outline={isStroke}
+                    onAddOtherStop={this.handleAddOtherStop}
                     onChangeColor={this.handleChangeColor}
                     onChangeGradientType={this.handleChangeGradientType}
                     onCloseColor={this.handleCloseColor}
