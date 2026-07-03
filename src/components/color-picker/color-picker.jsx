@@ -17,6 +17,8 @@ import mixedFillIcon from '../color-button/mixed-fill.svg';
 import fillLinearIcon from '!../../tw-recolor/build!./icons/fill-horz-gradient-enabled.svg';
 import fillRadialIcon from '!../../tw-recolor/build!./icons/fill-radial-enabled.svg';
 import fillSolidIcon from '!../../tw-recolor/build!./icons/fill-solid-enabled.svg';
+import addIcon from '!../../tw-recolor/build!./icons/add.svg';
+import deleteIcon from '!../../tw-recolor/build!./icons/delete.svg';
 import swapIcon from '!../../tw-recolor/build!./icons/swap.svg';
 import Modes from '../../lib/modes';
 import alphaBackground from './alpha.png';
@@ -34,9 +36,19 @@ const hsvToHex = (h, s, v) =>
 ;
 
 const messages = defineMessages({
+    add: {
+        defaultMessage: 'Add',
+        description: 'Label for button that adds gradient stop',
+        id: 'dash.paint.colorPicker.add'
+    },
+    delete: {
+        defaultMessage: 'Delete',
+        description: 'Label for the delete button',
+        id: 'paint.modeTools.delete'
+    },
     swap: {
         defaultMessage: 'Swap',
-        description: 'Label for button that swaps the two colors in a gradient',
+        description: 'Label for button that swaps the colors in a gradient',
         id: 'paint.colorPicker.swap'
     }
 });
@@ -87,7 +99,7 @@ class ColorPickerComponent extends React.Component {
                 className={styles.colorPickerContainer}
                 dir={this.props.rtl ? 'rtl' : 'ltr'}
             >
-                {this.props.shouldShowGradientTools ? (
+                {this.props.shouldShowGradientTools && (
                     <div>
                         <div className={styles.row}>
                             <div className={styles.gradientPickerRow}>
@@ -128,79 +140,62 @@ class ColorPickerComponent extends React.Component {
                             </div>
                         </div>
                         <div className={styles.divider} />
-                        {this.props.gradientType === GradientTypes.SOLID ? null : (
+                        {this.props.gradientType !== GradientTypes.SOLID && (
                             <div className={styles.row}>
-                                <div
-                                    className={classNames(
-                                        styles.gradientPickerRow,
-                                        styles.gradientSwatchesRow
-                                    )}
-                                >
-                                    <div
-                                        className={classNames({
-                                            [styles.clickable]: true,
-                                            [styles.swatch]: true,
-                                            [styles.largeSwatch]: true,
-                                            [styles.activeSwatch]: this.props.colorIndex === 0
-                                        })}
-                                        style={{
-                                            backgroundColor: this.props.stops[0].color === null || this.props.stops[0].color === MIXED ?
-                                                'white' : this.props.stops[0].color
-                                        }}
-                                        onClick={this.props.onSelectColor}
-                                    >
-                                        {this.props.stops[0].color === null ? (
-                                            <img
-                                                className={styles.largeSwatchIcon}
-                                                draggable={false}
-                                                src={noFillIcon}
-                                            />
-                                        ) : this.props.stops[0].color === MIXED ? (
-                                            <img
-                                                className={styles.largeSwatchIcon}
-                                                draggable={false}
-                                                src={mixedFillIcon}
-                                            />
-                                        ) : null}
-                                    </div>
+                                <div className={styles.gradientPickerRow}>
                                     <LabeledIconButton
-                                        className={styles.swapButton}
+                                        imgSrc={addIcon}
+                                        title={this.props.intl.formatMessage(messages.add)}
+                                        onClick={this.props.onAddOtherStop}
+                                    />
+                                    <LabeledIconButton
+                                        imgSrc={deleteIcon}
+                                        title={this.props.intl.formatMessage(messages.remove)}
+                                        onClick={this.props.onRemoveStop}
+                                    />
+                                    <LabeledIconButton
                                         imgSrc={swapIcon}
                                         title={this.props.intl.formatMessage(messages.swap)}
                                         onClick={this.props.onSwap}
                                     />
-                                    <div
-                                        className={classNames({
-                                            [styles.clickable]: true,
-                                            [styles.swatch]: true,
-                                            [styles.largeSwatch]: true,
-                                            [styles.activeSwatch]: this.props.colorIndex === 1
-                                        })}
-                                        style={{
-                                            backgroundColor: this.props.stops[1].color === null || this.props.stops[1].color === MIXED ?
-                                                'white' : this.props.stops[1].color
-                                        }}
-                                        onClick={this.props.onSelectColor2}
-                                    >
-                                        {this.props.stops[1].color === null ? (
-                                            <img
-                                                className={styles.largeSwatchIcon}
-                                                draggable={false}
-                                                src={noFillIcon}
-                                            />
-                                        ) : this.props.stops[1].color === MIXED ? (
-                                            <img
-                                                className={styles.largeSwatchIcon}
-                                                draggable={false}
-                                                src={mixedFillIcon}
-                                            />
-                                        ) : null}
-                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.divider} />
+                            <div className={styles.row}>
+                                <div className={styles.gradientPickerRow}>
+                                    {/* TODO: Make GradientWithDragables for this */}
+                                    {this.props.stops.map((stop, index) => (
+                                        <div
+                                            key={index}
+                                            className={classNames(styles.clickable, styles.swatch, styles.largeSwatch, {
+                                                [styles.activeSwatch]: this.props.colorIndex === index
+                                            })}
+                                            style={{
+                                                backgroundColor: stop.color === null || stop.color === MIXED ?
+                                                    'white' : stop.color
+                                            }}
+                                            onClick={this.props.onSelectColor}
+                                        >
+                                            {stop.color === null ? (
+                                                <img
+                                                    className={styles.largeSwatchIcon}
+                                                    draggable={false}
+                                                    src={noFillIcon}
+                                                />
+                                            ) : stop.color === MIXED ? (
+                                                <img
+                                                    className={styles.largeSwatchIcon}
+                                                    draggable={false}
+                                                    src={mixedFillIcon}
+                                                />
+                                            ) : null}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         )}
                     </div>
-                ) : null}
+                )}
                 <div className={styles.row}>
                     <div className={styles.rowHeader}>
                         <span className={styles.labelName}>
@@ -365,14 +360,16 @@ ColorPickerComponent.propTypes = {
     isEyeDropping: PropTypes.bool.isRequired,
     mode: PropTypes.oneOf(Object.keys(Modes)),
     onActivateEyeDropper: PropTypes.func.isRequired,
+    onAddOtherStop: PropTypes.func,
     onBrightnessChange: PropTypes.func.isRequired,
     onChangeGradientTypeLinear: PropTypes.func.isRequired,
     onChangeGradientTypeRadial: PropTypes.func.isRequired,
     onChangeGradientTypeSolid: PropTypes.func.isRequired,
     onHueChange: PropTypes.func.isRequired,
+    onMoveStop: PropTypes.func,
+    onRemoveStop: PropTypes.func,
     onSaturationChange: PropTypes.func.isRequired,
     onSelectColor: PropTypes.func.isRequired,
-    onSelectColor2: PropTypes.func.isRequired,
     onSwap: PropTypes.func,
     onTransparent: PropTypes.func.isRequired,
     rtl: PropTypes.bool.isRequired,
