@@ -15,6 +15,8 @@ import {addOtherStopInSelection,
     applyStrokeWidthToSelection,
     generateSecondaryColor,
     swapStopsInSelection,
+    moveStopInSelection,
+    removeStopInSelection,
     MIXED} from '../helper/style-path';
 
 const makeColorIndicator = (label, isStroke) => {
@@ -103,6 +105,33 @@ const makeColorIndicator = (label, isStroke) => {
             this.props.onCloseColor();
             this.props.onChangeColorIndex(0);
         }
+        handleMoveStop (offset) {
+            if (getSelectedLeafItems().length) {
+                const formatIsBitmap = isBitmap(this.props.format);
+                const isDifferent = moveStopInSelection(
+                    offset,
+                    this.props.colorIndex,
+                    isStroke || (formatIsBitmap && !this.props.fillBitmapShapes),
+                    this.props.textEditTarget);
+                this.props.setSelectedItems(this.props.format);
+                this._hasChanged = this._hasChanged || isDifferent;
+            } else {
+                this.props.onMoveStop(offset, this.props.colorIndex);
+            }
+        }
+        handleRemoveStop () {
+            if (getSelectedLeafItems().length) {
+                const formatIsBitmap = isBitmap(this.props.format);
+                const isDifferent = removeStopInSelection(
+                    this.props.colorIndex,
+                    isStroke || (formatIsBitmap && !this.props.fillBitmapShapes),
+                    this.props.textEditTarget);
+                this.props.setSelectedItems(this.props.format);
+                this._hasChanged = this._hasChanged || isDifferent;
+            } else {
+                this.props.onRemoveStop(this.props.colorIndex);
+            }
+        }
         handleSwap () {
             if (getSelectedLeafItems().length) {
                 const formatIsBitmap = isBitmap(this.props.format);
@@ -127,6 +156,8 @@ const makeColorIndicator = (label, isStroke) => {
                     onChangeColor={this.handleChangeColor}
                     onChangeGradientType={this.handleChangeGradientType}
                     onCloseColor={this.handleCloseColor}
+                    onMoveStop={this.handleMoveStop}
+                    onRemoveStop={this.handleRemoveStop}
                     onSwap={this.handleSwap}
                 />
             );
@@ -142,12 +173,14 @@ const makeColorIndicator = (label, isStroke) => {
         gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
         intl: intlShape,
         isEyeDropping: PropTypes.bool.isRequired,
-        onAddOtherStop: PropTypes.func.isRequired,
+        onAddOtherStop: PropTypes.func,
         onChangeColorIndex: PropTypes.func.isRequired,
         onChangeColor: PropTypes.func.isRequired,
         onChangeGradientType: PropTypes.func,
         onChangeStrokeWidth: PropTypes.func,
         onCloseColor: PropTypes.func.isRequired,
+        onMoveStop: PropTypes.func,
+        onReoveStop: PropTypes.func,
         onUpdateImage: PropTypes.func.isRequired,
         setSelectedItems: PropTypes.func.isRequired,
         stops: PropTypes.arrayOf(PropTypes.shape({
