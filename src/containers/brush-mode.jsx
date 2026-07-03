@@ -38,8 +38,8 @@ class BrushMode extends React.Component {
             const {fillColor, strokeColor, strokeWidth} = nextProps.colorState;
             this.blob.setOptions({
                 isEraser: false,
-                fillColor: fillColor.primary,
-                strokeColor: strokeColor.primary,
+                fillColor: fillColor.stops[0].color,
+                strokeColor: strokeColor.stops[0].color,
                 strokeWidth,
                 ...nextProps.brushModeState
             });
@@ -59,7 +59,7 @@ class BrushMode extends React.Component {
         clearSelection(this.props.clearSelectedItems);
         this.props.clearGradient();
         // Force the default brush color if fill is MIXED or transparent
-        const fillColor = this.props.colorState.fillColor.primary;
+        const fillColor = this.props.colorState.fillColor.stops[0].color;
         if (fillColor === MIXED || fillColor === null) {
             this.props.onChangeFillColor(DEFAULT_COLOR);
         }
@@ -116,7 +116,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(changeMode(Modes.BRUSH));
     },
     onChangeFillColor: fillColor => {
-        dispatch(changeFillColor(fillColor));
+        dispatch(changeFillColor(fillColor, 0));
     }
 });
 
