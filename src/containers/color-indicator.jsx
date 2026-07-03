@@ -28,6 +28,8 @@ const makeColorIndicator = (label, isStroke) => {
                 'handleChangeColor',
                 'handleChangeGradientType',
                 'handleCloseColor',
+                'handleMoveStop',
+                'handleRemoveStop',
                 'handleSwap'
             ]);
 
