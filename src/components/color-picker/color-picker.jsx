@@ -151,7 +151,7 @@ class ColorPickerComponent extends React.Component {
                                         />
                                         <LabeledIconButton
                                             imgSrc={deleteIcon}
-                                            title={this.props.intl.formatMessage(messages.remove)}
+                                            title={this.props.intl.formatMessage(messages.delete)}
                                             onClick={this.props.onRemoveStop}
                                         />
                                         <LabeledIconButton
