@@ -183,14 +183,16 @@ class ColorPicker extends React.Component {
                 onHexColorChange={this.handleHexColorChange}
                 shouldShowGradientTools={this.props.shouldShowGradientTools}
                 onActivateEyeDropper={this.handleActivateEyeDropper}
+                onAddOtherStop={this.onAddOtherStop}
                 onBrightnessChange={this.handleBrightnessChange}
                 onChangeGradientTypeLinear={this.handleChangeGradientTypeLinear}
                 onChangeGradientTypeRadial={this.handleChangeGradientTypeRadial}
                 onChangeGradientTypeSolid={this.handleChangeGradientTypeSolid}
                 onHueChange={this.handleHueChange}
+                onMoveStop={this.onMoveStop}
+                onRemoveStop={this.onRemoveStop}
                 onSaturationChange={this.handleSaturationChange}
                 onSelectColor={this.props.onSelectColor}
-                onSelectColor2={this.props.onSelectColor2}
                 onSwap={this.props.onSwap}
                 onTransparent={this.handleTransparent}
             />
@@ -204,10 +206,12 @@ ColorPicker.propTypes = {
     isEyeDropping: PropTypes.bool.isRequired,
     mode: PropTypes.oneOf(Object.keys(Modes)),
     onActivateEyeDropper: PropTypes.func.isRequired,
+    onAddOtherStop: PropTypes.func,
     onChangeColor: PropTypes.func.isRequired,
     onChangeGradientType: PropTypes.func,
+    onMoveStop: PropTypes.func,
+    onRemoveStop: PropTypes.func,
     onSelectColor: PropTypes.func.isRequired,
-    onSelectColor2: PropTypes.func.isRequired,
     onSwap: PropTypes.func,
     rtl: PropTypes.bool.isRequired,
     shouldShowGradientTools: PropTypes.bool.isRequired,
@@ -231,11 +235,8 @@ const mapDispatchToProps = dispatch => ({
     onActivateEyeDropper: (currentTool, callback) => {
         dispatch(activateEyeDropper(currentTool, callback));
     },
-    onSelectColor: () => {
-        dispatch(changeColorIndex(0));
-    },
-    onSelectColor2: () => {
-        dispatch(changeColorIndex(1));
+    onSelectColor: (index) => {
+        dispatch(changeColorIndex(index));
     }
 });
 
