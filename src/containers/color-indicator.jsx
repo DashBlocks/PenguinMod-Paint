@@ -42,18 +42,20 @@ const makeColorIndicator = (label, isStroke) => {
                 this._hasChanged = false;
             }
         }
-        handleAddOtherStop (stopColor) {
+        handleAddOtherStop () {
+            // TODO: generateSecondaryColor is temporary; replace it
+            const generatedColor = generateSecondaryColor(this.props.stops[this.props.colorIndex].color);
             if (getSelectedLeafItems().length) {
                 const formatIsBitmap = isBitmap(this.props.format);
                 const isDifferent = addOtherStopInSelection(
-                    stopColor,
+                    generatedColor,
                     this.props.colorIndex,
                     isStroke || (formatIsBitmap && !this.props.fillBitmapShapes),
                     this.props.textEditTarget);
                 this.props.setSelectedItems(this.props.format);
                 this._hasChanged = this._hasChanged || isDifferent;
             } else {
-                this.props.onAddOtherStop(stopColor, this.props.colorIndex);
+                this.props.onAddOtherStop(generatedColor, this.props.colorIndex);
             }
         }
         handleChangeColor (newColor) {
@@ -123,6 +125,10 @@ const makeColorIndicator = (label, isStroke) => {
             }
         }
         handleRemoveStop () {
+            // Change to the previous swatch when removing last
+            if (this.props.colorIndex === this.props.stops.length - 1) {
+                this.props.onChangeColorIndex(this.props.colorIndex - 1);
+            }
             if (getSelectedLeafItems().length) {
                 const formatIsBitmap = isBitmap(this.props.format);
                 const isDifferent = removeStopInSelection(
