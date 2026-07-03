@@ -20,8 +20,11 @@ const ColorIndicatorComponent = props => (
                     stops={props.stops}
                     gradientType={props.gradientType}
                     shouldShowGradientTools={props.shouldShowGradientTools}
+                    onAddOtherStop={props.onAddOtherStop}
                     onChangeColor={props.onChangeColor}
                     onChangeGradientType={props.onChangeGradientType}
+                    onMoveStop={props.onMoveStop}
+                    onRemoveStop={props.onRemoveStop}
                     onSwap={props.onSwap}
                 />
             }
@@ -47,10 +50,13 @@ ColorIndicatorComponent.propTypes = {
     colorModalVisible: PropTypes.bool.isRequired,
     gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
     label: PropTypes.string.isRequired,
+    onAddOtherStop: PropTypes.func.isRequired,
     onChangeColor: PropTypes.func.isRequired,
     onChangeGradientType: PropTypes.func.isRequired,
     onCloseColor: PropTypes.func.isRequired,
     onOpenColor: PropTypes.func.isRequired,
+    onMoveStop: PropTypes.func.isRequired,
+    onRemoveStop: PropTypes.func.isRequired,
     onSwap: PropTypes.func.isRequired,
     outline: PropTypes.bool.isRequired,
     shouldShowGradientTools: PropTypes.bool.isRequired,
