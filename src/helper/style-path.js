@@ -211,7 +211,7 @@ const swapStopsInSelection = function (applyToStroke, textEditTargetId) {
         } else {
             changed = true;
             const itemColors = itemColor.gradient.stops.map((stop) => stop.color).toReversed();
-            const itemOffsets = itemColor.gradient.stops.map((stop) => stop.offset);
+            const itemOffsets = itemColor.gradient.stops.map((stop) => 1 - stop.offset).toReversed();
             // There seems to be a bug where setting colors on stops doesn't always update the view, so set gradient.
             itemColor.gradient = {
                 stops: itemColors.map((color, i) => new paper.GradientStop(color, itemOffsets[i])),
