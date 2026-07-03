@@ -29,12 +29,12 @@ class PenMode extends React.Component {
     }
     componentDidMount () {
         if (this.props.isPenModeActive) {
-            this.activateTool(this.props);
+            this.activateTool();
         }
     }
     componentWillReceiveProps (nextProps) {
         if (this.tool &&
-                (nextProps.colorState.strokeColor !== this.props.colorState.strokeColor ||
+                (nextProps.colorState.strokeColor.stops[0] !== this.props.colorState.strokeColor.stops[0] ||
                 nextProps.colorState.strokeWidth !== this.props.colorState.strokeWidth)) {
             this.tool.setColorState(nextProps.colorState);
         }
@@ -55,8 +55,8 @@ class PenMode extends React.Component {
     activateTool () {
         clearSelection(this.props.clearSelectedItems);
         // Force the default pen color if stroke is MIXED or transparent
-        const {strokeColor} = this.props.colorState;
-        if (strokeColor === MIXED || strokeColor === null) {
+        const color = this.props.colorState.strokeColor.stops[0].color;
+        if (color === MIXED || color === null) {
             this.props.onChangeStrokeColor(PenMode.DEFAULT_COLOR);
         }
         // Force a minimum stroke width
@@ -120,7 +120,7 @@ const mapDispatchToProps = dispatch => ({
     deactivateTool () {
     },
     onChangeStrokeColor: strokeColor => {
-        dispatch(changeStrokeColor(strokeColor));
+        dispatch(changeStrokeColor(strokeColor, 0));
     },
     onChangeStrokeWidth: strokeWidth => {
         dispatch(changeStrokeWidth(strokeWidth));
