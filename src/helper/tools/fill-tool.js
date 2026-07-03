@@ -36,7 +36,7 @@ class FillTool extends paper.Tool {
         // If we're hovering over a hole in a compound path, we can't just recolor it. This is the
         // added item that's the same shape as the hole that's drawn over the hole when we fill a hole.
         this.addedFillItem = null;
-        this.fillItemOrigColor = null;
+        this.fillItemOrigStops = [];
         this.prevHoveredItemId = null;
     }
     getHitOptions () {
