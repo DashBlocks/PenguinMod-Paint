@@ -7,7 +7,7 @@ import GradientTypes from '../lib/gradient-types';
 
 import FillModeComponent from '../components/bit-fill-mode/bit-fill-mode.jsx';
 
-import {changeFillColor, changeFillColor2, DEFAULT_COLOR} from '../reducers/fill-style';
+import {addOtherFillStop, changeFillColor, DEFAULT_COLOR} from '../reducers/fill-style';
 import {changeMode} from '../reducers/modes';
 import {clearSelectedItems} from '../reducers/selected-items';
 import {changeGradientType} from '../reducers/fill-mode-gradient-type';
@@ -30,11 +30,8 @@ class BitFillMode extends React.Component {
     }
     componentWillReceiveProps (nextProps) {
         if (this.tool) {
-            if (nextProps.color !== this.props.color) {
-                this.tool.setColor(nextProps.color);
-            }
-            if (nextProps.color2 !== this.props.color2) {
-                this.tool.setColor2(nextProps.color2);
+            if (nextProps.stops !== this.props.stops) {
+                this.tool.setStops(nextProps.stops);
             }
             if (nextProps.fillModeGradientType !== this.props.fillModeGradientType) {
                 this.tool.setGradientType(nextProps.fillModeGradientType);
@@ -59,28 +56,32 @@ class BitFillMode extends React.Component {
         clearSelection(this.props.clearSelectedItems);
 
         // Force the default brush color if fill is MIXED or transparent
-        let color = this.props.color;
-        if (this.props.color === MIXED) {
-            color = DEFAULT_COLOR;
+        let stops = this.props.stops;
+        if (this.props.stops[0].color === MIXED) {
+            stops = [{
+                color: DEFAULT_COLOR,
+                offset: 0
+            }];
             this.props.onChangeFillColor(DEFAULT_COLOR, 0);
         }
         const gradientType = this.props.fillModeGradientType ?
-            this.props.fillModeGradientType : this.props.styleGradientType;
-        let color2 = this.props.color2;
-        if (gradientType !== this.props.styleGradientType) {
-            if (this.props.styleGradientType === GradientTypes.SOLID) {
-                color2 = generateSecondaryColor(color);
-                this.props.onChangeFillColor(color2, 1);
+            this.props.fillModeGradientType : this.props.fillStyleGradientType;
+        if (gradientType !== this.props.fillStyleGradientType) {
+            if (this.props.fillStyleGradientType === GradientTypes.SOLID) {
+                const generatedColor = generateSecondaryColor(fillColor);
+                stops = stops.append({
+                    color: generatedColor,
+                    offset: 1
+                });
+                this.props.onAddOtherStop(generatedColor, 0);
+            }
+            if (gradientType === GradientTypes.SOLID) {
+                stops = [stops[0]];
             }
             this.props.changeGradientType(gradientType);
         }
-        if (this.props.color2 === MIXED) {
-            color2 = generateSecondaryColor();
-            this.props.onChangeFillColor(color2, 1);
-        }
         this.tool = new FillTool(this.props.onUpdateImage);
-        this.tool.setColor(color);
-        this.tool.setColor2(color2);
+        this.tool.setStops(stops);
         this.tool.setGradientType(gradientType);
         this.tool.activate();
     }
@@ -102,22 +103,24 @@ class BitFillMode extends React.Component {
 BitFillMode.propTypes = {
     changeGradientType: PropTypes.func.isRequired,
     clearSelectedItems: PropTypes.func.isRequired,
-    color: PropTypes.string,
-    color2: PropTypes.string,
     styleGradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
     fillModeGradientType: PropTypes.oneOf(Object.keys(GradientTypes)),
     handleMouseDown: PropTypes.func.isRequired,
     isFillModeActive: PropTypes.bool.isRequired,
+    onAddOtherStop: PropTypes.func.isRequired,
     onChangeFillColor: PropTypes.func.isRequired,
-    onUpdateImage: PropTypes.func.isRequired
+    onUpdateImage: PropTypes.func.isRequired,
+    stops: PropTypes.arrayOf(PropTypes.shape({
+        color: PropTypes.string,
+        offset: PropTypes.number
+    }))
 };
 
 const mapStateToProps = state => ({
     fillModeGradientType: state.scratchPaint.fillMode.gradientType, // Last user-selected gradient type
-    color: state.scratchPaint.color.fillColor.primary,
-    color2: state.scratchPaint.color.fillColor.secondary,
     styleGradientType: state.scratchPaint.color.fillColor.gradientType,
-    isFillModeActive: state.scratchPaint.mode === Modes.BIT_FILL
+    isFillModeActive: state.scratchPaint.mode === Modes.BIT_FILL,
+    stops: state.scratchPaint.color.fillColor.stops
 });
 const mapDispatchToProps = dispatch => ({
     clearSelectedItems: () => {
@@ -129,12 +132,11 @@ const mapDispatchToProps = dispatch => ({
     handleMouseDown: () => {
         dispatch(changeMode(Modes.BIT_FILL));
     },
+    onAddOtherStop: (stopColor, index) => {
+        dispatch(addOtherFillStop(stopColor, index));
+    },
     onChangeFillColor: (fillColor, index) => {
-        if (index === 0) {
-            dispatch(changeFillColor(fillColor));
-        } else if (index === 1) {
-            dispatch(changeFillColor2(fillColor));
-        }
+        dispatch(changeFillColor(fillColor, index));
     }
 });
 
