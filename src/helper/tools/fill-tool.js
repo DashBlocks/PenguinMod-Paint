@@ -126,7 +126,7 @@ class FillTool extends paper.Tool {
             this.fillProperty = hitType;
             const colorProp = hitType === 'fill' ? 'fillColor' : 'strokeColor';
             if (hitItem[colorProp] && hitItem[colorProp].type === 'gradient') {
-                this.fillItemOrigStops = hitItem[colorProp].stops;
+                this.fillItemOrigStops = hitItem[colorProp].gradient.stops;
             } else {
                 this.fillItemOrigStops = [{
                     color: hitItem[colorProp],
@@ -152,7 +152,7 @@ class FillTool extends paper.Tool {
                 this.addedFillItem.insertAbove(hitItem.parent);
             } else if (this.fillItem.parent instanceof paper.CompoundPath) {
                 if (hitItem.parent[colorProp] && hitItem.parent[colorProp].type === 'gradient') {
-                    this.fillItemOrigStops = hitItem.parent[colorProp].stops;
+                    this.fillItemOrigStops = hitItem.parent[colorProp].gradient.stops;
                 } else {
                     this.fillItemOrigStops = [{
                         color: hitItem.parent[colorProp],
