@@ -183,14 +183,14 @@ class ColorPicker extends React.Component {
                 onHexColorChange={this.handleHexColorChange}
                 shouldShowGradientTools={this.props.shouldShowGradientTools}
                 onActivateEyeDropper={this.handleActivateEyeDropper}
-                onAddOtherStop={this.onAddOtherStop}
+                onAddOtherStop={this.props.onAddOtherStop}
                 onBrightnessChange={this.handleBrightnessChange}
                 onChangeGradientTypeLinear={this.handleChangeGradientTypeLinear}
                 onChangeGradientTypeRadial={this.handleChangeGradientTypeRadial}
                 onChangeGradientTypeSolid={this.handleChangeGradientTypeSolid}
                 onHueChange={this.handleHueChange}
-                onMoveStop={this.onMoveStop}
-                onRemoveStop={this.onRemoveStop}
+                onMoveStop={this.props.onMoveStop}
+                onRemoveStop={this.props.onRemoveStop}
                 onSaturationChange={this.handleSaturationChange}
                 onSelectColor={this.props.onSelectColor}
                 onSwap={this.props.onSwap}
