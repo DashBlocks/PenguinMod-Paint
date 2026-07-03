@@ -91,6 +91,9 @@ const makeColorIndicator = (label, isStroke) => {
                 // Generate color 2 and change to the 2nd swatch when switching from solid to gradient
                 this.props.onAddOtherStop(generatedSecondaryColor, 0);
                 this.props.onChangeColorIndex(1);
+            } else if (this.props.gradientType !== GradientTypes.SOLID && gradientType === GradientTypes.SOLID) {
+                // Change to the 1st swatch when switching from gradient to solid
+                this.props.onChangeColorIndex(0);
             }
             if (this.props.onChangeGradientType) this.props.onChangeGradientType(gradientType);
         }
