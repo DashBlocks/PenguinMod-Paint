@@ -175,7 +175,7 @@ class ColorPickerComponent extends React.Component {
                                                     backgroundColor: stop.color === null || stop.color === MIXED ?
                                                         'white' : stop.color
                                                 }}
-                                                onClick={this.props.onSelectColor}
+                                                onClick={() => this.props.onSelectColor(index)}
                                             >
                                                 {stop.color === null ? (
                                                     <img
