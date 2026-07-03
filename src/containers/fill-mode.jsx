@@ -133,7 +133,7 @@ const mapStateToProps = state => ({
     fillStyleGradientType: state.scratchPaint.color.fillColor.gradientType, // Selected item(s)' gradient type
     hoveredItemId: state.scratchPaint.hoveredItemId,
     isFillModeActive: state.scratchPaint.mode === Modes.FILL,
-    stops: state.scratchPaint.color.fillColor.stops,
+    stops: state.scratchPaint.color.fillColor.stops
 });
 const mapDispatchToProps = dispatch => ({
     setHoveredItem: hoveredItemId => {
