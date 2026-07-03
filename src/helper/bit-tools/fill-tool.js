@@ -21,16 +21,12 @@ class FillTool extends paper.Tool {
         this.onMouseDown = this.handleMouseDown;
         this.onMouseDrag = this.handleMouseDrag;
 
-        this.color = null;
-        this.color2 = null;
+        this.stops = [];
         this.gradientType = null;
         this.active = false;
     }
-    setColor (color) {
-        this.color = color;
-    }
-    setColor2 (color2) {
-        this.color2 = color2;
+    setStops (stops) {
+        this.stops = stops;
     }
     setGradientType (gradientType) {
         this.gradientType = gradientType;
@@ -44,7 +40,7 @@ class FillTool extends paper.Tool {
     paint (event) {
         const sourceContext = getRaster().getContext('2d');
         let destContext = sourceContext;
-        let color = this.color;
+        let color = this.stops[0].color;
         // Paint to a mask instead of the original canvas when drawing
         if (this.gradientType !== GradientTypes.SOLID) {
             const tmpCanvas = createCanvas();
@@ -81,8 +77,7 @@ class FillTool extends paper.Tool {
                     }
                 });
                 gradient.fillColor = createGradientObject(
-                    this.color,
-                    this.color2,
+                    this.stops,
                     this.gradientType,
                     gradient.bounds,
                     event.point);
