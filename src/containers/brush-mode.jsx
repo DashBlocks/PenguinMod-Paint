@@ -26,7 +26,7 @@ class BrushMode extends React.Component {
     }
     componentDidMount () {
         if (this.props.isBrushModeActive) {
-            this.activateTool(this.props);
+            this.activateTool();
         }
     }
     componentWillReceiveProps (nextProps) {
@@ -58,14 +58,19 @@ class BrushMode extends React.Component {
         // analogous to how selection works with eraser
         clearSelection(this.props.clearSelectedItems);
         this.props.clearGradient();
+
         // Force the default brush color if fill is MIXED or transparent
-        const fillColor = this.props.colorState.fillColor.stops[0].color;
-        if (fillColor === MIXED || fillColor === null) {
+        const color = this.props.colorState.fillColor.stops[0].color;
+        if (color === MIXED || color === null) {
             this.props.onChangeFillColor(DEFAULT_COLOR);
         }
+
+        const {fillColor, strokeColor, strokeWidth} = this.props.colorState;
         this.blob.activateTool({
             isEraser: false,
-            ...this.props.colorState,
+            fillColor: fillColor.stops[0].color,
+            strokeColor: strokeColor.stops[0].color,
+            strokeWidth,
             ...this.props.brushModeState
         });
     }
