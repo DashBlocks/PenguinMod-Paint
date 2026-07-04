@@ -23,12 +23,12 @@ class BitLineMode extends React.Component {
     }
     componentDidMount () {
         if (this.props.isBitLineModeActive) {
-            this.activateTool(this.props);
+            this.activateTool();
         }
     }
     componentWillReceiveProps (nextProps) {
-        if (this.tool && nextProps.color !== this.props.color) {
-            this.tool.setColor(nextProps.color);
+        if (this.tool && nextProps.stops[0].color !== this.props.stops[0].color) {
+            this.tool.setColor(nextProps.stops[0].color);
         }
         if (this.tool && nextProps.bitBrushSize !== this.props.bitBrushSize) {
             this.tool.setLineSize(nextProps.bitBrushSize);
@@ -52,7 +52,7 @@ class BitLineMode extends React.Component {
         clearSelection(this.props.clearSelectedItems);
         this.props.clearGradient();
         // Force the default line color if fill is MIXED or transparent
-        let color = this.props.color;
+        let color = this.props.stops[0].color;
         if (!color || color === MIXED) {
             this.props.onChangeFillColor(DEFAULT_COLOR);
             color = DEFAULT_COLOR;
@@ -84,17 +84,20 @@ BitLineMode.propTypes = {
     bitBrushSize: PropTypes.number.isRequired,
     clearGradient: PropTypes.func.isRequired,
     clearSelectedItems: PropTypes.func.isRequired,
-    color: PropTypes.string,
     handleMouseDown: PropTypes.func.isRequired,
     isBitLineModeActive: PropTypes.bool.isRequired,
     onChangeFillColor: PropTypes.func.isRequired,
-    onUpdateImage: PropTypes.func.isRequired
+    onUpdateImage: PropTypes.func.isRequired,
+    stops: PropTypes.arrayOf(PropTypes.shape({
+        color: PropTypes.string,
+        offset: PropTypes.number
+    }))
 };
 
 const mapStateToProps = state => ({
     bitBrushSize: state.scratchPaint.bitBrushSize,
-    color: state.scratchPaint.color.fillColor.primary,
-    isBitLineModeActive: state.scratchPaint.mode === Modes.BIT_LINE
+    isBitLineModeActive: state.scratchPaint.mode === Modes.BIT_LINE,
+    stops: state.scratchPaint.color.fillColor.stops
 });
 const mapDispatchToProps = dispatch => ({
     clearSelectedItems: () => {
@@ -107,7 +110,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(changeMode(Modes.BIT_LINE));
     },
     onChangeFillColor: fillColor => {
-        dispatch(changeFillColor(fillColor));
+        dispatch(changeFillColor(fillColor, 0));
     }
 });
 
