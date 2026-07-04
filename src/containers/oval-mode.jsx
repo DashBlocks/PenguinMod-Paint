@@ -77,44 +77,23 @@ class OvalMode extends React.Component {
         // If fill and stroke color are both missing, set fill to default and stroke to transparent.
         // If exactly one of fill or stroke color is set, set the other one to transparent.
         const {strokeWidth} = this.props.colorState;
-        const fillColor1 = this.props.colorState.fillColor.primary;
-        let fillColor2 = this.props.colorState.fillColor.secondary;
+        const fillColor1 = this.props.colorState.fillColor.stops[0].color;
         let fillGradient = this.props.colorState.fillColor.gradientType;
-        const strokeColor1 = this.props.colorState.strokeColor.primary;
-        let strokeColor2 = this.props.colorState.strokeColor.secondary;
+        const strokeColor1 = this.props.colorState.strokeColor.stops[0].color;
         let strokeGradient = this.props.colorState.strokeColor.gradientType;
 
-        if (fillColor2 === MIXED) {
-            this.props.clearFillGradient();
-            fillColor2 = null;
-            fillGradient = GradientTypes.SOLID;
-        }
-        if (strokeColor2 === MIXED) {
-            this.props.clearStrokeGradient();
-            strokeColor2 = null;
-            strokeGradient = GradientTypes.SOLID;
-        }
-
-        const fillColorMissing = fillColor1 === MIXED ||
-            (fillGradient === GradientTypes.SOLID && fillColor1 === null) ||
-            (fillGradient !== GradientTypes.SOLID && fillColor1 === null && fillColor2 === null);
+        const fillColorMissing = fillColor1 === MIXED;
         const strokeColorMissing = strokeColor1 === MIXED ||
             strokeWidth === null ||
-            strokeWidth === 0 ||
-            (strokeGradient === GradientTypes.SOLID && strokeColor1 === null) ||
-            (strokeGradient !== GradientTypes.SOLID && strokeColor1 === null && strokeColor2 === null);
+            strokeWidth === 0;
 
         if (fillColorMissing && strokeColorMissing) {
             this.props.onChangeFillColor(DEFAULT_COLOR);
-            this.props.clearFillGradient();
-            this.props.onChangeStrokeColor(null);
-            this.props.clearStrokeGradient();
+            this.props.onChangeStrokeColor('#00000000');
         } else if (fillColorMissing && !strokeColorMissing) {
-            this.props.onChangeFillColor(null);
-            this.props.clearFillGradient();
+            this.props.onChangeFillColor('#00000000');
         } else if (!fillColorMissing && strokeColorMissing) {
-            this.props.onChangeStrokeColor(null);
-            this.props.clearStrokeGradient();
+            this.props.onChangeStrokeColor('#00000000');
         }
     }
     render () {
@@ -171,10 +150,10 @@ const mapDispatchToProps = dispatch => ({
         dispatch(changeMode(Modes.OVAL));
     },
     onChangeFillColor: fillColor => {
-        dispatch(changeFillColor(fillColor));
+        dispatch(changeFillColor(fillColor, 0));
     },
     onChangeStrokeColor: strokeColor => {
-        dispatch(changeStrokeColor(strokeColor));
+        dispatch(changeStrokeColor(strokeColor, 0));
     }
 });
 
