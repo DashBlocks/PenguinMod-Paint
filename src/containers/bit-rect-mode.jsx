@@ -63,7 +63,7 @@ class BitRectMode extends React.Component {
     activateTool () {
         clearSelection(this.props.clearSelectedItems);
         // Force the default brush color if fill is MIXED or transparent
-        const fillColorPresent = this.props.color.primary !== MIXED && this.props.color.primary !== null;
+        const fillColorPresent = this.props.color.stops[0].color !== MIXED && this.props.color.stops[0].color !== null;
         if (!fillColorPresent) {
             this.props.onChangeFillColor(DEFAULT_COLOR);
         }
@@ -130,7 +130,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(changeMode(Modes.BIT_RECT));
     },
     onChangeFillColor: fillColor => {
-        dispatch(changeFillColor(fillColor));
+        dispatch(changeFillColor(fillColor, 0));
     }
 });
 
