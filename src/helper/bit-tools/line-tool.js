@@ -21,7 +21,7 @@ class LineTool extends paper.Tool {
         this.onMouseDrag = this.handleMouseDrag;
         this.onMouseUp = this.handleMouseUp;
 
-        this.colorState = null;
+        this.color = null;
         this.active = false;
         this.startPoint = null;
         this.cursorPreview = null;
