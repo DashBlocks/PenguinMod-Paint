@@ -84,24 +84,24 @@ class TextMode extends React.Component {
         // If exactly one of fill or stroke color is set, set the other one to transparent.
         // This way the tool won't draw an invisible state, or be unclear about what will be drawn.
         const {strokeWidth} = nextProps.colorState;
-        const fillColor = nextProps.colorState.fillColor.primary;
-        const strokeColor = nextProps.colorState.strokeColor.primary;
+        const fillColor = nextProps.colorState.fillColor.stops[0].color;
+        const strokeColor = nextProps.colorState.strokeColor.stops[0].color;
         const fillColorPresent = fillColor !== MIXED && fillColor !== null;
         const strokeColorPresent = nextProps.isBitmap ? false :
             strokeColor !== MIXED && strokeColor !== null && strokeWidth !== null && strokeWidth !== 0;
         if (!fillColorPresent && !strokeColorPresent) {
             this.props.onChangeFillColor(DEFAULT_COLOR);
-            this.props.onChangeStrokeColor(null);
+            this.props.onChangeStrokeColor('#00000000');
         } else if (!fillColorPresent && strokeColorPresent) {
-            this.props.onChangeFillColor(null);
+            this.props.onChangeFillColor('#00000000');
         } else if (fillColorPresent && !strokeColorPresent) {
-            this.props.onChangeStrokeColor(null);
+            this.props.onChangeStrokeColor('#00000000');
         }
         if (!nextProps.font) {
             this.props.changeFont(Fonts.SANS_SERIF);
         }
         if (!nextProps.alignment) {
-            this.props.changeAlignment("left");
+            this.props.changeAlignment('left');
         }
 
         this.tool = new TextTool(
@@ -211,10 +211,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         dispatch(setTextEditTarget(targetId));
     },
     onChangeFillColor: fillColor => {
-        dispatch(changeFillColor(fillColor));
+        dispatch(changeFillColor(fillColor, 0));
     },
     onChangeStrokeColor: strokeColor => {
-        dispatch(changeStrokeColor(strokeColor));
+        dispatch(changeStrokeColor(strokeColor, 0));
     },
     changeAlignment: alignment => {
         dispatch(setTextAlignment(alignment));
