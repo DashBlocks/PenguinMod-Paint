@@ -72,7 +72,7 @@ class FillMode extends React.Component {
             this.props.fillModeGradientType : this.props.fillStyleGradientType;
         if (gradientType !== this.props.fillStyleGradientType) {
             if (this.props.fillStyleGradientType === GradientTypes.SOLID) {
-                const generatedColor = generateSecondaryColor(fillColor);
+                const generatedColor = generateSecondaryColor(stops[0].color);
                 stops = stops.append({
                     color: generatedColor,
                     offset: 1
