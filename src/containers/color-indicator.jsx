@@ -154,7 +154,11 @@ const makeColorIndicator = (label, isStroke) => {
             } else {
                 const newColors = this.props.stops.toReversed()
                     .map((stop) => stop.color === MIXED ? stop.color : parseColor(stop.color).hex);
-                newColors.forEach((color, i) => this.props.onChangeColor(color, i));
+                const newOffsets = this.props.stops.toReversed().map((stop) => 1 - stop.offset);
+                newColors.forEach((color, i) => {
+                    this.props.onChangeColor(color, i);
+                    this.props.onMoveStop(newOffsets[i], i);
+                });
             }
         }
         render () {
