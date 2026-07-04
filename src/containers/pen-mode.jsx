@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import bindAll from 'lodash.bindall';
 import Modes from '../lib/modes';
 
-import {changeStrokeColor} from '../reducers/stroke-style';
+import {changeStrokeColor, clearStrokeGradient} from '../reducers/stroke-style';
 import {changeStrokeWidth} from '../reducers/stroke-width';
 import {changeMode} from '../reducers/modes';
 import {clearSelectedItems} from '../reducers/selected-items';
@@ -54,6 +54,8 @@ class PenMode extends React.Component {
     }
     activateTool () {
         clearSelection(this.props.clearSelectedItems);
+        this.props.clearGradient();
+
         // Force the default pen color if stroke is MIXED or transparent
         const color = this.props.colorState.strokeColor.stops[0].color;
         if (color === MIXED || color === null) {
@@ -90,6 +92,7 @@ class PenMode extends React.Component {
 }
 
 PenMode.propTypes = {
+    clearGradient: PropTypes.func.isRequired,
     clearSelectedItems: PropTypes.func.isRequired,
     colorState: PropTypes.shape({
         fillStyle: ColorStyleProptype,
@@ -111,6 +114,9 @@ const mapStateToProps = state => ({
     simplifySize: state.scratchPaint.penMode.simplifySize
 });
 const mapDispatchToProps = dispatch => ({
+    clearGradient: () => {
+        dispatch(clearStrokeGradient());
+    },
     clearSelectedItems: () => {
         dispatch(clearSelectedItems());
     },
