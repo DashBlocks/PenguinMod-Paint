@@ -522,15 +522,16 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
                     // If the item's stroke width is 0, pretend the stroke color is transparent
                     if (!item.strokeWidth) {
                         strokeColorString = 'rgba(0,0,0,0)';
-                        // Hide the second color. This way if you choose a second color, remove
-                        // the gradient, and re-add it, your second color selection is preserved.
+                        // Hide other gradient colors
                         strokeGradientType = GradientTypes.SOLID;
                     }
 
                     // Stroke color is fill color in bitmap
                     if (bitmapMode) {
-                        itemFillColorString = strokeColorString;
-                        itemFillGradientType = strokeGradientType;
+                        if (item.strokeWidth) {
+                            itemFillColorString = strokeColorString;
+                            itemFillGradientType = strokeGradientType;
+                        }
                     } else {
                         itemStrokeColorString = strokeColorString;
                         itemStrokeGradientType = strokeGradientType;
@@ -542,7 +543,9 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
 
                     // Stroke color is fill color in bitmap
                     if (bitmapMode) {
-                        itemFillColorString = strokeColorString;
+                        if (item.strokeWidth) {
+                            itemFillColorString = strokeColorString;
+                        }
                     } else {
                         itemStrokeColorString = strokeColorString;
                     }
