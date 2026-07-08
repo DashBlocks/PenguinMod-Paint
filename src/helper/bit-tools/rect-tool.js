@@ -194,7 +194,7 @@ class RectTool extends paper.Tool {
                 this.rect.size = new paper.Point(Math.abs(this.rect.size.width), Math.abs(this.rect.size.height));
                 this.rect.selected = true;
                 this.styleRect();
-                this.setSelectedItems();
+                this.setSelectedItems(this.rect);
             }
         }
         this.active = false;
