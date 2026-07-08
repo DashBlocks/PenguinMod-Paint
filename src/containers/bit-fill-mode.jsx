@@ -67,7 +67,10 @@ class BitFillMode extends React.Component {
         const gradientType = this.props.fillModeGradientType ?
             this.props.fillModeGradientType : this.props.fillStyleGradientType;
         if (gradientType !== this.props.fillStyleGradientType) {
-            if (this.props.fillStyleGradientType === GradientTypes.SOLID) {
+            if (
+                gradientType !== GradientTypes.SOLID &&
+                this.props.fillStyleGradientType === GradientTypes.SOLID
+            ) {
                 const generatedColor = generateSecondaryColor(fillColor);
                 stops = stops.append({
                     color: generatedColor,
@@ -75,7 +78,10 @@ class BitFillMode extends React.Component {
                 });
                 this.props.onAddOtherStop(generatedColor, 0);
             }
-            if (gradientType === GradientTypes.SOLID) {
+            if (
+                gradientType === GradientTypes.SOLID &&
+                this.props.fillStyleGradientType !== GradientTypes.SOLID
+            ) {
                 stops = [stops[0]];
             }
             this.props.changeGradientType(gradientType);
