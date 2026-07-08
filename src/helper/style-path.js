@@ -511,6 +511,8 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
                 } else {
                     itemFillColorString = item.fillColor.toCSS();
                 }
+            } else {
+                itemFillColorString = 'rgba(0,0,0,0)';
             }
             if (item.strokeColor) {
                 if (item.strokeColor.type === 'gradient') {
