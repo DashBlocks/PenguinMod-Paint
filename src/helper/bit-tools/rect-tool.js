@@ -8,7 +8,6 @@ import {clearSelection} from '../selection';
 import {getSquareDimensions} from '../math';
 import BoundingBoxTool from '../selection-tools/bounding-box-tool';
 import NudgeTool from '../selection-tools/nudge-tool';
-/* temporary */ import log from '../../log/log';
 
 /**
  * Tool for drawing rects.
@@ -195,9 +194,7 @@ class RectTool extends paper.Tool {
                 this.rect.size = new paper.Point(Math.abs(this.rect.size.width), Math.abs(this.rect.size.height));
                 this.rect.selected = true;
                 this.styleRect();
-                log.log("after styleRect", this.rect.fillColor, this.rect.strokeColor);
                 this.setSelectedItems();
-                log.log("after setSelectedItems", this.rect.fillColor, this.rect.strokeColor);
             }
         }
         this.active = false;
