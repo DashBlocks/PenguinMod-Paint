@@ -18,7 +18,7 @@ const colorIsTransparent = colorString => {
 const Draggable = props => (
     <div
         className={styles.draggable}
-        onPointerDown={props.onMoveDraggablePointerDown}
+        onPointerDown={props.onMoveStopPointerDown}
         style={{
             "--draggable-offset": props.stop.offset
         }}
@@ -50,7 +50,7 @@ const Draggable = props => (
 );
 
 Draggable.propTypes = {
-    onMoveDraggablePointerDown: PropTypes.func.isRequired,
+    onMoveStopPointerDown: PropTypes.func.isRequired,
     onSelectColor: PropTypes.func.isRequired,
     stop: PropTypes.shape({
         color: PropTypes.string,
