@@ -52,7 +52,10 @@ const GradientWithDraggablesComponent = props => (
                 fill="url(#gradient-with-draggables-swatch-gradient)"
             />
         </svg>
-        <div className={styles.draggablesBox}>
+        <div
+            ref={props.draggablesBoxRef}
+            className={styles.draggablesBox}
+        >
             {props.stops.map((stop, index) => (
                 <Draggable
                     key={index}
@@ -66,6 +69,7 @@ const GradientWithDraggablesComponent = props => (
 );
 
 GradientWithDraggablesComponent.propTypes = {
+    draggablesBoxRef: PropTypes.func.isRequired,
     gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
     onMoveStopPointerDown: PropTypes.func.isRequired,
     onSelectColor: PropTypes.func.isRequired,
