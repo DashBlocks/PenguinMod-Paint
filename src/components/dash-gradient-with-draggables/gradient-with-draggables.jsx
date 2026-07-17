@@ -39,17 +39,17 @@ const stopsToGradient = (stops, gradientType) => {
 };
 
 const GradientWithDraggablesComponent = props => (
-    <>
+    <div>
         <svg
             className={styles.gradientSwatch}
-            viewBox="0,0,192,60"
+            viewBox="0,0,192,80"
         >
             <defs>
                 {stopsToGradient(props.stops, props.gradientType)}
             </defs>
             <rect
                 width="192"
-                height="60"
+                height="80"
                 fill="url(#gradient-with-draggables-swatch-gradient)"
             />
         </svg>
@@ -66,7 +66,7 @@ const GradientWithDraggablesComponent = props => (
                 />
             ))}
         </div>
-    </>
+    </div>
 );
 
 GradientWithDraggablesComponent.propTypes = {
