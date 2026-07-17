@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Draggable from './draggable.jsx';
+import GradientTypes from '../lib/gradient-types';
 
 import styles from './gradient-with-draggables.css';
 import log from '../../log/log';
