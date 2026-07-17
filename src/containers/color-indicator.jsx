@@ -195,7 +195,7 @@ const makeColorIndicator = (label, isStroke) => {
         onChangeStrokeWidth: PropTypes.func,
         onCloseColor: PropTypes.func.isRequired,
         onMoveStop: PropTypes.func,
-        onReoveStop: PropTypes.func,
+        onRemoveStop: PropTypes.func,
         onUpdateImage: PropTypes.func.isRequired,
         setSelectedItems: PropTypes.func.isRequired,
         stops: PropTypes.arrayOf(PropTypes.shape({
