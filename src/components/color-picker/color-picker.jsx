@@ -5,6 +5,7 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 import classNames from 'classnames';
 import parseColor from 'parse-color';
 
+import GradientWithDraggables from '../../containers/dash-gradient-with-draggables.jsx';
 import Slider, {CONTAINER_WIDTH, HANDLE_WIDTH} from '../forms/slider.jsx';
 import LabeledIconButton from '../labeled-icon-button/labeled-icon-button.jsx';
 import styles from './color-picker.css';
@@ -164,34 +165,12 @@ class ColorPickerComponent extends React.Component {
                                 <div className={styles.divider} />
                                 <div className={styles.row}>
                                     <div className={styles.gradientPickerRow}>
-                                        {/* TODO: Make GradientWithDraggables for this */}
-                                        {this.props.stops.map((stop, index) => (
-                                            <div
-                                                key={index}
-                                                className={classNames(styles.clickable, styles.swatch, styles.largeSwatch, {
-                                                    [styles.activeSwatch]: this.props.colorIndex === index
-                                                })}
-                                                style={{
-                                                    backgroundColor: stop.color === null || stop.color === MIXED ?
-                                                        'white' : stop.color
-                                                }}
-                                                onClick={() => this.props.onSelectColor(index)}
-                                            >
-                                                {stop.color === null ? (
-                                                    <img
-                                                        className={styles.largeSwatchIcon}
-                                                        draggable={false}
-                                                        src={noFillIcon}
-                                                    />
-                                                ) : stop.color === MIXED ? (
-                                                    <img
-                                                        className={styles.largeSwatchIcon}
-                                                        draggable={false}
-                                                        src={mixedFillIcon}
-                                                    />
-                                                ) : null}
-                                            </div>
-                                        ))}
+                                        <GradientWithDraggables
+                                            gradientType={this.props.gradientType}
+                                            onMoveStop={this.props.onMoveStop}
+                                            onSelectColor={this.props.onSelectColor}
+                                            stops={this.props.stops}
+                                        />
                                     </div>
                                 </div>
                             </>
