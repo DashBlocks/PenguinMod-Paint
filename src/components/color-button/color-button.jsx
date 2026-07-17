@@ -21,11 +21,11 @@ const colorIsTransparent = colorString => {
     }
 };
 
-const stopsToGradient = (stops, gradientType) => {
+const stopsToGradient = (id, stops, gradientType) => {
     switch (gradientType) {
     case GradientTypes.HORIZONTAL:
         return (
-            <linearGradient id="color-button-swatch-gradient">
+            <linearGradient id={id}>
                 {stops.map((stop, index) => (
                     <stop
                         key={index}
@@ -37,7 +37,7 @@ const stopsToGradient = (stops, gradientType) => {
         );
     case GradientTypes.RADIAL:
         return (
-            <radialGradient id="color-button-swatch-gradient">
+            <radialGradient id={id}>
                 {stops.map((stop, index) => (
                     <stop
                         key={index}
@@ -53,55 +53,49 @@ const stopsToGradient = (stops, gradientType) => {
     }
 };
 
-const ColorButtonComponent = props => (
-    <div
-        className={styles.colorButton}
-        onClick={props.onClick}
-    >
-        {props.gradientType === GradientTypes.SOLID && colorIsTransparent(props.stops[0].color) ? (
+const ColorButtonComponent = props => {
+    const swatchGradientId = props.outline
+        ? 'scratch-paint/color-button/swatch-stroke-gradient'
+        : 'scratch-paint/color-button/swatch-fill-gradient';
+    return (
+        <div
+            className={styles.colorButton}
+            onClick={props.onClick}
+        >
             <div
                 className={classNames(styles.colorButtonSwatch, {
-                    [styles.outlineSwatch]: props.outline
+                    [styles.outlineSwatch]: props.outline && props.stops[0].color !== MIXED
                 })}
-                style={{background: 'white'}}
             >
-                <img
-                    className={styles.swatchIcon}
-                    draggable={false}
-                    src={noFillIcon}
-                />
+                {props.stops[0].color === MIXED ? (
+                    <img
+                        className={styles.swatchIcon}
+                        draggable={false}
+                        src={mixedFillIcon}
+                    />
+                ) : props.gradientType === GradientTypes.SOLID && colorIsTransparent(props.stops[0].color) ? (
+                    <img
+                        className={styles.swatchIcon}
+                        draggable={false}
+                        src={noFillIcon}
+                    />
+                ) : (
+                    <svg viewBox="0,0,32,32">
+                        <defs>
+                            {props.gradientType !== GradientTypes.SOLID && stopsToGradient(swatchGradientId, props.stops, props.gradientType)}
+                        </defs>
+                        <rect
+                            width="32"
+                            height="32"
+                            fill={props.gradientType === GradientTypes.SOLID ? props.stops[0].color : `url(#${swatchGradientId})`}
+                        />
+                    </svg>
+                )}
             </div>
-        ) : props.stops[0].color === MIXED ? (
-            <div
-                className={styles.colorButtonSwatch}
-                style={{background: 'white'}}
-            >
-                <img
-                    className={styles.swatchIcon}
-                    draggable={false}
-                    src={mixedFillIcon}
-                />
-            </div>
-        ) : (
-            <svg
-                className={classNames(styles.colorButtonSwatch, {
-                    [styles.outlineSwatch]: props.outline
-                })}
-                viewBox="0,0,32,32"
-            >
-                <defs>
-                    {props.gradientType !== GradientTypes.SOLID && stopsToGradient(props.stops, props.gradientType)}
-                </defs>
-                <rect
-                    width="32"
-                    height="32"
-                    fill={props.gradientType === GradientTypes.SOLID ? props.stops[0].color : "url(#color-button-swatch-gradient)"}
-                />
-            </svg>
-        )}
-        <div className={styles.colorButtonArrow}>▾</div>
-    </div>
-);
+            <div className={styles.colorButtonArrow}>▾</div>
+        </div>
+    );
+};
 
 ColorButtonComponent.propTypes = {
     gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
