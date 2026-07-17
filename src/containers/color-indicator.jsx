@@ -112,18 +112,18 @@ const makeColorIndicator = (label, isStroke) => {
             this.props.onCloseColor();
             this.props.onChangeColorIndex(0);
         }
-        handleMoveStop (offset) {
+        handleMoveStop (offset, stopIndex) {
             if (getSelectedLeafItems().length) {
                 const formatIsBitmap = isBitmap(this.props.format);
                 const isDifferent = moveStopInSelection(
                     offset,
-                    this.props.colorIndex,
+                    stopIndex ?? this.props.colorIndex,
                     isStroke || (formatIsBitmap && !this.props.fillBitmapShapes),
                     this.props.textEditTarget);
                 this.props.setSelectedItems(this.props.format);
                 this._hasChanged = this._hasChanged || isDifferent;
             } else {
-                this.props.onMoveStop(offset, this.props.colorIndex);
+                this.props.onMoveStop(offset, stopIndex ?? this.props.colorIndex);
             }
         }
         handleRemoveStop () {
