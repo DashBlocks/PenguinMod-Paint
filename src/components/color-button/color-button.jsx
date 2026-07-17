@@ -95,7 +95,7 @@ const ColorButtonComponent = props => (
                 <rect
                     width="32"
                     height="32"
-                    fill={props.gradientType === GradientTypes.SOLID ? stops[0].color : "url(#color-button-swatch-gradient)"}
+                    fill={props.gradientType === GradientTypes.SOLID ? props.stops[0].color : "url(#color-button-swatch-gradient)"}
                 />
             </svg>
         )}
