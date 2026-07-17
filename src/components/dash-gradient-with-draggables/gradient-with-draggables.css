@@ -18,4 +18,5 @@
     border-bottom-left-radius: $form-radius;
     border-bottom-right-radius: $form-radius;
     background-color: $ui-primary;
+    margin-top: -0.25rem;
 }
