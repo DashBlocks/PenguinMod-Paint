@@ -25,7 +25,7 @@ class GradientWithDraggables extends React.Component {
     handleMoveStopPointerDown(e, stopIndex) {
         const onPointerMove = ev => {
             const newPosition = getEventXY(ev);
-            const rect = this.draggablesBox.current.getBoundingClientRect();
+            const rect = this.draggablesBox.getBoundingClientRect();
 
             const minOffset = this.props.stops[stopIndex - 1]?.offset ?? 0;
             const maxOffset = this.props.stops[stopIndex + 1]?.offset ?? 1;
