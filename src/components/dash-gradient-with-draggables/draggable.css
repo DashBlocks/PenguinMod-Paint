@@ -9,19 +9,32 @@
     align-items: center;
 }
 
-.tip {
+.draggable-tip {
     border: 0.25rem solid transparent;
     border-bottom-color: $input-background;
     margin-top: -0.25rem;
 }
 
-.swatch {
+.draggable-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     width: 1.5rem;
     height: 1.5rem;
     background-color: $input-background;
     border: 1px solid $form-border;
     border-radius: $form-radius;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+}
+
+.draggable-button-swatch {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid $form-border;
+    border-radius: $form-radius;
+}
+
+.swatch-icon {
+    width: 0.75rem;
+    margin: auto;
 }
