@@ -13,7 +13,7 @@ import log from '../../log/log';
 
 const colorIsTransparent = colorString => {
     if (colorString === null) return true;
-    if (hexString.startsWith('#') && hexString.length === 9) {
+    if (colorString.startsWith('#') && colorString.length === 9) {
         // parseColor does not properly parse alpha of hex colors
         return parseInt(colorString.substr(colorString.length - 2), 16) === 0;
     } else {
