@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import bindAll from 'lodash.bindall';
 import parseColor from 'parse-color';
-import {changeStrokeColor, changeStrokeColor2, changeStrokeGradientType} from '../reducers/stroke-style';
+import {changeStrokeColor, changeStrokeGradientType} from '../reducers/stroke-style';
 import {changeStrokeWidth} from '../reducers/stroke-width';
 import StrokeWidthIndicatorComponent from '../components/stroke-width-indicator.jsx';
 import {getSelectedLeafItems} from '../helper/selection';
@@ -12,6 +12,16 @@ import {applyColorToSelection, applyStrokeWidthToSelection, getColorsFromSelecti
 import GradientTypes from '../lib/gradient-types';
 import Modes from '../lib/modes';
 import Formats, {isBitmap} from '../lib/format';
+
+const colorIsTransparent = colorString => {
+    if (colorString === null) return true;
+    if (colorString.startsWith('#') && colorString.length === 9) {
+        // parseColor does not properly parse alpha of hex colors
+        return parseInt(colorString.substr(colorString.length - 2), 16) === 0;
+    } else {
+        return parseColor(colorString).hsva[3] === 0;
+    }
+};
 
 class StrokeWidthIndicator extends React.Component {
     constructor (props) {
@@ -24,14 +34,10 @@ class StrokeWidthIndicator extends React.Component {
         let changed = applyStrokeWidthToSelection(newWidth, this.props.textEditTarget);
         if ((!this.props.strokeWidth || this.props.strokeWidth === 0) && newWidth > 0) {
             const currentColorState = getColorsFromSelection(getSelectedLeafItems(), isBitmap(this.props.format));
-
-            // Color counts as null if either both colors are null or the primary color is null and it's solid
-            // TODO: consolidate this check in one place
-            const wasNull = currentColorState.strokeColor === null &&
-                (currentColorState.strokeColor2 === null ||
-                 currentColorState.strokeGradientType === GradientTypes.SOLID);
-
-            if (wasNull) {
+            if (
+                currentColorState.strokeGradientType === GradientTypes.SOLID &&
+                colorIsTransparent(currentColorState.strokeColor)
+            ) {
                 changed = applyColorToSelection(
                     '#000',
                     0, // colorIndex,
@@ -46,7 +52,6 @@ class StrokeWidthIndicator extends React.Component {
                 // Set color state from the selected item's stroke color
                 this.props.onChangeStrokeGradientType(currentColorState.strokeGradientType);
                 this.props.onChangeStrokeColor(parseColor(currentColorState.strokeColor).hex);
-                this.props.onChangeStrokeColor2(parseColor(currentColorState.strokeColor2).hex);
             }
         }
         this.props.onChangeStrokeWidth(newWidth);
@@ -73,10 +78,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     onChangeStrokeColor: strokeColor => {
-        dispatch(changeStrokeColor(strokeColor));
-    },
-    onChangeStrokeColor2: strokeColor => {
-        dispatch(changeStrokeColor2(strokeColor));
+        dispatch(changeStrokeColor(strokeColor, 0));
     },
     onChangeStrokeGradientType: strokeColor => {
         dispatch(changeStrokeGradientType(strokeColor));
@@ -90,7 +92,6 @@ StrokeWidthIndicator.propTypes = {
     disabled: PropTypes.bool.isRequired,
     format: PropTypes.oneOf(Object.keys(Formats)),
     onChangeStrokeColor: PropTypes.func.isRequired,
-    onChangeStrokeColor2: PropTypes.func.isRequired,
     onChangeStrokeGradientType: PropTypes.func.isRequired,
     onChangeStrokeWidth: PropTypes.func.isRequired,
     onUpdateImage: PropTypes.func.isRequired,
