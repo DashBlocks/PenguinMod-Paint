@@ -59,6 +59,7 @@ const GradientWithDraggablesComponent = props => (
         >
             {props.stops.map((stop, index) => (
                 <Draggable
+                    active={index === props.colorIndex}
                     key={index}
                     onMoveStopPointerDown={e => props.onMoveStopPointerDown(e, index)}
                     onSelectColor={() => props.onSelectColor(index)}
@@ -70,6 +71,7 @@ const GradientWithDraggablesComponent = props => (
 );
 
 GradientWithDraggablesComponent.propTypes = {
+    colorIndex: PropTypes.number.isRequired,
     draggablesBoxRef: PropTypes.func.isRequired,
     gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
     onMoveStopPointerDown: PropTypes.func.isRequired,
