@@ -28,6 +28,11 @@
     border-radius: $form-radius;
 }
 
+.active-buuton {
+    border: 1px solid $looks-secondary;
+    box-shadow: 0px 0px 0px 3px $looks-transparent;
+}
+
 .draggable-button-swatch {
     width: 1rem;
     height: 1rem;
