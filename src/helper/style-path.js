@@ -474,6 +474,14 @@ const _colorStateFromGradient = gradient => {
     return colorState;
 };
 
+const _gradientStopsMatch = (itemStops, selectionStops) => (
+    itemStops.length === selectionStops.length &&
+    itemStops.every((stop, i) => (
+        stop.color === selectionStops[i].color &&
+        stop.offset === selectionStops[i].offset
+    ))
+);
+
 /**
  * Get state of colors and stroke width for selection
  * @param {!Array<paper.Item>} selectedItems Selected paper items
@@ -484,8 +492,8 @@ const _colorStateFromGradient = gradient => {
  */
 const getColorsFromSelection = function (selectedItems, bitmapMode) {
     // TODO: DRY out this code
-    let selectionFillColorString;
-    let selectionStrokeColorString;
+    let selectionFillColor;
+    let selectionStrokeColor;
     let selectionStrokeWidth;
     let selectionThickness;
     let selectionFillGradientType;
@@ -497,8 +505,8 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
             // Compound path children inherit fill and stroke color from their parent.
             item = item.parent;
         }
-        let itemFillColorString;
-        let itemStrokeColorString;
+        let itemFillColor;
+        let itemStrokeColor;
         let itemFillGradientType = GradientTypes.SOLID;
         let itemStrokeGradientType = GradientTypes.SOLID;
 
@@ -506,24 +514,24 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
             if (item.fillColor) {
                 if (item.fillColor.type === 'gradient') {
                     const {stops, gradientType} = _colorStateFromGradient(item.fillColor.gradient);
-                    itemFillColorString = stops;
+                    itemFillColor = stops;
                     itemFillGradientType = gradientType;
                 } else {
-                    itemFillColorString = item.fillColor.toCSS();
+                    itemFillColor = item.fillColor.toCSS();
                 }
             } else {
-                itemFillColorString = 'rgba(0,0,0,0)';
+                itemFillColor = 'rgba(0,0,0,0)';
             }
             if (item.strokeColor) {
                 if (item.strokeColor.type === 'gradient') {
                     const {stops, gradientType} = _colorStateFromGradient(item.strokeColor.gradient);
 
-                    let strokeColorString = stops;
+                    let strokeColor = stops;
                     let strokeGradientType = gradientType;
 
                     // If the item's stroke width is 0, pretend the stroke color is transparent
                     if (!item.strokeWidth) {
-                        strokeColorString = 'rgba(0,0,0,0)';
+                        strokeColor = 'rgba(0,0,0,0)';
                         // Hide other gradient colors
                         strokeGradientType = GradientTypes.SOLID;
                     }
@@ -531,35 +539,35 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
                     // Stroke color is fill color in bitmap
                     if (bitmapMode) {
                         if (item.strokeWidth) {
-                            itemFillColorString = strokeColorString;
+                            itemFillColor = strokeColor;
                             itemFillGradientType = strokeGradientType;
                         }
                     } else {
-                        itemStrokeColorString = strokeColorString;
+                        itemStrokeColor = strokeColor;
                         itemStrokeGradientType = strokeGradientType;
                     }
                 } else {
-                    const strokeColorString = !item.strokeWidth ?
+                    const strokeColor = !item.strokeWidth ?
                         'rgba(0,0,0,0)' :
                         item.strokeColor.toCSS();
 
                     // Stroke color is fill color in bitmap
                     if (bitmapMode) {
                         if (item.strokeWidth) {
-                            itemFillColorString = strokeColorString;
+                            itemFillColor = strokeColor;
                         }
                     } else {
-                        itemStrokeColorString = strokeColorString;
+                        itemStrokeColor = strokeColor;
                     }
                 }
             } else {
-                itemStrokeColorString = 'rgba(0,0,0,0)';
+                itemStrokeColor = 'rgba(0,0,0,0)';
             }
             // Check every style against the first of the items
             if (firstChild) {
                 firstChild = false;
-                selectionFillColorString = itemFillColorString;
-                selectionStrokeColorString = itemStrokeColorString;
+                selectionFillColor = itemFillColor;
+                selectionStrokeColor = itemStrokeColor;
                 selectionFillGradientType = itemFillGradientType;
                 selectionStrokeGradientType = itemStrokeGradientType;
                 selectionStrokeWidth = item.strokeWidth;
@@ -567,21 +575,29 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
                     selectionThickness = item.strokeWidth / item.data.zoomLevel;
                 }
             }
-            if (itemFillColorString !== selectionFillColorString) {
+            if (
+                Array.isArray(itemFillColor) && Array.isArray(selectionFillColor)
+                    ? !_gradientStopsMatch(itemFillColor, selectionFillColor)
+                    : itemFillColor !== selectionFillColor
+            ) {
                 selectionFillGradientType = GradientTypes.SOLID;
-                selectionFillColorString = MIXED;
+                selectionFillColor = MIXED;
             }
             if (itemFillGradientType !== selectionFillGradientType) {
                 selectionFillGradientType = GradientTypes.SOLID;
-                selectionFillColorString = MIXED;
+                selectionFillColor = MIXED;
             }
             if (itemStrokeGradientType !== selectionStrokeGradientType) {
                 selectionStrokeGradientType = GradientTypes.SOLID;
-                selectionStrokeColorString = MIXED;
+                selectionStrokeColor = MIXED;
             }
-            if (itemStrokeColorString !== selectionStrokeColorString) {
+            if (
+                Array.isArray(itemStrokeColor) && Array.isArray(selectionStrokeColor)
+                    ? !_gradientStopsMatch(itemStrokeColor, selectionStrokeColor)
+                    : itemStrokeColor !== selectionStrokeColor
+            ) {
                 selectionStrokeGradientType = GradientTypes.SOLID;
-                selectionStrokeColorString = MIXED;
+                selectionStrokeColor = MIXED;
             }
             const itemStrokeWidth = item.strokeWidth;
             if (selectionStrokeWidth !== itemStrokeWidth) {
@@ -591,15 +607,15 @@ const getColorsFromSelection = function (selectedItems, bitmapMode) {
     }
     if (bitmapMode) {
         return {
-            fillColor: selectionFillColorString,
+            fillColor: selectionFillColor,
             fillGradientType: selectionFillGradientType,
             thickness: selectionThickness
         };
     }
     return {
-        fillColor: selectionFillColorString,
+        fillColor: selectionFillColor,
         fillGradientType: selectionFillGradientType,
-        strokeColor: selectionStrokeColorString,
+        strokeColor: selectionStrokeColor,
         strokeGradientType: selectionStrokeGradientType,
         strokeWidth: selectionStrokeWidth || (selectionStrokeWidth === null) ? selectionStrokeWidth : 0
     };
