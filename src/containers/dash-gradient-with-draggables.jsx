@@ -31,7 +31,7 @@ class GradientWithDraggables extends React.Component {
         
         const onPointerMove = ev => {
             const newPosition = getEventXY(ev);
-            if (!dragActivated && Math.abs(newPosition - initialPosition) >= MIN_DX_DRAG) {
+            if (!dragActivated && Math.abs(newPosition.x - initialPosition.x) >= MIN_DX_DRAG) {
                 dragActivated = true;
             } else if (!dragActivated) {
                 return;
