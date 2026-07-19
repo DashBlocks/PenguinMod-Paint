@@ -60,6 +60,7 @@ class GradientWithDraggables extends React.Component {
     render() {
         return (
             <GradientWithDraggablesComponent
+                colorIndex={this.props.colorIndex}
                 draggablesBoxRef={this.setDraggablesBox}
                 gradientType={this.props.gradientType}
                 onMoveStopPointerDown={this.handleMoveStopPointerDown}
