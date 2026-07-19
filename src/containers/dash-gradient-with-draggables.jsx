@@ -5,6 +5,8 @@ import GradientTypes from '../lib/gradient-types';
 
 import GradientWithDraggablesComponent from '../components/dash-gradient-with-draggables/gradient-with-draggables.jsx';
 
+const MIN_DX_DRAG = 5;
+
 const getEventXY = e => {
     if (e.touches && e.touches[0]) {
         return {x: e.touches[0].clientX, y: e.touches[0].clientY};
@@ -23,14 +25,23 @@ class GradientWithDraggables extends React.Component {
         ]);
     }
     handleMoveStopPointerDown(e, stopIndex) {
+        const initialPosition = getEventXY(e);
+        const shiftX = initialPosition.x - e.target.getBoundingClientRect().x;
+        let dragActivated = false;
+        
         const onPointerMove = ev => {
             const newPosition = getEventXY(ev);
-            const rect = this.draggablesBox.getBoundingClientRect();
-
+            if (!dragActivated && Math.abs(newPosition - initialPosition) >= MIN_DX_DRAG) {
+                dragActivated = true;
+            } else if (!dragActivated) {
+                return;
+            }
+            
             const minOffset = this.props.stops[stopIndex - 1]?.offset ?? 0;
             const maxOffset = this.props.stops[stopIndex + 1]?.offset ?? 1;
 
-            const newOffset = Math.max(minOffset, Math.min(maxOffset, (newPosition.x - rect.x) / rect.width));
+            const rect = this.draggablesBox.getBoundingClientRect();
+            const newOffset = Math.max(minOffset, Math.min(maxOffset, (newPosition.x - rect.x + shiftX) / rect.width));
             this.props.onMoveStop(newOffset, stopIndex);
         };
 
@@ -60,6 +71,7 @@ class GradientWithDraggables extends React.Component {
 }
 
 GradientWithDraggables.propTypes = {
+    colorIndex: PropTypes.number.isRequired,
     gradientType: PropTypes.oneOf(Object.keys(GradientTypes)).isRequired,
     onMoveStop: PropTypes.func,
     onSelectColor: PropTypes.func.isRequired,
