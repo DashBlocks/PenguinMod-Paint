@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import parseColor from 'parse-color';
 import PropTypes from 'prop-types';
 
@@ -25,7 +26,9 @@ const Draggable = props => (
     >
         <div className={styles.draggableTip} />
         <div
-            className={styles.draggableButton}
+            className={classNames(styles.draggableButton, {
+                [style.activeButton]: props.active
+            })}
             onClick={props.onSelectColor}
         >
             {colorIsTransparent(props.stop.color) ? (
@@ -50,6 +53,7 @@ const Draggable = props => (
 );
 
 Draggable.propTypes = {
+    active: PropTypes.bool,
     onMoveStopPointerDown: PropTypes.func.isRequired,
     onSelectColor: PropTypes.func.isRequired,
     stop: PropTypes.shape({
