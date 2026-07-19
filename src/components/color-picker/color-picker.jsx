@@ -166,6 +166,7 @@ class ColorPickerComponent extends React.Component {
                                 <div className={styles.row}>
                                     <div className={styles.gradientPickerRow}>
                                         <GradientWithDraggables
+                                            colorIndex={this.props.colorIndex}
                                             gradientType={this.props.gradientType}
                                             onMoveStop={this.props.onMoveStop}
                                             onSelectColor={this.props.onSelectColor}
