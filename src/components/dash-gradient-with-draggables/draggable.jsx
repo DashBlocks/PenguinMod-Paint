@@ -27,7 +27,7 @@ const Draggable = props => (
         <div className={styles.draggableTip} />
         <div
             className={classNames(styles.draggableButton, {
-                [style.activeButton]: props.active
+                [styles.activeButton]: props.active
             })}
             onClick={props.onSelectColor}
         >
